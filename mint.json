@@ -1,18 +1,18 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Tunnel",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/logo-full-black.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#9e7aff",
+    "light": "#b194ff",
+    "dark": "#7e61cc",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#b194ff",
+      "to": "#7e61cc"
     }
   },
   "topbarLinks": [
@@ -22,8 +22,8 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Try Tunnel",
+    "url": "https://www.tunnel.tech/"
   },
   "tabs": [
     {
@@ -31,32 +31,23 @@
       "url": "api-reference"
     }
   ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    }
-  ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "group": "Introduction",
+      "pages": ["what-is-tunnel"]
     },
     {
-      "group": "Essentials",
-      "pages": ["essentials/markdown", "essentials/code", "essentials/images", "essentials/settings", "essentials/navigation"]
+      "group": "Use Cases",
+      "pages": ["use-cases/instant-bridging", "use-cases/cross-chain-execution"]
     },
+    {
+      "group": "How It Works",
+      "pages": [
+        "how-it-works/understanding-tunnel",
+        "how-it-works/supported-chains"
+      ]
+    },
+
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
@@ -71,8 +62,9 @@
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/reservoir0x"
+  },
+  "integrations": {
+    "intercom": "b09ps4q8"
   }
 }

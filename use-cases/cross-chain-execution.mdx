@@ -1,0 +1,185 @@
+---
+title: "Cross-chain Execution"
+description: "Execute cross-chain transactions via Tunnel"
+---
+
+Tunnel enables cross-chain execution for abitrary cross-chain transactions, as well as being integrated in with Reservoir's pre-defined NFT actions (buy, sell, & mint). Using Tunnel, your users can pay for any action on any supported chain, by simply submitting the destination chain call data to Tunnel.
+
+## How it Works
+
+Under the hood, Tunnel's cross-chain tech is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Learn more about the [Technical Details of Tunnel](/how-it-works/understanding-tunnel)
+
+## Using Tunnel's Cross-chain Execution
+
+You can use Tunnel Cross-chain Execution with custom call methods or with the pre-defined methods of the Reservoir Aggregator.
+
+### Custom Call Methods
+
+Tunnel lets you execute arbitrary call data cross-chain using a custom call method. You can call custom contract methods, mint from custom contracts, mint + bridge (mint an NFT and bridge additional funds in one), or any other custom call execution.
+
+To get started make sure that you install and configure the [Reservoir SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode) or [ReservoirKit](https://docs.reservoir.tools/reference/reservoirkit) (which exposes a client that you can tap into using the [useReservoirClient](https://docs.reservoir.tools/reference/reservoirkit-hooks#usereservoirclient) hook). In this example we'll be using the Reservoir SDK. Ensure that everything is configured properly before moving on to implementing the call action.
+
+### Examples
+
+Here we consider 4 generic executions using Tunnel.
+
+- **Bridge**: Bridge funds to another chain
+- **Mint + Bridge**: Mint an NFT on another chain and bridge additional funds in a single call
+- **Custom Mint**: Mint an NFT from a custom contract on any supported chain
+- **Custom Contract Call**: Call a non-NFT related contract method
+
+Below are examples of how you could leverage the flexibility of the [call](https://docs.reservoir.tools/reference/call) action using Reservoir's SDK.
+
+<CodeGroup>
+
+```typescript Instant Bridge
+
+import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+//A simple bridge requires no data, so 0x (null data) is provided
+//In this example we're bridging from zora to base
+
+getClient().actions.call({
+  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  toChainId: 8453,
+  txs: [{
+    to: "0x03508bB71268BBA25ECaCC8F620e01866650532c",
+   	value: "1000000",
+    data: "0x"
+  }],
+  wallet: wallet,
+  onProgress: (steps) => {
+    console.log(steps)
+  },
+})
+```
+
+```typescript Non-NFT action
+import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+//This is an on chain action, specifically buying an accessory for our Frenpet NFT.
+//If executing this code snippet you'll need to make sure that you own a frenpet and has the necessary $FP to buy the accessory
+//In this example we're submitting the transaction from zora to base
+
+getClient().actions.call({
+  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  toChainId: 8453,
+  txs: [{
+    to: "0x0e22b5f3e11944578b37ed04f5312dfc246f443c",
+    value: "0",
+    data: "0x715488b000000000000000000000000000000000000000000000000000000000000038860000000000000000000000000000000000000000000000000000000000000001"
+  }]
+  wallet: wallet,
+  onProgress: (steps) => {
+    console.log(steps)
+  },
+})
+```
+
+```typescript Mint + Bridge
+import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+//This particular contract is a free mint so the value has been set to 0
+//In this example we're bridging from zora to base
+
+getClient().actions.call({
+  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  toChainId: 8453,
+  txs: [{
+    to: "0x8aece478e699445c69e52cd52085b729fca1798d",
+    value: "0",
+    data: "0x84bb1e4200000000000000000000000003508bb71268bba25ecacc8f620e01866650532c0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000001800000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000c3500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001d4da48b07b88f64"
+  },{
+    to: "0x03508bB71268BBA25ECaCC8F620e01866650532c",
+   	value: "1000000",
+    data: "0x"
+  }]
+  wallet: wallet,
+  onProgress: (steps) => {
+    console.log(steps)
+  },
+})
+```
+
+```typescript Custom Mint
+import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+//This particular contract is a free mint so the value has been set to 0
+//In this example we're calling the mintFee contract method, paying for it on base but executing it on zora
+
+getClient().actions.call({
+  chainId: 8453, //This is not required as the call action will use the active configured chain
+  toChainId: 7777777,
+  txs: [{
+    to: "0xd7f1bdb84c4bc67ee5c03c659a0cd34484082d9f",
+    value: "0x03005753e800",
+    data: "0x8a35ace300000000000000000000000000000000000000000000000000000000000000011d4da48b07b88f64"
+  }]
+  wallet: wallet,
+  onProgress: (steps) => {
+    console.log(steps)
+  },
+})
+```
+
+</CodeGroup>
+
+### Cross-chain Execution with the Reservoir Aggregator
+
+To use cross-chain execution with the Reservoir Aggregator, i.e. to mint, buy or sell NFTs aggregated by Reservoir, simply use the Reservoir SDK to trigger cross-chain execution with the appropriate method. When using the Reservoir SDK to trigger a cross-chain purchase all that's required is additionally passing a `currencyChainId` to the buyToken method. This assumes you know which token you would like to buy or mint. You can leverage the Reservoir API to look at aggregated collection liquidity, or trending mints. Below is an example of what that would look like to buy a token from secondary:
+
+````typescript Cross-chain Example
+import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+address = "0x8ba1f109551bD432803012645Ac136ddd6000000"
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+getClient()?.actions.buyToken({
+  items: [{ token: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d:1", quantity: 1 }],
+  options: {
+  	currencyChainId: 10
+  },
+  wallet,
+  onProgress: (steps: Execute['steps']) => {
+    console.log(steps)
+  }
+})```
+````

@@ -1,0 +1,48 @@
+---
+title: "Instant Bridging"
+description: "Instant deposits and withdrawals on supported chains using Tunnel"
+---
+
+Tunnel enables instant bridging (deposits & withdrawals) on supported chains. Learn more about how it works, how to integrate Tunnel, and how to get your chain supported below.
+
+## How it Works
+
+Under the hood, Tunnel's instant bridign tech is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Learn more about the [Technical Details of Tunnel](/how-it-works/understanding-tunnel)
+
+## Integrating Instant Bridging
+
+To get started make sure that you install and configure the [Reservoir SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode) or [ReservoirKit](https://docs.reservoir.tools/reference/reservoirkit) (which exposes a client that you can tap into using the [useReservoirClient](https://docs.reservoir.tools/reference/reservoirkit-hooks#usereservoirclient) hook). In this example we'll be using the Reservoir SDK. Ensure that everything is configured properly before moving on to implementing the call action.
+
+```typescript Instant Bridge
+
+import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+//A simple bridge requires no data, so 0x (null data) is provided
+//In this example we're bridging from zora to base
+
+getClient().actions.call({
+  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  toChainId: 8453,
+  txs: [{
+    to: "0x03508bB71268BBA25ECaCC8F620e01866650532c",
+   	value: "1000000",
+    data: "0x"
+  }],
+  wallet: wallet,
+  onProgress: (steps) => {
+    console.log(steps)
+  },
+})
+```
+
+## Adding Tunnel to Your Chain
+
+Tunnel can easily be added to any EVM-chain, such as OP stack rollups, Arbitrum Orbit chains, or more. Please feel free to [Reach Out] to discuss getting you chain supported today!
