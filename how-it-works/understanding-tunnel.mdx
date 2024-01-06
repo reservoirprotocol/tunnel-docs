@@ -1,98 +1,41 @@
 ---
 title: "Understanding Tunnel"
-description: "Learn how to preview changes locally"
+description: "Learn How Tunnel Works Today"
 ---
 
-<Info>
-  **Prerequisite** You should have installed Node.js (version 18.10.0 or
-  higher).
-</Info>
+Tunnel is a cross-chain payments system that leveraged third-party relayers for low-cost, low-latency cross-chain payments. When users wish to make cross-chain domain (bridging, minting, buying, arbitrary executions), they come to agreement with a relayer, who executes their wishes in exchange for payment on the desired chain.
 
-Step 1. Install Mintlify on your OS:
+TECHNICAL DIAGRAM
 
-<CodeGroup>
+## How it Works
 
-```bash npm
-npm i -g mintlify
-```
+This section describes how Tunnel works. We use the example of instant bridging here for simplicity:
 
-```bash yarn
-yarn global add mintlify
-```
+### Initial Set up
 
-</CodeGroup>
+In order to enable instant bridging, a trusted third party relayer (today Reservoir) locks capital in the Tunnel escrow contract on Ethereum Mainnet. For the sake of example, assume Reservoir has 10Eth locked, as well as having capital available to deploy on destination chains.
 
-Step 2. Go to the docs are located (where you can find `mint.json`) and run the following command:
+### Bridging Flow
 
-```bash
-mintlify dev
-```
+1. Alice wishes to instant bridge 1 Eth from Mainnet to Zora
 
-The documentation website is now available at `http://localhost:3000`.
+2. The app calls the Tunnel API to get a quote for instant bridging from Reservoir, The quote is returned with the rate, fees, and expected time for destination chain confirmation
 
-### Custom Ports
+3. Alice agrees to the quote, and Reservoir publishes their intent to fullfill the quote to Tunnel, with a corresponding order id.
 
-Mintlify uses port 3000 by default. You can use the `--port` flag to customize the port Mintlify runs on. For example, use this command to run in port 3333:
+4. Alice submits a transfer tx (1 Eth) to the solver _directly_ with the order id appended in the tx calldata. The tx is indexed by Tunnel as a instant bridge initiation and triggers the assignment of 1 Eth of escrowed value in the Tunnel protocol to Alice (this is her assurance that she will receive either her desired outcome or a refund).
 
-```bash
-mintlify dev --port 3333
-```
+5. The relayer pays Alice 1 Eth minus fees on Zora. The payment is indexed by Tunnel, when confirmed, reassigns the 1 Eth escrow balance from Alice to Reservoir.
 
-You will see an error like this if you try to run Mintlify in a port that's already taken:
+### Cross-chain balances & withdrawals
 
-```md
-Error: listen EADDRINUSE: address already in use :::3000
-```
+Users may hold tunnel protocol balance. This may occur in two scenarios:
 
-## Mintlify Versions
+- Alice wishes to hold cross-chain balance to easily (and more cheaply) execute cross-chain actions
+- Alice attempts a just-in-time cross-chain action that fails, in which case she is left with cross chain balance
 
-Each CLI is linked to a specific version of Mintlify. Please update the CLI if your local website looks different than production.
+In the case that Alice holds cross-chain balance, it can be used in _any_ tunnel action as a payment method, or withdrawn to Alice's wallet.
 
-<CodeGroup>
+## Further Decentralization
 
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
-</CodeGroup>
-
-## Deployment
-
-<Tip>
-  Unlimited editors available under the [Startup
-  Plan](https://mintlify.com/pricing)
-</Tip>
-
-You should see the following if the deploy successfully went through:
-
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: "0.5rem" }} />
-</Frame>
-
-## Troubleshooting
-
-Here's how to solve some common problems when working with the CLI.
-
-<AccordionGroup>
-  <Accordion title="Mintlify is not loading">
-    Update to Node v18. Run `mintlify install` and try again.
-  </Accordion>
-  <Accordion title="No such file or directory on Windows">
-Go to the `C:/Users/Username/.mintlify/` directory and remove the `mint`
-folder. Then Open the Git Bash in this location and run `git clone
-https://github.com/mintlify/mint.git`.
-
-Repeat step 3.
-
-  </Accordion>
-  <Accordion title="Getting an unknown error">
-    Try navigating to the root of your device and delete the ~/.mintlify folder.
-    Then run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in a CLI version? [Check out the CLI changelog.](/changelog/command-line)
+The core team will be releasing a protocol whitepaper shortly.
