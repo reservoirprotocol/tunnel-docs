@@ -36,11 +36,8 @@
       "pages": ["use-cases/instant-bridging", "use-cases/cross-chain-execution"]
     },
     {
-      "group": "How It Works",
-      "pages": [
-        "how-it-works/understanding-tunnel",
-        "how-it-works/supported-chains"
-      ]
+      "group": "Resources",
+      "pages": ["resources/supported-chains"]
     }
   ],
   "footerSocials": {

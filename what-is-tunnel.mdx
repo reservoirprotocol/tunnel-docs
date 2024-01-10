@@ -3,11 +3,61 @@ title: What is Tunnel?
 description: "Tunnel is the fastest and cheapest way to bridge & transact across chains"
 ---
 
-Tunnel is a gas-minimized, lightning fast cross-chain payments system. The goal of tunnel is cheaper, faster, and more flexible payments that let you transact on more chains. Under the hood, Tunnel's cross-chain tech is powered by relaying.
+Tunnel is an cross-chain & cross-domain payments protocol designed to minimize cost and latency, making it ideal for price-sensitive applications, such as payments, bridging and gas abstraction.
 
-TUNNEL HERO IMAGE 
+It features the following key properties:
 
-When a user wants to "bridge" from Chain A to Chain B using Tunnel, they make a payment to a relayer on chain A in exchange for a payment from the relayer on chain B. For more complex execution on chain B, the user must simply tell the relayer what they want delivered (or executed) on chain B. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Learn more about the [Technical Details of Tunnel](/how-it-works/understanding-tunnel). Today, Tunnel enables both Instant Bridging and Cross-chain Execution on supported chains.
+- **Fast**: Orders can be filled optimistically, even before payment is confirmed. Small payments can confirm in seconds.
+- **Cheap**: As much logic as possible is performed on low-cost chains, to save cost
+- **Lightweight**: Can operate on any chain with just a single Relayer
+- **Trustless**: Users are guaranteed to get their order filled or their money back
+
+## How does it work?
+
+Tunnel leverages a relaying model, where users will pay Relayers on Chain A to deliver them funds and/or execute transactions on Chain B. Relayers maintain a balance on all chains in order to make executions, and then periodically “rebalance” to ensure there is sufficient liquidity on all chains.
+
+Rather than trusting the Relayer, Tunnel leverages an Escrow system. Relayer’s lock funds in an Escrow contract, which acts as a bond against the order being filled correctly. Below is the basic Tunnel flow:
+
+1. Relayer adds funds to Escrow, giving them capacity to fill orders
+2. User submits a request, and gets Relayer quotes in return
+3. User chooses a quote, and locks the Relayer’s funds
+4. User pays the Relayer on Chain A
+5. Relayer waits for payment, then executes on Chain B
+6. Execution is confirmed, which unlocks the Escrow
+
+## How is it so fast?
+
+In traditional message-based bridges (LayerZero, Axelar, Wormhole, etc), there needs to be consensus amongst a group of actors that something happened on Chain A, before it can be acted upon on Chain B. This is because there are often shared liquidity pools on either side, and so you need to be certain that the action on Chain A was completed. For safety, this usually takes at least a couple of minutes.
+
+By contrast, when using a Relayer model (Tunnel, Across, etc), a single relayer executes the order on Chain B using their own funds. This means they don’t need to wait for the action on Chain A to be fully confirmed, or to get consensus. They could even fill while the tx is in the mempool on Chain A if they were willing to take the confirmation risk, which is reasonable for low cost actions like NFT mints and gas sponsorship. Competition amongst relayers to win order flow means that execution speed is pushed to be as fast as safely possible.
+
+## How is it so cheap?
+
+When bridging or swapping, there are typically three cost components:
+
+- **Asset transfer**: Moving assets from one wallet to another
+- **Order validation**: Ensuring that the user’s order was fulfilled correctly
+- **Fee collection**: Paying fees to actors such as a protocol, wallet or relayer
+
+In most systems, order validation and fee collection happen on the same chain as asset transfer, which is usually a high-cost chain like Ethereum. The key innovation of Tunnel is to move these onto a low-cost L2 (currently Arbitrum Nova), and only do the raw asset transfers on expensive chains. This reduces the cost to the absolute minimum possible.
+
+## How do you support so many chains?
+
+In many systems, expanding to a new chain requires deploying contracts, getting consensus amongst a network of actors, or deploying liquidity pools. With Tunnel, you just need a single Relayer who is willing to operate on a chain, and it’s permissionless for them to get started. This is critical in a world with an abundance of chains.
+
+## Is it safe?
+
+Tunnel is optimized for speed and cost, while ensuring that risks are minimized for users:
+
+- The escrow means that you don’t need to trust the Relayer to fulfill
+- Tunnel leverages canonical ETH, rather than risky bridged variations of ETH
+- While order validation happens on Arbitrum Nova, which is less secure than Ethereum or a true rollup, it is an L2 with fraud proofs a trust-minimized bridge back to Ethereum, and operated by a reputable team, which we feel is sufficiently secure for most use cases
+
+All that said, Tunnel is still in early development. You can view the roadmap to see current state of Tunnel, and which improvements are still planned
+
+## Use Cases
+
+Learn more about the powerful use cases that can be built on Tunnel:
 
 <CardGroup cols={2}>
   <Card

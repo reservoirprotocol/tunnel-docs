@@ -3,17 +3,15 @@ title: "Instant Bridging"
 description: "Instant deposits and withdrawals using Tunnel"
 ---
 
-HEADER IMAGE FOR INSTANT BRIDGING
-
 Tunnel enables instant bridging (deposits & withdrawals) on supported chains. Learn more about how it works, how to integrate Tunnel, and how to get your chain supported below.
 
 ## How it Works
 
-Tunnel's instant bridging is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Today, users of Tunnel work with a trusted third-party provider for cross-chain relaying, such as Reservoir. Third parties escrow funds and take on reputational risk, in the case of cross-chain disputes. Learn more about the [Technical Details of Tunnel](/how-it-works/understanding-tunnel).
+Tunnel's instant bridging is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Today, users of Tunnel work with a third-party provider for cross-chain relaying, such as Reservoir. Third parties escrow funds and take on reputational risk in the case of cross-chain disputes. Learn more about the [Technical Details of Tunnel](/what-is-tunnel).
 
 ## Integrating Instant Bridging
 
-To get started make sure that you install and configure the [Reservoir SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode) or [ReservoirKit](https://docs.reservoir.tools/reference/reservoirkit) (which exposes a client that you can tap into using the [useReservoirClient](https://docs.reservoir.tools/reference/reservoirkit-hooks#usereservoirclient) hook). In this example we'll be using the Reservoir SDK. Ensure that everything is configured properly before moving on to implementing the call action.
+Tunnel is directly integrated into the Reservoir API & SDK. To get started make sure that you install and configure the [Reservoir SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode) or [ReservoirKit](https://docs.reservoir.tools/reference/reservoirkit) (which exposes a client that you can tap into using the [useReservoirClient](https://docs.reservoir.tools/reference/reservoirkit-hooks#usereservoirclient) hook). In this example we'll be using the Reservoir SDK. Ensure that everything is configured properly before moving on to implementing the call action.
 
 ```typescript Instant Bridge
 
