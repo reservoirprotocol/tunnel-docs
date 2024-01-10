@@ -18,7 +18,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:hi@reservoir.tools"
     }
   ],
   "topbarCtaButton": {
@@ -46,6 +46,14 @@
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
+    },
+    {
+      "group": "Endpoint Examples",
+      "pages": [
+        "api-reference/endpoint/get",
+        "api-reference/endpoint/create",
+        "api-reference/endpoint/delete"
+      ]
     }
   ],
   "footerSocials": {
