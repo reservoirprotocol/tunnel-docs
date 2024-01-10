@@ -25,12 +25,7 @@
     "name": "Try Tunnel",
     "url": "https://www.tunnel.tech/"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
+  "tabs": [],
   "navigation": [
     {
       "group": "Introduction",
