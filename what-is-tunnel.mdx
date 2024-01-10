@@ -25,6 +25,10 @@ Rather than trusting the Relayer, Tunnel leverages an Escrow system. Relayer’s
 5. Relayer waits for payment, then executes on Chain B
 6. Execution is confirmed, which unlocks the Escrow
 
+![title](images/tunnel-mechanism-1.png)
+![title](images/tunnel-mechanism-2.png)
+
+
 ## How is it so fast?
 
 In traditional message-based bridges (LayerZero, Axelar, Wormhole, etc), there needs to be consensus amongst a group of actors that something happened on Chain A, before it can be acted upon on Chain B. This is because there are often shared liquidity pools on either side, and so you need to be certain that the action on Chain A was completed. For safety, this usually takes at least a couple of minutes.
