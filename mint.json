@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Tunnel",
+  "name": "Relay",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -23,14 +23,14 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Try Tunnel",
-    "url": "https://www.tunnel.tech/"
+    "name": "Try Relay",
+    "url": "https://www.relay.link/"
   },
   "tabs": [],
   "navigation": [
     {
       "group": "Introduction",
-      "pages": ["what-is-tunnel"]
+      "pages": ["what-is-relay"]
     },
     {
       "group": "Use Cases",

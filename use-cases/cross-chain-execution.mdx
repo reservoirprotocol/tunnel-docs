@@ -1,29 +1,29 @@
 ---
 title: "Cross-chain Execution"
-description: "Execute cross-chain transactions via Tunnel"
+description: "Execute cross-chain transactions via Relay"
 ---
 
 ![title](/images/crosschain-execution.png)
 
-Tunnel enables cross-chain execution for abitrary cross-chain transactions, as well as being integrated with Reservoir's pre-defined NFT actions (buy, sell, & mint). Using Tunnel, your users can pay for any action on any supported chain, by simply submitting the destination chain call data to Tunnel.
+Relay enables cross-chain execution for abitrary cross-chain transactions, as well as being integrated with Reservoir's pre-defined NFT actions (buy, sell, & mint). Using Relay, your users can pay for any action on any supported chain, by simply submitting the destination chain call data to Relay.
 
 ## How it Works
 
-Tunnel's instant bridging is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Today, users of Tunnel work with a trusted third-party provider for cross-chain relaying, such as Reservoir. Third parties escrow funds and take on reputational risk, in the case of cross-chain disputes. Learn more about the [Technical Details of Tunnel](/how-it-works/understanding-tunnel).
+Relay's instant bridging is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Today, users of Relay work with a trusted third-party provider for cross-chain relaying, such as Reservoir. Third parties escrow funds and take on reputational risk, in the case of cross-chain disputes. Learn more about the [Technical Details of Relay](/how-it-works/understanding-relay).
 
-## Using Tunnel's Cross-chain Execution
+## Using Relay's Cross-chain Execution
 
-You can use Tunnel Cross-chain Execution with custom call methods or with the pre-defined methods of the Reservoir Aggregator.
+You can use Relay Cross-chain Execution with custom call methods or with the pre-defined methods of the Reservoir Aggregator.
 
 ### Custom Call Methods
 
-Tunnel lets you execute arbitrary call data cross-chain using a custom call method. You can call custom contract methods, mint from custom contracts, mint + bridge (mint an NFT and bridge additional funds in one), or any other custom call execution.
+Relay lets you execute arbitrary call data cross-chain using a custom call method. You can call custom contract methods, mint from custom contracts, mint + bridge (mint an NFT and bridge additional funds in one), or any other custom call execution.
 
 To get started make sure that you install and configure the [Reservoir SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode) or [ReservoirKit](https://docs.reservoir.tools/reference/reservoirkit) (which exposes a client that you can tap into using the [useReservoirClient](https://docs.reservoir.tools/reference/reservoirkit-hooks#usereservoirclient) hook). In this example we'll be using the Reservoir SDK. Ensure that everything is configured properly before moving on to implementing the call action.
 
 ### Examples
 
-Here we consider 4 generic executions using Tunnel.
+Here we consider 4 generic executions using Relay.
 
 - **Bridge**: Bridge funds to another chain
 - **Mint + Bridge**: Mint an NFT on another chain and bridge additional funds in a single call
