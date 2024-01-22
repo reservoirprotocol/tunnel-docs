@@ -46,5 +46,6 @@
   },
   "integrations": {
     "intercom": "b09ps4q8"
-  }
+  },
+  "openapi": ["https://api.relay.link/documentation/json"]
 }
