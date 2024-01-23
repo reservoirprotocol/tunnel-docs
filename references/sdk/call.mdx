@@ -1,0 +1,118 @@
+---
+title: Call Action
+description: Do anything crosschain by specifying txs to be executed on the target chain.
+---
+
+### Parameters
+
+| Property       | Description                                                                                                                                                                                                                                                                                                                                   | Required |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | Yes      |
+| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | Yes      |
+| **txs**        | An array of either transaction objects (made up of a to, data and value properties) or viem request objects returned from viem's [simulateContract](https://viem.sh/docs/contract/simulateContract.html#simulatecontract) function. A code snippet is provided below which shows an example of this in conjunction with the Zora protocol SDK | Yes      |
+| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | Yes      |
+| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item.                                                                                                                                                                                                                      | Yes      |
+
+### Examples
+
+<CodeGroup>
+```typescript Bridging
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+account: address,
+transport: http()
+})
+
+getClient().actions.call({
+chainId: 7777777,
+toChainId: 8453,
+txs: [{to: "0x30385bce01da4b415cae1db21d41e9f6eab3ba50", value: "1000000" }]
+wallet: wallet,
+onProgress: (steps) => {
+console.log(steps)
+},
+})
+
+//In this snippet we bridge 1000000 wei from Zora to Base.
+//The code snippet above assumes you've created the client, properly configured the
+//chains and ensured that the user is currently connected to the correct chain.
+
+````
+```typescript Simulate Request
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useCallback } from "react";
+import { getClient } from "@reservoir0x/relay-sdk";
+import { createPublicClient, http, WriteContractParameters } from "viem";
+import { useWalletClient } from "wagmi";
+import { createMintClient } from "@zoralabs/protocol-sdk";
+import { base, zora } from "viem/chains";
+
+export default function App() {
+  const { data: wallet } = useWalletClient({
+    chainId: base.id,
+  });
+
+  const customMint = useCallback(async () => {
+    if (!wallet || !wallet.account?.address) {
+      throw "A wallet is required to mint!";
+    }
+
+    if (!sdkClient) {
+      throw "Relay SDK not initialized";
+    }
+
+    const mintClient = createMintClient({ chain: zora });
+    const publicClient = createPublicClient({
+      chain: zora,
+      transport: http(),
+    });
+    const prepared = await mintClient.makePrepareMintTokenParams({
+      // token to mint
+      tokenAddress: "0x03e4f2838b2e821d2117a78a278c4e3166d97339",
+      tokenId: "4",
+      mintArguments: {
+        // address that will receive the token
+        mintToAddress: wallet.account.address,
+        // quantity of tokens to mint
+        quantityToMint: 1,
+        // comment to include with the mint
+        mintComment: "Cross-Chain Minting via Reservoir Relay!",
+      },
+      // account that is to invoke the mint transaction
+      minterAccount: wallet.account.address,
+    });
+
+    // simulate the transaction and get any validation errors
+    const { request } = await publicClient.simulateContract(prepared);
+
+    sdkClient.actions.call({
+      chainId: base.id,
+      toChainId: zora.id,
+      txs: [request],
+      wallet,
+      onProgress: () => {},
+    });
+  }, [wallet]);
+
+  return (
+					...
+          <button
+            className="button"
+            style={{ marginTop: 16, marginRight: "auto" }}
+            onClick={customMint}
+          >
+            Custom Mint + Zora SDK
+					...
+  );
+}
+
+//This snippet demonstrates cross chain actions in the form of a mint on Zora from Base.
+//The code snippet above assumes you've created the client, properly configured the
+//chains and ensured that the user is currently connected to the correct chain.
+````
+
+</CodeGroup>

@@ -26,7 +26,12 @@
     "name": "Try Relay",
     "url": "https://www.relay.link/"
   },
-  "tabs": [],
+  "tabs": [
+    {
+      "name": "References",
+      "url": "references"
+    }
+  ],
   "navigation": [
     {
       "group": "Introduction",
@@ -39,6 +44,33 @@
     {
       "group": "Resources",
       "pages": ["resources/supported-chains"]
+    },
+    {
+      "group": "References",
+      "pages": [
+        "references/overview",
+        {
+          "group": "SDK",
+          "pages": [
+            "references/sdk/getting-started",
+            "references/sdk/dynamically-configured-chains",
+            "references/sdk/createClient",
+            "references/sdk/call"
+          ]
+        },
+        {
+          "group": "API",
+          "pages": [
+            "references/api/get-chains",
+            "references/api/get-config",
+            "references/api/get-intents-status",
+            "references/api/get-transactions-status",
+            "references/api/get-users-balance",
+            "references/api/execute-call",
+            "references/api/intents-trigger"
+          ]
+        }
+      ]
     }
   ],
   "footerSocials": {
@@ -47,5 +79,8 @@
   "integrations": {
     "intercom": "b09ps4q8"
   },
-  "openapi": ["https://api.relay.link/documentation/json"]
+  "openapi": ["https://api.relay.link/documentation/json"],
+  "api": {
+    "baseUrl": ["https://api.relay.link", "https://api.testnets.relay.link"]
+  }
 }

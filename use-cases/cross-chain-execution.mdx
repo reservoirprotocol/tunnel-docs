@@ -19,7 +19,7 @@ You can use Relay Cross-chain Execution with custom call methods or with the pre
 
 Relay lets you execute arbitrary call data cross-chain using a custom call method. You can call custom contract methods, mint from custom contracts, mint + bridge (mint an NFT and bridge additional funds in one), or any other custom call execution.
 
-To get started make sure that you install and configure the [Reservoir SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode) or [ReservoirKit](https://docs.reservoir.tools/reference/reservoirkit) (which exposes a client that you can tap into using the [useReservoirClient](https://docs.reservoir.tools/reference/reservoirkit-hooks#usereservoirclient) hook). In this example we'll be using the Reservoir SDK. Ensure that everything is configured properly before moving on to implementing the call action.
+To get started make sure that you install and configure the [Relay SDK](/references/sdk/getting-started). Ensure that everything is configured properly before moving on to implementing the call action.
 
 ### Examples
 
@@ -30,13 +30,13 @@ Here we consider 4 generic executions using Relay.
 - **Custom Mint**: Mint an NFT from a custom contract on any supported chain
 - **Custom Contract Call**: Call a non-NFT related contract method
 
-Below are examples of how you could leverage the flexibility of the [call](https://docs.reservoir.tools/reference/call) action using Reservoir's SDK.
+Below are examples of how you could leverage the flexibility of the [call](/references/sdk/call) action using the Relay SDK.
 
 <CodeGroup>
 
 ```typescript Instant Bridge
 
-import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
 import { createWalletClient, http } from 'viem'
 
 ...
@@ -50,12 +50,11 @@ wallet = createWalletClient({
 //In this example we're bridging from zora to base
 
 getClient().actions.call({
-  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  chainId: 7777777,
   toChainId: 8453,
   txs: [{
     to: "0x03508bB71268BBA25ECaCC8F620e01866650532c",
    	value: "1000000",
-    data: "0x"
   }],
   wallet: wallet,
   onProgress: (steps) => {
@@ -65,7 +64,7 @@ getClient().actions.call({
 ```
 
 ```typescript Non-NFT action
-import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
 import { createWalletClient, http } from 'viem'
 
 ...
@@ -80,7 +79,7 @@ wallet = createWalletClient({
 //In this example we're submitting the transaction from zora to base
 
 getClient().actions.call({
-  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  chainId: 7777777,
   toChainId: 8453,
   txs: [{
     to: "0x0e22b5f3e11944578b37ed04f5312dfc246f443c",
@@ -95,7 +94,7 @@ getClient().actions.call({
 ```
 
 ```typescript Mint + Bridge
-import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
 import { createWalletClient, http } from 'viem'
 
 ...
@@ -109,7 +108,7 @@ wallet = createWalletClient({
 //In this example we're bridging from zora to base
 
 getClient().actions.call({
-  chainId: 7777777, //This is not required as the call action will use the active configured chain
+  chainId: 7777777,
   toChainId: 8453,
   txs: [{
     to: "0x8aece478e699445c69e52cd52085b729fca1798d",
@@ -128,7 +127,7 @@ getClient().actions.call({
 ```
 
 ```typescript Custom Mint
-import { getClient, Execute } from "@reservoir0x/reservoir-sdk";
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
 import { createWalletClient, http } from 'viem'
 
 ...
@@ -142,7 +141,7 @@ wallet = createWalletClient({
 //In this example we're calling the mintFee contract method, paying for it on base but executing it on zora
 
 getClient().actions.call({
-  chainId: 8453, //This is not required as the call action will use the active configured chain
+  chainId: 8453,
   toChainId: 7777777,
   txs: [{
     to: "0xd7f1bdb84c4bc67ee5c03c659a0cd34484082d9f",
