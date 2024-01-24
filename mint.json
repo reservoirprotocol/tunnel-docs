@@ -61,6 +61,7 @@
         {
           "group": "API",
           "pages": [
+            "references/api/overview",
             "references/api/get-chains",
             "references/api/get-config",
             "references/api/get-intents-status",
