@@ -67,6 +67,7 @@
             "references/api/get-intents-status",
             "references/api/get-transactions-status",
             "references/api/get-users-balance",
+            "references/api/get-requests",
             "references/api/execute-call",
             "references/api/intents-trigger"
           ]
