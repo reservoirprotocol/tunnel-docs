@@ -1,0 +1,44 @@
+---
+title: "The Reservoir Relayer"
+description: "Reservoir's production grade relaying service"
+---
+
+The Reservoir relayer is a production-grade relayer currently supporting Relay. Reservoir acts as a trusted party that performs cross-chain relays and order validation. When a user wishes to bridge, they submit an order and a transfer to the Reservoir relayer, who validates the order and sends the funds to the user on the destination chain. Reservoir maintain a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, Reservoir refunds the user directly as soon as possible.
+
+## How does it work?
+
+When a user wishes to bridge, they submit an order and a transfer to the Reservoir relayer, who validates the order and sends the funds to the user on the destination chain. Reservoir maintain a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, Reservoir refunds the user directly as soon as possible.
+
+While this model requires trust in Reservoir as a service provider, it reduces the costs of executing cross-chain actions to an absolute minimum. Since each cross chain action is simply an origin chain transfer and a destination chain transfer (42000 gas total), it is substantively cheaper than bridging on other bridges.
+
+### Technical overview
+
+Here we walk through some technical details about how the Reservoir relayer functions.
+
+#### Getting a quote
+
+When a user wishes to Relay, the application receives an order (quote) from [Relay SDK/API](references/overview). THe quote returns both a cost for execution, and an expected time. The quote is a total value required by the user for the action to proceed. It is returned broken down as the relayer fee and the execution value. This quote _covers the gas cost on the destination chain_. The transfer call data for order acceptance is also included in the returned data.
+
+#### Onchain order attribution
+
+When the user accepts the order, she submits a transfer to the solver. An orderId associated with the quote is appended in the tx calldata. This order id will be used on the destination chain to link fills across chains.
+
+#### Order validation and filling
+
+Upon validation of the inbound transfer transaction, the Reservoir relayer will fill the order on the destination chain. Included in the fill transaction is the orderId associated with the the quote. Reservoir maps the origin and destination chain transactions together by orderId to ensure the transaction was filled appropriately.
+
+#### Rebalancing
+
+The Reservoir relayer uses a robust rebalancing algorithm to make sure funds are as available as possible for cross-chain executions. The user is not responsible for any rebalancing activity. Should the Reservoir relayer become "off-balance", the capacity for instant relaying may be limited.
+
+#### Fallbacks
+
+Since transfers are sent directly to the Reservoir relayer by users. The relayer may opt to user alternative methods of cross-chain bridging in the case of low instant capacity. Under these conditions, the relayer will quote the user a longer timeframe within which to expect the execution to occur. For example, should a user desire a withdrawal from an L2 onto Ethereum, the relayer may opt to use a canonical bridge to bridge the user's funds. The relayer attempts to provide the best possible quote (in price and in time) to the user, who may choose to accept the proposed quote or not.
+
+#### Refunds
+
+If for some reason the quoted execution is no longer available by the time of relay submission, the user may be refunded. Refunds are as instant as possible, and when possible occur on the destination chain.
+
+### What happens in the case of disputes?
+
+Due to the trusted nature of the current Relay design, disputes (i.e. cases where a user did not receive the expected outcome and was not refunded) should be brought directly to the Reservoir support team.

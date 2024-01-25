@@ -42,6 +42,10 @@
       "pages": ["use-cases/instant-bridging", "use-cases/cross-chain-execution"]
     },
     {
+      "group": "How it Works",
+      "pages": ["how-it-works/the-reservoir-relayer"]
+    },
+    {
       "group": "Resources",
       "pages": ["resources/supported-chains"]
     },
