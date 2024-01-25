@@ -28,7 +28,7 @@
   },
   "tabs": [
     {
-      "name": "References",
+      "name": "SDK & API Reference",
       "url": "references"
     }
   ],
@@ -43,14 +43,14 @@
     },
     {
       "group": "How it Works",
-      "pages": ["how-it-works/the-reservoir-relayer"]
+      "pages": ["how-it-works/the-reservoir-relayer", "how-it-works/whats-next"]
     },
     {
       "group": "Resources",
       "pages": ["resources/supported-chains"]
     },
     {
-      "group": "References",
+      "group": "SDK & API Reference",
       "pages": [
         "references/overview",
         {
