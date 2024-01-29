@@ -8,12 +8,12 @@ Relay enables instant, low-cost bridging and cross-chain execution. It is design
 It features the following key properties:
 
 - **Fast**: Orders can be filled optimistically, even before payment is confirmed. Small payments can confirm in seconds.
-- **Cheap**: As much logic as possible is performed off chain to reduce costs.
+- **Cheap**: As much logic as possible is performed off-chain to reduce costs.
 - **Lightweight**: Can operate on any chain with just a single relayer
 
 ## How does it work?
 
-Relay is powered by relayers. When a user wishes to bridge, they submit an order and a transfer to the relayer, who validates the order and sends the funds to the user on the destination chain. Relayers maintain a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, relayers refunds the user directly as soon as possible.
+Relay is powered by relayers. When a user wishes to bridge, they submit an order and a transfer to the relayer, who validates the order and sends the funds to the user on the destination chain. Relayers maintains a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, relayers refunds the user directly as soon as possible.
 
 ## How is it so fast?
 
@@ -29,7 +29,7 @@ When bridging or swapping, there are typically three cost components:
 - **Order validation**: Ensuring that the user’s order was fulfilled correctly
 - **Fee collection**: Paying fees to actors such as a protocol, wallet or relayer
 
-In most systems, order validation and fee collection happen on the same chain as asset transfer, which is usually a high-cost chain like Ethereum. In Relay, order validation and fee collection are off chain, while asset transfers are reduced to _direct_ transfers between the user and the relayer. This avoids the gas required when routing assets through onchain protocols. This reduces the cost to the absolute minimum possible.
+In most systems, order validation and fee collection happen on the same chain as asset transfer, which is usually a high-cost chain like Ethereum. In Relay, order validation and fee collection are off-chain, while asset transfers are reduced to _direct_ transfers between the user and the relayer. This avoids the gas required when routing assets through onchain protocols. This reduces the cost to the absolute minimum possible.
 
 ## How do you support so many chains?
 

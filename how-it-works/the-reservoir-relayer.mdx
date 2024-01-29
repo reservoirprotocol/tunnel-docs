@@ -17,11 +17,11 @@ Here we walk through some technical details about how the Reservoir relayer func
 
 #### Getting a quote
 
-When a user wishes to Relay, the application receives an order (quote) from [Relay SDK/API](references/overview). THe quote returns both a cost for execution, and an expected time. The quote is a total value required by the user for the action to proceed. It is returned broken down as the relayer fee and the execution value. This quote _covers the gas cost on the destination chain_. The transfer call data for order acceptance is also included in the returned data.
+When a user wishes to Relay, the application receives an order (quote) from [Relay SDK/API](references/overview). The quote returns both a cost for execution, and an expected time. The quote is a total value required by the user for the action to proceed. It is returned broken down as the relayer fee and the execution value. This quote _covers the gas cost on the destination chain_. The transfer call data for order acceptance is also included in the returned data.
 
 #### Onchain order attribution
 
-When the user accepts the order, she submits a transfer to the solver. An orderId associated with the quote is appended in the tx calldata. This order id will be used on the destination chain to link fills across chains.
+When the user accepts the order, she submits a transfer to the solver. An order id associated with the quote is appended in the tx calldata. This order id will be used on the destination chain to link fills across chains.
 
 #### Order validation and filling
 
