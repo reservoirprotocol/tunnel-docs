@@ -54,8 +54,7 @@
       "pages": [
         "references/overview",
         {
-          "group": "SDK" ,
-          "expanded": true,
+          "group": "SDK",
           "pages": [
             "references/sdk/getting-started",
             "references/sdk/createClient",
@@ -65,7 +64,6 @@
         },
         {
           "group": "API",
-          "expanded": true,
           "pages": [
             "references/api/overview",
             "references/api/get-chains",
