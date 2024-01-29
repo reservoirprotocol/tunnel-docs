@@ -58,9 +58,9 @@
           "expanded": true,
           "pages": [
             "references/sdk/getting-started",
-            "references/sdk/dynamically-configured-chains",
             "references/sdk/createClient",
-            "references/sdk/call"
+            "references/sdk/call",
+            "references/sdk/dynamically-configured-chains"
           ]
         },
         {
