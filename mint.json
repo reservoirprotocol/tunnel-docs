@@ -54,7 +54,8 @@
       "pages": [
         "references/overview",
         {
-          "group": "SDK",
+          "group": "SDK" ,
+          "expanded": true,
           "pages": [
             "references/sdk/getting-started",
             "references/sdk/dynamically-configured-chains",
@@ -64,6 +65,7 @@
         },
         {
           "group": "API",
+          "expanded": true,
           "pages": [
             "references/api/overview",
             "references/api/get-chains",
