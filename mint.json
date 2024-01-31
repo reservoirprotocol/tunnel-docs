@@ -66,6 +66,7 @@
           "group": "API",
           "pages": [
             "references/api/overview",
+            "references/api/step-execution",
             "references/api/get-chains",
             "references/api/get-config",
             "references/api/get-intents-status",
