@@ -43,7 +43,10 @@
     },
     {
       "group": "How it Works",
-      "pages": ["how-it-works/the-reservoir-relayer", "how-it-works/whats-next"]
+      "pages": [
+        "how-it-works/relay-protocol",
+        "how-it-works/the-reservoir-relayer"
+      ]
     },
     {
       "group": "Resources",
