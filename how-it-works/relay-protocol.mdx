@@ -87,14 +87,14 @@ Because settlement happens on a single dedicated chain, and asset transfers happ
 
 Another advantage of having all Settlement happen on a single chain is that you can choose a chain with optimal properties. On other protocols, where Settlement happens on all chains, including high-security chains like Ethereum, batch Settlement is critical to keep costs low. However, batch settlement has downsides:
 
-- **Capital efficiency** - Relayer funds are tied up in between batches (4 hours for Across)
-- **Flexibility** - All orders must use the same settlement mechanism
+- Capital inefficiency - Relayer funds are tied up in between batches (4 hours for Across)
+- Inflexibility - All orders must use the same settlement mechanism
 
 For Relay, Settlement is done on a low-cost L2 with a trust-minimized bridge to Ethereum, making it viable to settle every order individually and immediately. This adds some costs, but very minor, and unlocks massive capital efficiency and flexibility gains.
 
 Consider the case where orders are settled every 2 minutes, which is comparable to other interoperability protocols that do message validation like Wormhole, LayerZero, etc. This is around 240 times quicker than Across. Once you factor in that only half the Relayer’s capital can be used for filling (because the rest is used as Escrow), it works out around 120x more capital efficient. This means Relayer can either earn more or charge less for the same amount of capital.
 
-One other nice thing about individual settlement is that you don’t actually need any global consensus or third party validation. You really just need the two parties involved in the transaction, the User and the Relayer, to agree that the order was filled. This allows you to get even more aggressive with settlement time. In Relay, actors will be incentivized (through reputation, bond penalties, etc) to quickly “self-settle” orders and only rely on 3rd party validation to settle disputes. This can result in even greater capital efficiency for Relayers.
+One other nice thing about individual settlement is that it doesn't global consensus or third party validation. You just need the two parties involved in the transaction, the User and the Relayer, to agree that the order was filled. This allows even more aggressive with settlement time. In Relay, actors will be incentivized (through reputation, bond penalties, etc) to quickly “self-settle” orders and only rely on 3rd party validation to settle disputes. This can result in even greater capital efficiency for Relayers.
 
 ### Relay ETH
 
@@ -105,7 +105,7 @@ One major factor that needs to be considered when striving to reduce costs is th
 - Aggregator API fees
 - Referrer fees
 
-In other protocols, these fees are collected on either the Origin or Destination chain. This can add considerable gas overhead, which is either passed onto the user in the form of increased costs, or forces participants to find other mechanisms to earn revenue.
+In other protocols, these fees are collected on either the origin or destination chain. This can add considerable gas overhead, which is either passed onto the user in the form of increased costs, or forces participants to find other mechanisms to earn revenue.
 
 Relay solves this problem by collecting fees on the low cost settlement chain. This means that even when a transaction is occurring on expensive chains like Ethereum, granular fees can be collected at near zero cost.
 
@@ -122,8 +122,10 @@ In effect, the ETH that lives on the Settlement Chain has multiple purposes. It 
 
 ## Conclusion
 
-The key theme of the Relay Protocol is the pursuit of maximum efficiency. This is because exciting new use-cases only become possible once cost, latency and friction are reduced to an absolute minimum. Even as blockspace becomes abundant, designing a system that is maximally efficient remains important, because it allows savings to be passed on to Users, Relayers and Apps.
-Future Work
+The key theme of the Relay Protocol is the pursuit of maximum efficiency. This is because exciting new use cases only become possible once cost, latency and friction are reduced to an absolute minimum. Even as blockspace becomes abundant, designing a system that is maximally efficient remains important, because it allows savings to be passed on to Users, Relayers and Apps.
+
+## Future Work
+
 This overview was designed to give a high level summary, and did not go into technical detail or discuss how adversarial scenarios are handled. These will be addressed in a future whitepaper.
 
 Additionally, this overview focused on instant bridging and cross-chain execution, which are the first use-cases being productized. However, Relay is effectively a generalized protocol for executing “non-atomic swaps”. While that makes it particularly well-suited to cross-chain actions, it can also have interesting applications for same-chain actions, which will be expanded upon at a later date.

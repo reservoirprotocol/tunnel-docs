@@ -3,7 +3,7 @@ title: What is Relay?
 description: "The fastest and cheapest way to bridge & transact across chains"
 ---
 
-Relay is a cross-chain and cross-domain payments system that enables instant, low-cost bridging and cross-chain execution. It works by connecting users with relayers - financial agents that act on users' behalfs across chains in exchange for a small fee. Relay is designed to minimize gas costs and execution latency, making it ideal for price-sensitive applications, such as payments, bridging, nft minting and gas abstraction.
+Relay is a cross-chain payments system that enables instant, low-cost bridging and cross-chain execution. It works by connecting users with relayers - financial agents that act on users' behalfs across chains in exchange for a small fee. Relay is designed to minimize gas costs and execution latency, making it ideal for price-sensitive applications, such as payments, bridging, nft minting and gas abstraction.
 
 It features the following key properties:
 
@@ -13,7 +13,9 @@ It features the following key properties:
 
 ## How does it work?
 
-Relay is powered by relayers. When a user wishes to bridge, they receive a quote from a relayer. They then accept the quote and submit a transfer to the relayer, who validates the order and sends the funds to the user on the destination chain. Relayers maintains a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. Direct transfers are safe to send relayers, because relayers post bonds in escrow that users may access in the case that a relayer does not fulfill their role. You can learn more about the current state of Relay and the Relay protocol [here](/how-it-works/whats-next)
+Relay is powered by relayers. When a user wishes to bridge, they receive a quote from a relayer. They then accept the quote and submit a transfer to the relayer, who validates the order and sends the funds to the user on the destination chain. Relayers maintains a balance on all chains in order to make executions, and then periodically rebalance to ensure there is sufficient liquidity on all chains. Direct transfers are safe to send relayers because relayers post bonds in escrow that users may access in the case that a relayer does not fulfill their role.
+
+Today Relay is powered by the [Reservoir Relayer](/how-it-works/the-reservoir-relayer). We are hard at work on the [Relay Protcol](/how-it-works/relay-protocol), which will allow additional relayers to participate in Relay.
 
 ## How is it so fast?
 
@@ -37,7 +39,7 @@ In many systems, expanding to a new chain requires deploying contracts, getting 
 
 ## Is it trustless?
 
-Not yet! We are hard at work developing the Relay protocol, a trustless system that allows users to interact with a permissionless set of relayers. However today, Relay is powered by [Reservoir](https://reservoir.tools/) who is responsible for both order validation & relaying. We have mechanics in place to make sure orders are filled, and funds allocated in case of transaction failure. If you are interested in an enterprise agreement, please reach out.
+Not yet! We are hard at work developing the [Relay Protocol](/how-it-works/relay-protocol), a trustless system that allows users to interact with a permissionless set of relayers. However today, Relay is powered by [Reservoir](https://reservoir.tools/) who is responsible for both order validation & relaying. We have mechanics in place to make sure orders are filled, and funds allocated in case of transaction failure. If you are interested in an enterprise agreement, please reach out.
 
 ## Use Cases
 
