@@ -3,13 +3,17 @@ title: "The Reservoir Relayer"
 description: "Reservoir's production grade relaying service"
 ---
 
-The Reservoir relayer is a production-grade relayer currently supporting Relay. Reservoir acts as a trusted party that performs cross-chain relays and order validation. 
+The Reservoir relayer is a production-grade relayer currently supporting Relay. Reservoir acts as a trusted party that performs cross-chain relays and order validation.
 
 ## How does it work?
 
 When a user wishes to bridge, they submit an order and a transfer to the Reservoir relayer, who validates the order and sends the funds to the user on the destination chain. Reservoir maintain a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, Reservoir refunds the user directly as soon as possible.
 
 While this model requires trust in Reservoir as a service provider, it reduces the costs of executing cross-chain actions to an absolute minimum. Since each cross chain action is simply an origin chain transfer and a destination chain transfer (42000 gas total), it is substantively cheaper than bridging on other bridges.
+
+## Why start with a trusted system?
+
+The current state of Relay, which requires trust in Reservoir's relayer is an important part of the protocol development process. It is not intended as a final state of the system, but as a way to introduce the core concepts, and learn from users, developers, and relayers about what is most important in the future decentralized system. If you are interested in learning more about where Relay is headed, you can read the protocol overview [here](how-it-works/protocol-overview)
 
 ### Technical overview
 

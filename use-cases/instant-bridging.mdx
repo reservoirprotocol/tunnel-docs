@@ -9,7 +9,9 @@ Relay enables instant bridging (deposits & withdrawals) on supported chains. Lea
 
 ## How it Works
 
-Relay's instant bridging is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. Today, users of Relay work with Reservoir for cross-chain relaying. Applications trust Reservoir to perform cross-chain relaying, and refund money in the case of disputes. Learn more about the [Technical Details of Relay](/what-is-relay).
+Relay's instant bridging is powered by cross-chain relaying. This model results in low-cost, low-latency (1-10 seconds) cross-chain transactions. When a user wishes to bridge, they recieve a quote from Relay that describes the time and cost of bridging. When they accept the quote, the order is validated and they submit a transfer directly to the relayer. The relayer then fulfills the bridge on the destination chian.
+
+While the Relay Protocol is still in development, users rely on Reservoir for order validation and relaying. Applications trust Reservoir to perform cross-chain relaying, and refund money in the case of disputes. The team will be releasing a fully decentralized and trustless protocol shortly, which you can learn more about in the [Technical Details of Relay](/how-it-works/whats-next).
 
 ## Integrating Instant Bridging
 
