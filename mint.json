@@ -42,6 +42,10 @@
       "pages": ["use-cases/instant-bridging", "use-cases/cross-chain-execution"]
     },
     {
+      "group": "Guides",
+      "pages": ["guides/contract-compatibility"]
+    },
+    {
       "group": "How it Works",
       "pages": [
         "how-it-works/relay-protocol",
