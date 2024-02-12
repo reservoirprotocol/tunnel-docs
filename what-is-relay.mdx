@@ -31,7 +31,7 @@ When bridging or swapping, there are typically three cost components:
 - **Order validation**: Ensuring that the user’s order was fulfilled correctly
 - **Fee collection**: Paying fees to actors such as a protocol, wallet or relayer
 
-In most systems, order validation and fee collection happen on the same chain as asset transfer, which is usually a high-cost chain like Ethereum. In Relay, order validation and fee collection happen on a cheaper settlment chain, while asset transfers are reduced to _direct_ transfers between the user and the relayer. This avoids the gas required when routing assets through onchain protocols. This reduces the cost to the absolute minimum possible. For example, for a crosschain bridge, the gas cost to use Relay is ~42000 gas (origin & destination), while Across, the _cheapest_ alternative, is roughly ~25000 gas.
+In most systems, order validation and fee collection happen on the same chain as asset transfer, which is usually a high-cost chain like Ethereum. In Relay, order validation and fee collection happen on a cheaper settlment chain, while asset transfers are reduced to _direct_ transfers between the user and the relayer. This avoids the gas required when routing assets through onchain protocols. This reduces the cost to the absolute minimum possible. For example, for a crosschain bridge, the gas cost to use Relay is ~42,000 gas (origin & destination), while Across, the _cheapest_ alternative, is roughly ~250,000 gas.
 
 ## What chains are supported?
 
