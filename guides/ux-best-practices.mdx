@@ -2,4 +2,48 @@
 title: 'UX Best Practices'
 description: 'How to get the most out of Relay and cross chain execution'
 ---
+Unlike other interoperability products, Relay is designed to be so fast and cheap that transacting cross-chain is indistinguishable from making regular transactions. This makes it possible to build delightful experiences that reduce friction for users.
 
+## Chain Abstraction
+
+Increasingly, users _don't care_ what chain they're interacting on, so long as it's easy and secure. 
+
+When interacting
+
+- Destination = Where they will interact
+- Origin = Where they will pay
+- Current = Where they are connected now
+
+Arguably, the Destination Chain is the least important of these from the users' perspective. The Origin matters, because they need funds there
+
+## Bridging vs Cross Chain Execution
+
+One key decision is whether you want to encourage users to explicitly "bridge" enough funds to a chain to make multiple actions, or whether they should execute each action cross chain "just in time". Each option has pros and cons: 
+
+- **Bridge** - More efficient, but creates friction because user needs to decide how much to bridge
+- **Execute** - Less friction, but also less efficiency
+
+The decision of which is best for your app depends on a few factors
+
+- **Repetition** - If the user needs to take multiple actions, bridging might make sense, but if it's a single core one (e.g. an NFT mint), cross chain execution is the obvious choice
+- **Permutations** - If the user needs to transact on multiple chains
+- **Aha Moment** - Rather than requiring the user to bridge
+
+
+
+- Are 
+
+||One network|Multiple networks|
+|:----|:----|:----|
+|**One action**|Execute|N/A|
+|**Multiple actions**|Bridge|Execute|
+
+
+## De
+
+
+
+- bridging vs cross chain
+- chain abstraction (hide the chain)
+- switching ui
+- 
