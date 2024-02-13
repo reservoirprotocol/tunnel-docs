@@ -43,7 +43,7 @@
     },
     {
       "group": "Guides",
-      "pages": ["guides/contract-compatibility"]
+      "pages": ["guides/contract-compatibility","ux-best-practices"]
     },
     {
       "group": "How it Works",
