@@ -17,6 +17,26 @@ description: Simplified action to bridge funds
 
 ### Examples
 
+```javascript Bridging
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
+import { createWalletClient, http } from 'viem'
 
+...
+
+wallet = createWalletClient({
+    account: address,
+    transport: http()
+})
+
+getClient().actions.bridge({
+    chainId: 7777777,
+    toChainId: 8453,
+    to: "0x30385bce01da4b415cae1db21d41e9f6eab3ba50",
+    value: "1000000000"
+    wallet: wallet,
+    onProgress: (steps) => {
+        console.log(steps)
+    },
+})
 
 </CodeGroup>
