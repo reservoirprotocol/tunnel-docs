@@ -1,5 +1,5 @@
 ---
-title: Call Action
+title: Call
 description: Do anything crosschain by specifying txs to be executed on the target chain.
 ---
 
@@ -7,11 +7,12 @@ description: Do anything crosschain by specifying txs to be executed on the targ
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                   | Required |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | Yes      |
-| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | Yes      |
-| **txs**        | An array of either transaction objects (made up of a to, data and value properties) or viem request objects returned from viem's [simulateContract](https://viem.sh/docs/contract/simulateContract.html#simulatecontract) function. A code snippet is provided below which shows an example of this in conjunction with the Zora protocol SDK | Yes      |
-| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | Yes      |
-| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item.                                                                                                                                                                                                                      | Yes      |
+| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | ✅      |
+| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | ✅      |
+| **txs**        | An array of either transaction objects (made up of a to, data and value properties) or viem request objects returned from viem's [simulateContract](https://viem.sh/docs/contract/simulateContract.html#simulatecontract) function. A code snippet is provided below which shows an example of this in conjunction with the Zora protocol SDK | ✅      |
+| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
+| **precheck**     | If set to true this will just fetch the quote without executing the txs. Use this to display an estimated quote.                                                                                                                                  | ❌      |
+| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item.                                                                                                                                                                                                                      | ❌      |
 
 ### Examples
 
@@ -28,12 +29,12 @@ transport: http()
 })
 
 getClient().actions.call({
-chainId: 7777777,
-toChainId: 8453,
-txs: [{to: "0x30385bce01da4b415cae1db21d41e9f6eab3ba50", value: "1000000" }]
-wallet: wallet,
-onProgress: (steps) => {
-console.log(steps)
+  chainId: 7777777,
+  toChainId: 8453,
+  txs: [{to: "0x30385bce01da4b415cae1db21d41e9f6eab3ba50", value: "1000000" }]
+  wallet: wallet,
+  onProgress: (steps) => {
+  console.log(steps)
 },
 })
 
