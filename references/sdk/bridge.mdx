@@ -7,13 +7,13 @@ description: Simplified action to bridge funds
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                   | Required |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | Yes      |
-| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | Yes      |
-| **value**        | Amount in wei to bridge | Yes      |
-| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | Yes      |
-| **to**     | A valid address to send the funds to                                                                                                                                  | No      |
-| **precheck**     | If set to true this will just fetch the quote without executing the bridge. Use this to display an estimated quote.                                                                                                                                  | No      |
-| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item.                                                                                                                                                                                                                      | No      |
+| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | ✅      |
+| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | ✅      |
+| **value**        | Amount in wei to bridge | ✅      |
+| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
+| **to**     | A valid address to send the funds to                                                                                                                                  | ❌      |
+| **precheck**     | If set to true this will just fetch the quote without executing the bridge. Use this to display an estimated quote.                                                                                                                                  | ❌      |
+| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item.                                                                                                                                                                                                                      | ❌      |
 
 ### Examples
 
@@ -24,19 +24,18 @@ import { createWalletClient, http } from 'viem'
 ...
 
 wallet = createWalletClient({
-    account: address,
-    transport: http()
+account: address,
+transport: http()
 })
 
-getClient().actions.bridge({
-    chainId: 7777777,
-    toChainId: 8453,
-    to: "0x30385bce01da4b415cae1db21d41e9f6eab3ba50",
-    value: "1000000000"
-    wallet: wallet,
-    onProgress: (steps) => {
-        console.log(steps)
-    },
+getClient().actions.call({
+chainId: 7777777,
+toChainId: 8453,
+txs: [{to: "0x30385bce01da4b415cae1db21d41e9f6eab3ba50", value: "1000000" }]
+wallet: wallet,
+onProgress: (steps) => {
+console.log(steps)
+},
 })
 
 </CodeGroup>
