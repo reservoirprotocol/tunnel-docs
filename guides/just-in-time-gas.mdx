@@ -1,0 +1,122 @@
+---
+title: 'Just-In-Time Gas'
+description: 'How to use just-in-time gas to execute cross-chain transactions that depend on `msg.sender`'
+---
+
+
+There are some actions and contracts where cross-chain execution with a relayer doesn’t work. For example, most ‘sell’ actions depend on `msg.sender`
+
+- Selling a nft
+- Swapping an erc20
+- Bidding in an auction
+
+
+To get around this, you can simply bridge a small amount of ETH for gas and have the user execute the transaction themselves. This is only now possible because of how fast and cheap Relay makes bridging.
+
+We will soon add functionality to our SDK to handle this flow completely, but until then, this guide will demonstrate how you could implement this ux yourself.
+
+
+## Overview of steps:
+- #### Step 1: Estimate gas needed on the Destination Chain
+- #### Step 2: Bridge Just-In-Time gas money from Origin to Destination chain
+- #### Step 3: Execute transaction/s on the Destination chain
+- #### Step 4 (optional): Bridge back proceeds to Origin chain
+
+
+
+The following example assumes you are set up with the [Relay SDK](https://docs.relay.link/references/sdk/getting-started) as well as [viem](https://viem.sh/).
+
+#### Step 1: Estimate gas needed on the Destination Chain
+```typescript
+const estimatedGas = await publicClient.estimateContractGas({
+  ...wethContract,
+  functionName: 'withdraw',
+  args: [wethBalance],
+  account: address,
+})
+
+const gasPrice = await publicClient.getGasPrice()
+
+const totalGasEstimation = estimatedGas * gasPrice
+      
+const totalGasEstimationWithBuffer =
+  totalGasEstimation + (totalGasEstimation * BigInt(5)) / BigInt(100) // add 5% buffer to handle gas fluctuation
+```
+
+We start by using viem's [estimateContractGas](https://viem.sh/docs/contract/estimateContractGas) to calulate the gas required to successfully execute the transaction we want to make on the Destination Chain. We also use [getGasPrice](https://viem.sh/docs/actions/public/getGasPrice) to get the current price of gas on the Destination chain. We multiply these two values together to get the total gas estimate and add a 5% buffer to handle any flucuation.
+
+
+
+#### Step 2: Bridge Just-In-Time gas money from Origin to Destination chain
+```typescript
+await relayClient.actions.bridge({
+  chainId: baseSepolia.id,
+  toChainId: sepolia.id,
+  wallet,
+  value: totalGasEstimationWithBuffer.toString(),
+  onProgress(steps) {
+    setStep(getCurrentStepDescription(steps))
+  },
+})
+```
+
+We use the Relay SDK's [bridge action](https://docs.relay.link/references/sdk/bridge) to bridge the gas money from the Origin to the Destination chain.
+
+
+#### Step 3: Execute transaction/s on the Destination chain
+```typescript
+const { request } = await publicClient.simulateContract({
+  ...wethContract,
+  account: address,
+  functionName: 'withdraw',
+  args: [wethBalance],
+  chain: sepolia,
+  gas: estimatedGas,
+})
+
+const hash = await wallet.writeContract(request)
+
+await publicClient.waitForTransactionReceipt({
+  hash,
+})
+```
+In this example we `withdraw` some WETH with viem's [writeContract](https://viem.sh/docs/contract/writeContract) and wait for the transaction to complete with [waitForTransactionReceipt](https://viem.sh/docs/actions/public/waitForTransactionReceipt).
+
+
+#### Step 4 (optional): Bridge back proceeds to Origin chain
+```typescript
+const destinationEthBalance = await getBalance(wagmiConfig, {
+  address: address,
+  chainId: sepolia.id,
+})
+
+const { fees } = (await relayClient.actions.bridge({
+  chainId: sepolia.id,
+  toChainId: baseSepolia.id,
+  wallet,
+  value: destinationEthBalance.value.toString(),
+  precheck: true, // when enabled, skips executing the steps
+})) as Execute
+
+const bufferedGasFee = BigInt(fees?.gas ?? 0) * (BigInt(100) + BigInt(5)) / BigInt(100) // add 5% buffer to handle flucation
+
+const amountToBridgeBack =
+  destinationEthBalance.value -
+  bufferedGasFee -
+  BigInt(fees?.relayer ?? 0)
+
+await relayClient.actions.bridge({
+  chainId: sepolia.id,
+  toChainId: baseSepolia.id,
+  wallet,
+  value: amountToBridgeBack.toString(),
+  onProgress(steps) {
+    setStep(getCurrentStepDescription(steps))
+  },
+})
+```
+
+This step is optional and the amount you bridge back would depend on your use case. In this example, we attempt to bridge back all of the ETH that the user has on the Destination chain. We first fetch the user's ETH balance on Destination. We then calculate the required fees in order to bridge that ETH back (gas fee + relayer fee). Once we subtract those fees from the user's Destination ETH balance, we get the total amount that we can afford to bridge and we can execute the bridge action.
+
+## Example
+Check out this [codesandbox](https://codesandbox.io/p/github/ted-palmer/relay-example/main?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522clsp83mau00063b6j1ja6pxa8%2522%252C%2522sizes%2522%253A%255B90%252C10%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522clsp83mau00023b6jz7u4txkg%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522clsp83mau00043b6jn4cbhbwv%2522%257D%255D%252C%2522sizes%2522%253A%255B100%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522clsp83mau00053b6jlnosgrlk%2522%257D%255D%252C%2522sizes%2522%253A%255B100%255D%257D%255D%252C%2522sizes%2522%253A%255B47.7246188699488%252C52.2753811300512%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522clsp83mau00023b6jz7u4txkg%2522%253A%257B%2522id%2522%253A%2522clsp83mau00023b6jz7u4txkg%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522clsp8etnt00023b6jmqz8itpu%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fpages%252Findex.tsx%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522activeTabId%2522%253A%2522clsp8etnt00023b6jmqz8itpu%2522%257D%252C%2522clsp83mau00053b6jlnosgrlk%2522%253A%257B%2522id%2522%253A%2522clsp83mau00053b6jlnosgrlk%2522%252C%2522activeTabId%2522%253A%2522clsp8mx82003k3b6juj1zi0ln%2522%252C%2522tabs%2522%253A%255B%257B%2522type%2522%253A%2522TASK_PORT%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522port%2522%253A3000%252C%2522id%2522%253A%2522clsp8mx82003k3b6juj1zi0ln%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522path%2522%253A%2522%252F%2522%257D%255D%257D%252C%2522clsp83mau00043b6jn4cbhbwv%2522%253A%257B%2522id%2522%253A%2522clsp83mau00043b6jn4cbhbwv%2522%252C%2522activeTabId%2522%253A%2522clsp8bpso00m43b6jxk6zl2hf%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522clsp83mau00033b6jwzockc4h%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522TERMINAL%2522%252C%2522shellId%2522%253A%2522clsp83mp3000ndajr8eld47nq%2522%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522CSB_RUN_OUTSIDE_CONTAINER%253D1%2520devcontainer%2520templates%2520apply%2520--template-id%2520%255C%2522ghcr.io%252Fdevcontainers%252Ftemplates%252Ftypescript-node%255C%2522%2520--template-args%2520%27%257B%257D%27%2520--features%2520%27%255B%255D%27%2522%252C%2522id%2522%253A%2522clsp894d9009a3b6j7ggyg97t%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522dev%2522%252C%2522id%2522%253A%2522clsp8bpso00m43b6jxk6zl2hf%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Atrue%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D) to see a live example of just-in-time bridging.
