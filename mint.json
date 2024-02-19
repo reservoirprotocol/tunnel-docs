@@ -43,7 +43,7 @@
     },
     {
       "group": "Guides",
-      "pages": ["guides/contract-compatibility", "guides/ux-best-practices"]
+      "pages": ["guides/contract-compatibility","guides/ux-best-practices","guides/just-in-time-gas"]
     },
     {
       "group": "How it Works",
