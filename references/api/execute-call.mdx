@@ -3,4 +3,6 @@ title: "Execute Call"
 description: "This API submits a series of transactions to be executed on another chain."
 openapi: post /execute/call
 ---
-<Warning>We recomment using the Relay SDK for executing; the SDK will iterate through the steps and return useful callback information. Check it out [here](/references/sdk/call.mdx).</Warning>
+import { SdkRecommendWarning } from '/snippets/SdkRecommendWarning.mdx'
+
+<SdkRecommendWarning sdkLink={true} />
