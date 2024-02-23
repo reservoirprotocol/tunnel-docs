@@ -1,0 +1,24 @@
+---
+title: getSolverCapacity
+description: Method to get the relayer's solver capacity.
+---
+
+### Parameters
+
+| Property       | Description                                                                                                                                                                                                                                                                                                                                   | Required |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- |
+| **originChainId**    | The chain id to deposit funds on                                                                    | ✅      |
+| **destinationChainId**  | The chain id to execute the txs on                                                        | ✅      |
+| **user**      | The address of the user                                                                           | ❌      |
+| **currency**          | The address of the currency                                                                 | ❌      |
+
+### Example
+
+```typescript 
+import { getClient } from '@reservoir0x/relay-sdk'
+
+const solverCapacity = await getClient()?.methods.getSolverCapacity({
+  destinationChainId,
+  originChainId,
+})
+```
