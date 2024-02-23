@@ -1,0 +1,30 @@
+---
+title: getCallQuote
+description: Method to get a quote for a call action.
+---
+
+### Parameters
+
+| Property       | Description                                                                                                                                                                                                                                                                                                                                   | Required |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | ✅      |
+| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | ✅      |
+| **txs**        | An array of either transaction objects (made up of a to, data and value properties) or viem request objects returned from viem's [simulateContract](https://viem.sh/docs/contract/simulateContract.html#simulatecontract) function.                                                                                                           | ✅      |
+| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
+
+### Example
+
+```typescript 
+import { getClient } from '@reservoir0x/relay-sdk'
+import { useWalletClient } from 'wagmi'
+
+const { data: wallet } = useWalletClient()
+
+const quote = await getClient()?.methods.getCallQuote({
+  chainId,
+  toChainId,
+  txs: [request],
+  wallet,
+})
+```
+

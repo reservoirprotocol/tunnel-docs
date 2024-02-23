@@ -1,6 +1,6 @@
 ---
-title: Bridge
-description: Simplified action to bridge funds
+title: getBridgeQuote
+description: Method to get a quote for a bridge action.
 ---
 
 ### Parameters
@@ -12,30 +12,20 @@ description: Simplified action to bridge funds
 | **value**        | Amount in wei to bridge | ✅      |
 | **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
 | **to**     | A valid address to send the funds to                                                                                                                                  | ❌      |
-| **precheck**     | If set to true this will just fetch the quote without executing the bridge. Use this to display an estimated quote.                                                                                                                                  | ❌      |
-| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item.                                                                                                                                                                                                                      | ❌      |
 
-### Examples
+### Example
 
-```javascript Bridging
-import { getClient, Execute } from "@reservoir0x/relay-sdk";
-import { createWalletClient, http } from 'viem'
+```typescript 
+import { getClient } from '@reservoir0x/relay-sdk'
+import { useWalletClient } from 'wagmi'
 
-...
+const { data: wallet } = useWalletClient()
 
-wallet = createWalletClient({
-account: address,
-transport: http()
+const quote = await getClient()?.methods.getBridgeQuote({
+  chainId,
+  toChainId,
+  value: '10000000000000000', // 0.01 ETH
+  wallet,
 })
+```
 
-getClient().actions.bridge({
-chainId: 7777777,
-toChainId: 8453,
-value: "1000000"
-wallet: wallet,
-onProgress: (steps) => {
-  console.log(steps)
-},
-})
-
-</CodeGroup>

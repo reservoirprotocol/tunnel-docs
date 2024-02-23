@@ -68,7 +68,11 @@
             "references/sdk/createClient",
             {
               "group": "Actions",
-              "pages": ["references/sdk/call", "references/sdk/bridge"]
+              "pages": ["references/sdk/actions/call", "references/sdk/actions/bridge"]
+            },
+            {
+              "group": "Methods",
+              "pages": ["references/sdk/methods/getCallQuote", "references/sdk/methods/getBridgeQuote", "references/sdk/methods/getSolverCapacity"]
             }
           ]
         },
