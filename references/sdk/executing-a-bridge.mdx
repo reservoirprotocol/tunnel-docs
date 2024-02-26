@@ -1,0 +1,39 @@
+---
+title: Executing a Bridge
+description: How to execute a bridge with the `bridge` action
+sidebarTitle: 3️⃣ Executing a Bridge
+---
+
+<Note>The `call` sdk action works very similarly and allows you to perform any tx cross-chain</Note>
+
+### Before executing a bridge
+
+Before executing a bridge, you should verify that the user has enough balance on the Origin chain to cover the the full bridge amount + fees. Check out [fetching a quote](/references/sdk/fetching-a-quote#fetching-a-quote) for more details on calculating the fees.
+
+### Executing a bridge
+
+Use the sdk's `bridge` action to execute the bridge and automatically handle the execution of steps.
+
+```typescript
+import { getClient } from '@reservoir0x/relay-sdk'
+import { useWalletClient } from 'wagmi'
+
+const { data: wallet } = useWalletClient()
+
+await getClient()?.actions.bridge({
+  wallet,
+  chainId: 1, // The chain id to bridge from
+  toChainId: 7777777, // The chain id to bridge to
+  value: '100000000000000000', // Amount in wei to bridge
+  to, // A valid address to send the funds to
+  onProgress: (steps, fees, currentStep, currentStepItem) => {
+    console.log(steps, fees, currentStep, currentStepItem)
+  }
+})
+```
+
+All you have to do now is use the `onProgress` callback to 
+update your UI with the current step and status. The `currentStep` has an `action` and `description` that can be helpful to display in your UI. Each `stepItem` also has an array of `txHashes` that you can use to link users to their transactions on a blockexplorer. 
+
+
+Once all `stepsItems` have a `status` of `complete`, the bridge was completed successfully and you you can show a success screen in your UI. ✅
