@@ -1,6 +1,6 @@
 ---
 title: Fetching a Quote
-description: How to fetch a quote with the `getBridgeQuote` method
+description: How to fetch a quote with the [`getBridgeQuote`](/references/sdk/methods/getBridgeQuote) method
 sidebarTitle: 2️⃣ Fetching a Quote
 ---
 
@@ -10,7 +10,7 @@ sidebarTitle: 2️⃣ Fetching a Quote
 
 In your app, you'll need to provide the UI for users to select the Origin chain and Destination chain, as well as the value to bridge.
 Before you fetch a quote, you'll also want to check that the Relay solver is enabled and has enough capacity for your request. 
-You can get the solver's capacity with the sdk's `getSolverCapacity` method. Optionally, you can call the [Get Config](references/api/get-config) api directly.
+You can get the solver's capacity with the sdk's [`getSolverCapacity`](/references/sdk/methods/getSolverCapacity) method. Optionally, you can call the [Get Config](references/api/get-config) api directly.
 
 ```typescript
 import { getClient } from '@reservoir0x/relay-sdk'
@@ -44,7 +44,7 @@ const quote = await getClient()?.methods.getBridgeQuote({
 })
 ```
 
-In the above example, we fetch the quote to bridge 0.1 ETH from Ethereum Mainnet to Zora. In the quote object we'll get data on the fees required to do this bridge. `quote.fees` gives use these values: 
+In the above example, we fetch the quote to bridge 0.1 ETH from Ethereum Mainnet to Zora. In the quote object we'll get data on the fees required to do this bridge. `quote.fees` gives us these values: 
 
 | Property | Description                           |
 | -------- | ------------------------------------- |
