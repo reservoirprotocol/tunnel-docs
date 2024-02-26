@@ -1,0 +1,59 @@
+---
+title: Fetching a Quote
+description: How to fetch a quote with the [`getBridgeQuote`](/references/sdk/methods/getBridgeQuote) method
+sidebarTitle: 2️⃣ Fetching a Quote
+---
+
+<Note>The `getCallQuote` sdk method works very similarly and allows you to get the quote to perform any tx cross-chain</Note>
+
+### Before fetching a quote
+
+In your app, you'll need to provide the UI for users to select the Origin chain and Destination chain, as well as the value to bridge.
+Before you fetch a quote, you'll also want to check that the Relay solver is enabled and has enough capacity for your request. 
+You can get the solver's capacity with the sdk's [`getSolverCapacity`](/references/sdk/methods/getSolverCapacity) method. Optionally, you can call the [Get Config](references/api/get-config) api directly.
+
+```typescript
+import { getClient } from '@reservoir0x/relay-sdk'
+import { zeroAddress } from 'viem'
+
+const { solver, enabled } = await getClient()?.methods.getSolverCapacity({
+  originChainId: 1, // The chain id to bridge from
+  destinationChainId: 7777777, // The chain id to bridge to
+  currency: zeroAddress
+})
+```
+
+You should check that enabled is `true` and that `solver.capacityPerRequest` is greater than the amount you want to bridge. You can also set the max input amount in your UI equal to the `solver.capacityPerRequest`.
+
+
+### Fetching a Quote
+Once you have all of the required values, you can pass them into the  [`getBridgeQuote`](/references/sdk/methods/getBridgeQuote) method like so:
+
+```typescript
+import { getClient } from '@reservoir0x/relay-sdk'
+import { useWalletClient } from 'wagmi'
+
+const { data: wallet } = useWalletClient()
+
+const quote = await getClient()?.methods.getBridgeQuote({
+  wallet,
+  chainId: 1, // The chain id to bridge from
+  toChainId: 7777777, // The chain id to bridge to
+  value: '100000000000000000', // Amount in wei to bridge
+  to, // A valid address to send the funds to
+})
+```
+
+In the above example, we fetch the quote to bridge 0.1 ETH from Ethereum Mainnet to Zora. In the quote object we'll get data on the fees required to do this bridge. `quote.fees` gives us these values: 
+
+| Property | Description                           |
+| -------- | ------------------------------------- |
+| gas     | The origin gas fee                    |
+| relayer | The total fees paid to the relayer                         |
+| relayerGas |  The gas paid on the desination chain by the relayer                     |
+| relayerService   | A small fixed fee paid to the relayer |
+
+The `quote.fees.gas` is the estimated gas required to send the transaction from the Origin chain. Gas can flucuate, so it is worth adding a bit of a buffer on this value as it is just an estimate. The  `quote.fees.relayer` is the total fee paid to the relayer to handle the transaction on the destination chain. You do not need to add a buffer to the relayer fee because it is a precise quote. However, quotes can go stale after 30 seconds, so we recommend refreshing the quote every 12-15 seconds.
+
+
+To get the total amount to bridge, you can add together the bridge value (0.1 ETH) + gas + relayer. We recommend displaying this full breakdown in your UI.

@@ -64,7 +64,8 @@
           "group": "SDK",
           "pages": [
             "references/sdk/getting-started",
-            "references/sdk/dynamically-configured-chains",
+            "references/sdk/fetching-a-quote",
+            "references/sdk/executing-a-bridge",
             "references/sdk/createClient",
             {
               "group": "Actions",
