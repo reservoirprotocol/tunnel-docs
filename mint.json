@@ -54,7 +54,7 @@
     },
     {
       "group": "Resources",
-      "pages": ["resources/supported-chains"]
+      "pages": ["resources/supported-chains", "resources/brand-assets", "resources/understanding-relay"]
     },
     {
       "group": "SDK & API Reference",
