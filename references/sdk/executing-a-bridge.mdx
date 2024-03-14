@@ -24,8 +24,9 @@ await getClient()?.actions.bridge({
   wallet,
   chainId: 1, // The chain id to bridge from
   toChainId: 7777777, // The chain id to bridge to
-  value: '100000000000000000', // Amount in wei to bridge
-  to, // A valid address to send the funds to
+  amount: '100000000000000000', // Amount in wei to bridge
+  currency: 'eth', // `eth` | `usdc`
+  recipient, // A valid address to send the funds to
   onProgress: (steps, fees, currentStep, currentStepItem) => {
     console.log(steps, fees, currentStep, currentStepItem)
   }

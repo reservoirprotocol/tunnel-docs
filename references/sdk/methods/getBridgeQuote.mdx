@@ -9,9 +9,10 @@ description: Method to get a quote for a bridge action.
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | ✅      |
 | **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | ✅      |
-| **value**        | Amount in wei to bridge | ✅      |
-| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
-| **to**     | A valid address to send the funds to                                                                                                                                  | ❌      |
+| **amount**        | Amount in wei to bridge | ✅      |
+| **currency**        | `eth` or `usdc` | ✅      |
+| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ❌      |
+| **recipient**     | A valid address to send the funds to                                                                                                                                  | ❌      |
 
 ### Example
 
