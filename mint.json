@@ -88,6 +88,7 @@
             "references/api/get-users-balance",
             "references/api/get-requests",
             "references/api/execute-call",
+            "references/api/execute-bridge",
             "references/api/intents-trigger"
           ]
         }
