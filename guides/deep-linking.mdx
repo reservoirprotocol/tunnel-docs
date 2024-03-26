@@ -1,0 +1,40 @@
+---
+title: 'Deep Linking'
+description: 'How to deep link to the Relay App'
+---
+
+
+The following query parameters are supported:
+
+| Parameter     | Description     | Example |
+| --------------|-----------------| --------|
+| `fromChainId` | The chainId of the from chain  | `8453` |
+| `toAddress` | A valid address to receive the bridge | `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` |
+| `amount` | The amount to have the input initially set to  | `0.1` |
+| `currency` | The currency to have preselected | `eth` or `usdc` |
+| `lockToChain` | Disable selecting a toChain | `true` |
+| `lockCurrency` | Disable selecting a currency | `true` |
+
+
+To deep link to a specific `toChain`, you must replace the slug after `/bridge` with the desired chain's name, like so: `relay.link/bridge/{chainName}`. Spaces should be replaced with dashes. You can check out the list of supported chains [`here`](/resources/supported-chains).
+
+
+## Examples 
+
+### Bridge from Zora to Base 
+<a href={`https://relay.link/bridge/base?fromChainId=7777777`} target="_blank">`https://relay.link/bridge/base?fromChainId=7777777`</a>
+
+### Bridge from Ethereum to Optimism with a preset address
+<a href={`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`} target="_blank">`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`</a>
+
+### Bridge 0.01 ETH from Optimism to Zora 
+<a href={`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`} target="_blank">`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`</a>
+
+### Bridge from Ethereum to Base with the currency and toChain locked
+<a href={`https://relay.link/bridge/base?fromChainId=1&lockCurrency=true&lockToChain=true`} target="_blank">`https://relay.link/bridge/base?fromChainId=1&lockCurrency=true&lockToChain=true`</a>
+
+### Bridge $100 USDC from Base to Arbitrum
+<a href={`https://relay.link/bridge/arbitrum?fromChainId=8453&currency=usdc&amount=100`} target="_blank">`https://relay.link/bridge/arbitrum?fromChainId=8453&currency=usdc&amount=100`</a>
+
+
+
