@@ -43,7 +43,12 @@
     },
     {
       "group": "Guides",
-      "pages": ["guides/contract-compatibility","guides/ux-best-practices","guides/just-in-time-gas", "guides/deep-linking"]
+      "pages": [
+        "guides/contract-compatibility",
+        "guides/ux-best-practices",
+        "guides/just-in-time-gas",
+        "guides/deep-linking"
+      ]
     },
     {
       "group": "How it Works",
@@ -66,14 +71,22 @@
             "references/sdk/getting-started",
             "references/sdk/fetching-a-quote",
             "references/sdk/executing-a-bridge",
+            "references/sdk/api-types",
             "references/sdk/createClient",
             {
               "group": "Actions",
-              "pages": ["references/sdk/actions/call", "references/sdk/actions/bridge"]
+              "pages": [
+                "references/sdk/actions/call",
+                "references/sdk/actions/bridge"
+              ]
             },
             {
               "group": "Methods",
-              "pages": ["references/sdk/methods/getCallQuote", "references/sdk/methods/getBridgeQuote", "references/sdk/methods/getSolverCapacity"]
+              "pages": [
+                "references/sdk/methods/getCallQuote",
+                "references/sdk/methods/getBridgeQuote",
+                "references/sdk/methods/getSolverCapacity"
+              ]
             }
           ]
         },
