@@ -43,7 +43,7 @@ const totalGasEstimationWithBuffer =
   totalGasEstimation + (totalGasEstimation * BigInt(5)) / BigInt(100) // add 5% buffer to handle gas fluctuation
 ```
 
-We start by using viem's [estimateContractGas](https://viem.sh/docs/contract/estimateContractGas) to calulate the gas required to successfully execute the transaction we want to make on the Destination Chain. We also use [getGasPrice](https://viem.sh/docs/actions/public/getGasPrice) to get the current price of gas on the Destination chain. We multiply these two values together to get the total gas estimate and add a 5% buffer to handle any flucuation.
+We start by using viem's [estimateContractGas](https://viem.sh/docs/contract/estimateContractGas) to calculate the gas required to successfully execute the transaction we want to make on the Destination Chain. We also use [getGasPrice](https://viem.sh/docs/actions/public/getGasPrice) to get the current price of gas on the Destination chain. We multiply these two values together to get the total gas estimate and add a 5% buffer to handle any fluctuation.
 
 
 
