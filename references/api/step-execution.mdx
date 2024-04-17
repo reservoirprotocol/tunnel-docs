@@ -11,7 +11,7 @@ The flow looks like this:
 
 <Steps>
   <Step title="Fetching Steps" icon="server">
-    Call the execute API ([call api](/references/api/execute-call))
+    Call the execute API ([call api](/references/api/execute-call)) or the ([bridge api](/references/api/execute-bridge))
   </Step>
   <Step title="Iterate Through Steps" icon="list-ul">
     Iterate through the steps and the items within a step, taking the necessary actions. Steps with no items, or an empty array of items, should be skipped. If step item data is missing then polling the api is necessary
@@ -193,6 +193,61 @@ The design pattern of this API is completely generic, allowing for automatic sup
 
 ### Transaction Step
 A transaction that needs to be submitted on-chain. After the transaction is submitted onchain you can poll the step items `check` endpoint. The endpoint will return a status which when successful will return 'success'. The step item can then be successfully marked as complete. _Note that the transaction step item contains a `chainId` for which the transaction should be submitted on._
+
+
+### Steps Example
+
+Below is an example of steps you'll encounter in the wild when working with the API.
+
+```
+{
+  "steps": [
+    {
+      "id": "deposit",
+      "action": "Confirm transaction in your wallet",
+      "description": "Deposit funds for executing the calls",
+      "kind": "transaction",
+      "items": [
+        {
+          "status": "incomplete",
+          "data": {
+            "from": "0x03508bB71268BBA25ECaCC8F620e01866650532c",
+            "to": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+            "data": "0x58109c",
+            "value": "995010715204139091",
+            "maxFeePerGas": "18044119466",
+            "maxPriorityFeePerGas": "2060264926",
+            "chainId": 1,
+            "gas": 21064
+          },
+          "check": {
+            "endpoint": "/intents/status?requestId=0x341b28c6467bfbffb72ad78ec5ddf1f77b8f9c79be134223e3248a7d4fcd43b6",
+            "method": "GET"
+          }
+        }
+      ]
+    }
+  ],
+  "fees": {
+    "gas": "384398515652800",
+    "gasCurrency": "eth",
+    "relayer": "-4989478842712964",
+    "relayerGas": "521157287036",
+    "relayerService": "-4990000000000000",
+    "relayerCurrency": "eth"
+  },
+  "breakdown": {
+    "value": "1000000000000000000",
+    "timeEstimate": 10
+  },
+  "balances": {
+    "userBalance": "54764083517303347",
+    "requiredToSolve": "995010521157287036"
+  }
+}
+```
+
+Along with the steps you'll see that the following objects are returned: fees, breakdown and balances. Information about fees is detailed [here](/references/sdk/fetching-a-quote#fetching-a-quote). Breakdown pertains to time estimation for the execution, broken down by value. The balances object is in regards to the user and how much they require to solve for the execution.
 
 ---
 
