@@ -35,8 +35,8 @@ getClient().actions.bridge({
   toChainId: 8453,
   value: "1000000"
   wallet: wallet,
-  onProgress: (steps) => {
-    console.log(steps)
+  onProgress: ({steps, fees, breakdown, currentStep,     currentStepItem, txHashes}) => {
+        //custom handling
   },
 })
 
