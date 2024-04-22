@@ -69,7 +69,9 @@ export default function App() {
       toChainId: zora.id,
       txs: [request],
       wallet,
-      onProgress: () => {},
+      onProgress: ({steps, fees, breakdown, currentStep, currentStepItem, txHashes}) => {
+        //custom handling
+      },
     });
   }, [wallet]);
 
