@@ -100,6 +100,7 @@
             "references/api/get-intents-status",
             "references/api/get-transactions-status",
             "references/api/get-requests",
+            "references/api/price-rates",
             "references/api/execute-call",
             "references/api/execute-bridge"
           ]
