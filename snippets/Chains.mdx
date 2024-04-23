@@ -1,0 +1,67 @@
+export const Chains = ({ env, id }) => {
+if (typeof document === "undefined") {
+    return null;
+  } else {
+    setTimeout(() => {
+      const tbody = document.getElementById(id)
+      const theader = document.getElementById(`${id}Theader`)
+      fetch(env === "testnets" ? "https://api.testnets.relay.link/chains" : "https://api.relay.link/chains").then((response) => response.json()).then((response) => {
+        let rows = ""
+        const currencies = []
+        const currencyIds = []
+        response?.chains?.forEach((chain) => {
+          chain.erc20Currencies.forEach((currency) => {
+            if (!currencyIds.includes(currency.id)) {
+              currencyIds.push(currency.id)
+              currencies.push(currency)
+            }
+          })
+          if (!currencyIds.includes(chain.currency.id) && chain.currency.id !== "eth") {
+            currencyIds.push(chain.currency.id)
+            currencies.push(chain.currency)
+          }
+        })
+        response?.chains?.sort((a, b) => a.displayName.localeCompare(b.displayName))?.forEach((chain) => {
+          const chainCurrencyIds = chain.erc20Currencies?.map((currency) => currency.id)
+          if (!chainCurrencyIds.includes(chain.currency.id)) {
+            chainCurrencyIds.push(chain.currency.id)
+          }
+          rows += `<tr style="font-size: 14px"><td style="padding: 5px;">
+                ${chain.displayName}
+              </td>
+              <td style="padding: 5px;">✅</td>
+              ${currencyIds.map((currencyId) => `<td style="padding: 5px;">${chainCurrencyIds.includes(currencyId) ? "✅" : "" }</td>`).join("")}</tr>`
+        })
+        tbody.innerHTML = rows;
+        theader.innerHTML = `
+          <th style="font-weight: 600; text-align: 'left'; padding: 5px;">
+            Chain
+          </th>
+          <th
+            style="font-weight: 600; text-align: 'left'; padding: 5px; padding-left: 0; padding-right: 20px;"
+          >
+            ETH
+          </th>${currencies.map((currency) => {
+            return `<th
+            style="font-weight: 600; text-align: 'left'; padding: 5px; padding-left: 0; padding-right: 20px;"
+          >
+            ${currency.symbol}
+          </th>`
+          }).join("")}`
+      })
+    }, 1)
+  }
+
+  return <table>
+      <thead
+        style={{
+          borderBottom: "1px solid rgb(227 226 230)",
+          paddingBottom: 5,
+          fontSize: 16,
+        }}
+      >
+        <tr id={`${id}Theader`}></tr>
+      </thead>
+      <tbody id={id}></tbody>
+    </table>
+};
