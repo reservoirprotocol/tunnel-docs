@@ -69,8 +69,20 @@
           "group": "SDK",
           "pages": [
             "references/sdk/getting-started",
-            "references/sdk/fetching-a-quote",
-            "references/sdk/executing-a-bridge",
+            {
+              "group": "Bridging",
+              "pages": [
+                "references/sdk/bridging/fetching-a-quote",
+                "references/sdk/bridging/executing-a-bridge"
+              ]
+            },
+            {
+              "group": "Swapping",
+              "pages": [
+                "references/sdk/swapping/fetching-a-quote",
+                "references/sdk/swapping/executing-a-swap"
+              ]
+            },
             "references/sdk/api-types",
             "references/sdk/createClient",
             {

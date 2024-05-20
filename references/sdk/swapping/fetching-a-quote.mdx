@@ -1,0 +1,111 @@
+---
+title: Fetching a Quote
+description: How to fetch a quote with the [`getSwapQuote`](/references/sdk/methods/getSwapQuote) method
+sidebarTitle: 1️⃣ Fetching a Quote
+---
+
+<Note>The `getCallQuote` sdk method works very similarly and allows you to get the quote to perform any tx cross-chain, you'll just need to provide the call data</Note>
+
+### Fetching a Quote
+Once you have all of the required values, you can pass them into the  [`getSwapQuote`](/references/sdk/methods/getSwapQuote) method like so:
+
+```typescript
+import { getClient } from '@reservoir0x/relay-sdk'
+import { useWalletClient } from 'wagmi'
+
+const { data: wallet } = useWalletClient()
+
+const quote = await getClient()?.methods.getSwapQuote({
+  wallet,
+  chainId: 1, // The chain id to swap from
+  currency: "0x0000000000000000000000000000000000000000",
+  toChainId: 8543, // The chain id to swap to
+  toCurrency: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+  amount: '100000000000000000', // Amount in wei to swap
+  recipient, // A valid address to send the funds to
+})
+```
+
+In the above example, we fetch the quote to swap 0.1 ETH from Ethereum Mainnet to USDC on Base. 
+
+### Fees
+In the quote object we'll get data on the fees required to do the swap, `quote.fees` gives us these values: 
+
+| Property | Description                           |
+| -------- | ------------------------------------- |
+| gas     | The origin gas fee                    |
+| relayer | The total fees paid to the relayer                         |
+| relayerGas |  The gas paid on the desination chain by the relayer                     |
+| relayerService   | A small fixed fee paid to the relayer |
+| app   | A custom fee in the wei currency of the swapped amount. This value accrues offchain |
+
+Each fee is returned in the following object:
+```
+"currency": {
+    "chainId": 1,
+    "address": "0x0000000000000000000000000000000000000000",
+    "symbol": "ETH",
+    "name": "Ether",
+    "decimals": 18,
+    "metadata": {
+        "logoURI": "https://assets.relay.link/icons/1/light.png",
+        "verified": true,
+        "isNative": true
+    }
+},
+"amount": "268728569736000",
+"amountFormatted": "0.000268728569736",
+"amountUsd": "0.847315"
+```
+
+The `quote.fees.gas` is the estimated gas required to send the transaction from the Origin chain. Gas can flucuate, so it is worth adding a bit of a buffer on this value as it is just an estimate. The  `quote.fees.relayer` is the total fee paid to the relayer to handle the transaction on the destination chain. You do not need to add a buffer to the relayer fee because it is a precise quote. However, quotes can go stale after 30 seconds, so we recommend refreshing the quote every 12-15 seconds.
+
+Fees are taken out of the output amount (unless the tradeType is set to "EXACT_OUTPUT", then you'll get the full amount returned in the details object).
+
+### Details
+
+There's also a `details` object containing a full summary of the swap. This is extremely useful when rendering this information in your UI. Below is an example of what this might look like:
+
+```
+"details": {
+"sender": "0x03508bB71268BBA25ECaCC8F620e01866650532c",
+"recipient": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+"currencyIn": {
+    "currency": {
+        "chainId": 1,
+        "address": "0x0000000000000000000000000000000000000000",
+        "symbol": "ETH",
+        "name": "Ether",
+        "decimals": 18,
+        "metadata": {
+            "logoURI": "https://assets.relay.link/icons/1/light.png",
+            "verified": true,
+            "isNative": true
+        }
+    },
+    "amount": "10000000000000000",
+    "amountFormatted": "0.01",
+    "amountUsd": "31.530500"
+},
+"currencyOut": {
+    "currency": {
+        "chainId": 8453,
+        "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+        "symbol": "USDC",
+        "name": "USD Coin",
+        "decimals": 6,
+        "metadata": {
+            "logoURI": "https://ethereum-optimism.github.io/data/USDC/logo.png",
+            "verified": false,
+            "isNative": false
+        }
+    },
+    "amount": "31318242",
+    "amountFormatted": "31.318242",
+    "amountUsd": "31.494060"
+},
+"rate": "3131.8242"
+}
+```
+
+Note that the rate is the rate of 1 unit of input to x output. In this case 1 ETH is equal to 3131.8242 USDC output. This swap rate may flucatuate given the currency pool size, amount and fees.

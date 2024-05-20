@@ -15,7 +15,7 @@ description: Simplified action to swap tokens
 | **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
 | **recipient**     | A valid address to send the funds to                                                                                                                                  | ❌      |
 | **precheck**     | If set to true this will just fetch the quote without executing the swap. Use this to display an estimated quote.                                                                                                                                  | ❌      |
-| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item. The following data points are returned: `steps`, `fees`, `breakdown`, `txHashes`, `currentStep`, `currentStepItem`                                                                                                                                                                                                                      | ❌      |
+| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item. The following data points are returned: `steps`, `fees`, `breakdown`, `txHashes`, `currentStep`, `currentStepItem`, `details`                                                                                                                                                                                                                      | ❌      |
 | **options**        | Additional API Options defined in the [swap api](/references/api/execute-swap). | ❌     |
 
 ### Example
@@ -36,7 +36,7 @@ getClient().actions.swap({
   toChainId: 8453,
   value: "1000000"
   wallet: wallet,
-  onProgress: ({steps, fees, breakdown, currentStep,     currentStepItem, txHashes}) => {
+  onProgress: ({steps, fees, breakdown, currentStep, currentStepItem, txHashes, details}) => {
         //custom handling
   },
 })
