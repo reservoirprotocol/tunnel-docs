@@ -1,0 +1,42 @@
+---
+title: Swap
+description: Simplified action to swap tokens
+---
+
+### Parameters
+
+| Property       | Description                                                                                                                                                                                                                                                                                                                                   | Required |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **chainId**    | The chain id to deposit funds on                                                                                                                                                                                                                                                                                                              | ✅      |
+| **toChainId**  | The chain id to execute the txs on                                                                                                                                                                                                                                                                                                            | ✅      |
+| **amount**        | Amount in wei to swap | ✅      |
+| **currency**        | `eth` or `usdc` | ✅      |
+| **wallet**     | A valid WalletClient from viem or an adapted wallet generated from an adapter that meets this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts).                                                                                                                                  | ✅      |
+| **recipient**     | A valid address to send the funds to                                                                                                                                  | ❌      |
+| **precheck**     | If set to true this will just fetch the quote without executing the swap. Use this to display an estimated quote.                                                                                                                                  | ❌      |
+| **onProgress** | Callback to update UI state as execution progresses. Can also be used to get the transaction hash for a given step item. The following data points are returned: `steps`, `fees`, `breakdown`, `txHashes`, `currentStep`, `currentStepItem`                                                                                                                                                                                                                      | ❌      |
+| **options**        | Additional API Options defined in the [swap api](/references/api/execute-swap). | ❌     |
+
+### Example
+
+```typescript
+import { getClient, Execute } from "@reservoir0x/relay-sdk";
+import { createWalletClient, http } from 'viem'
+
+...
+
+wallet = createWalletClient({
+  account: address,
+  transport: http()
+})
+
+getClient().actions.swap({
+  chainId: 1,
+  toChainId: 8453,
+  value: "1000000"
+  wallet: wallet,
+  onProgress: ({steps, fees, breakdown, currentStep,     currentStepItem, txHashes}) => {
+        //custom handling
+  },
+})
+

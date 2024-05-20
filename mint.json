@@ -77,7 +77,8 @@
               "group": "Actions",
               "pages": [
                 "references/sdk/actions/call",
-                "references/sdk/actions/bridge"
+                "references/sdk/actions/bridge",
+                "references/sdk/actions/swap"
               ]
             },
             {
@@ -100,7 +101,8 @@
             "references/api/get-intents-status",
             "references/api/get-requests",
             "references/api/execute-call",
-            "references/api/execute-bridge"
+            "references/api/execute-bridge",
+            "references/api/execute-swap"
           ]
         }
       ]
