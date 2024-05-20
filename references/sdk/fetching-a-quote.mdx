@@ -53,6 +53,7 @@ In the above example, we fetch the quote to bridge 0.1 ETH from Ethereum Mainnet
 | relayer | The total fees paid to the relayer                         |
 | relayerGas |  The gas paid on the desination chain by the relayer                     |
 | relayerService   | A small fixed fee paid to the relayer |
+| app   | A custom fee in the wei currency of the bridged amount. This value accrues offchain |
 
 The `quote.fees.gas` is the estimated gas required to send the transaction from the Origin chain. Gas can flucuate, so it is worth adding a bit of a buffer on this value as it is just an estimate. The  `quote.fees.relayer` is the total fee paid to the relayer to handle the transaction on the destination chain. You do not need to add a buffer to the relayer fee because it is a precise quote. However, quotes can go stale after 30 seconds, so we recommend refreshing the quote every 12-15 seconds.
 
