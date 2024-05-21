@@ -34,7 +34,9 @@ wallet = createWalletClient({
 getClient().actions.swap({
   chainId: 1,
   toChainId: 8453,
-  value: "1000000"
+  amount: "1000000",
+  currency: "0x0000000000000000000000000000000000000000",
+  toCurrency: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
   wallet: wallet,
   onProgress: ({steps, fees, breakdown, currentStep, currentStepItem, txHashes, details}) => {
         //custom handling

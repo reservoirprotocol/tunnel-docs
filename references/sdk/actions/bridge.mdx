@@ -33,7 +33,7 @@ wallet = createWalletClient({
 getClient().actions.bridge({
   chainId: 7777777,
   toChainId: 8453,
-  value: "1000000"
+  amount: "1000000"
   wallet: wallet,
   onProgress: ({steps, fees, breakdown, currentStep,     currentStepItem, txHashes}) => {
         //custom handling
