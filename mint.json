@@ -77,7 +77,8 @@
         "references/api/get-requests",
         "references/api/execute-call",
         "references/api/execute-bridge",
-        "references/api/execute-swap"
+        "references/api/execute-swap",
+        "references/api/transactions-index"
       ]
     },
     {
