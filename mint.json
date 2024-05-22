@@ -28,8 +28,12 @@
   },
   "tabs": [
     {
-      "name": "SDK & API Reference",
-      "url": "references"
+      "name": "API",
+      "url": "references/api"
+    },
+    {
+      "name": "SDK",
+      "url": "references/sdk"
     }
   ],
   "navigation": [
@@ -63,59 +67,53 @@
       "pages": ["resources/supported-chains", "resources/brand-assets"]
     },
     {
-      "group": "SDK & API Reference",
+      "group": "API Reference",
       "pages": [
-        "references/overview",
+        "references/api/overview",
+        "references/api/step-execution",
+        "references/api/get-chains",
+        "references/api/get-config",
+        "references/api/get-intents-status",
+        "references/api/get-requests",
+        "references/api/execute-call",
+        "references/api/execute-bridge",
+        "references/api/execute-swap"
+      ]
+    },
+    {
+      "group": "SDK Reference",
+      "pages": [
+        "references/sdk/getting-started",
         {
-          "group": "SDK",
+          "group": "Bridging",
           "pages": [
-            "references/sdk/getting-started",
-            {
-              "group": "Bridging",
-              "pages": [
-                "references/sdk/bridging/fetching-a-quote",
-                "references/sdk/bridging/executing-a-bridge"
-              ]
-            },
-            {
-              "group": "Swapping",
-              "pages": [
-                "references/sdk/swapping/fetching-a-quote",
-                "references/sdk/swapping/executing-a-swap"
-              ]
-            },
-            "references/sdk/api-types",
-            "references/sdk/createClient",
-            {
-              "group": "Actions",
-              "pages": [
-                "references/sdk/actions/call",
-                "references/sdk/actions/bridge",
-                "references/sdk/actions/swap"
-              ]
-            },
-            {
-              "group": "Methods",
-              "pages": [
-                "references/sdk/methods/getCallQuote",
-                "references/sdk/methods/getBridgeQuote",
-                "references/sdk/methods/getSolverCapacity"
-              ]
-            }
+            "references/sdk/bridging/fetching-a-quote",
+            "references/sdk/bridging/executing-a-bridge"
           ]
         },
         {
-          "group": "API",
+          "group": "Swapping",
           "pages": [
-            "references/api/overview",
-            "references/api/step-execution",
-            "references/api/get-chains",
-            "references/api/get-config",
-            "references/api/get-intents-status",
-            "references/api/get-requests",
-            "references/api/execute-call",
-            "references/api/execute-bridge",
-            "references/api/execute-swap"
+            "references/sdk/swapping/fetching-a-quote",
+            "references/sdk/swapping/executing-a-swap"
+          ]
+        },
+        "references/sdk/api-types",
+        "references/sdk/createClient",
+        {
+          "group": "Actions",
+          "pages": [
+            "references/sdk/actions/call",
+            "references/sdk/actions/bridge",
+            "references/sdk/actions/swap"
+          ]
+        },
+        {
+          "group": "Methods",
+          "pages": [
+            "references/sdk/methods/getCallQuote",
+            "references/sdk/methods/getBridgeQuote",
+            "references/sdk/methods/getSolverCapacity"
           ]
         }
       ]
