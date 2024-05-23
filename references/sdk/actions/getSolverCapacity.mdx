@@ -17,7 +17,7 @@ description: Method to get the relayer's solver capacity.
 ```typescript 
 import { getClient } from '@reservoir0x/relay-sdk'
 
-const solverCapacity = await getClient()?.methods.getSolverCapacity({
+const solverCapacity = await getClient()?.actions.getSolverCapacity({
   destinationChainId,
   originChainId,
 })

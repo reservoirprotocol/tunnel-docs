@@ -22,7 +22,7 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-const quote = await getClient()?.methods.getBridgeQuote({
+const quote = await getClient()?.actions.getBridgeQuote({
   chainId,
   toChainId,
   value: '10000000000000000', // 0.01 ETH

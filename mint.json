@@ -106,15 +106,10 @@
           "pages": [
             "references/sdk/actions/call",
             "references/sdk/actions/bridge",
-            "references/sdk/actions/swap"
-          ]
-        },
-        {
-          "group": "Methods",
-          "pages": [
-            "references/sdk/methods/getCallQuote",
-            "references/sdk/methods/getBridgeQuote",
-            "references/sdk/methods/getSolverCapacity"
+            "references/sdk/actions/swap",
+            "references/sdk/actions/getCallQuote",
+            "references/sdk/actions/getBridgeQuote",
+            "references/sdk/actions/getSolverCapacity"
           ]
         }
       ]

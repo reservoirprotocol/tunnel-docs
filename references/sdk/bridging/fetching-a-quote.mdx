@@ -16,7 +16,7 @@ You can get the solver's capacity with the sdk's [`getSolverCapacity`](/referenc
 import { getClient } from '@reservoir0x/relay-sdk'
 import { zeroAddress } from 'viem'
 
-const { solver, enabled } = await getClient()?.methods.getSolverCapacity({
+const { solver, enabled } = await getClient()?.actions.getSolverCapacity({
   originChainId: 1, // The chain id to bridge from
   destinationChainId: 7777777, // The chain id to bridge to
   currency: zeroAddress
@@ -35,7 +35,7 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-const quote = await getClient()?.methods.getBridgeQuote({
+const quote = await getClient()?.actions.getBridgeQuote({
   wallet,
   chainId: 1, // The chain id to bridge from
   toChainId: 7777777, // The chain id to bridge to

@@ -20,7 +20,7 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-const quote = await getClient()?.methods.getCallQuote({
+const quote = await getClient()?.actions.getCallQuote({
   chainId,
   toChainId,
   txs: [request],
