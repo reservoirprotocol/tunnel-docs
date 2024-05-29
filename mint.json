@@ -28,11 +28,11 @@
   },
   "tabs": [
     {
-      "name": "API",
+      "name": "API Reference",
       "url": "references/api"
     },
     {
-      "name": "SDK",
+      "name": "SDK Reference",
       "url": "references/sdk"
     }
   ],
