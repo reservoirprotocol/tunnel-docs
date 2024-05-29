@@ -30,3 +30,5 @@ const quote = await getClient()?.actions.getBridgeQuote({
 })
 ```
 
+**Note** - Quotes can go stale after 30 seconds. Clients should regularly fetch fresh quotes so that users are always submitting valid transactions. See [Getting a quote](/how-it-works/the-reservoir-relayer#getting-a-quote) for more information on how quotes work.
+
