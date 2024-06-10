@@ -90,6 +90,15 @@
       "group": "SDK Reference",
       "pages": [
         "references/sdk/getting-started",
+        "references/sdk/createClient",
+        {
+          "group": "Actions",
+          "pages": [
+            "references/sdk/actions/getSolverCapacity",
+            "references/sdk/actions/getQuote",
+            "references/sdk/actions/execute"
+          ]
+        },
         {
           "group": "Bridging",
           "pages": [
@@ -104,26 +113,12 @@
             "references/sdk/swapping/executing-a-swap"
           ]
         },
-        "references/sdk/api-types",
-        "references/sdk/createClient",
-        {
-          "group": "Actions",
-          "pages": [
-            "references/sdk/actions/call",
-            "references/sdk/actions/bridge",
-            "references/sdk/actions/swap",
-            "references/sdk/actions/getCallQuote",
-            "references/sdk/actions/getBridgeQuote",
-            "references/sdk/actions/getSolverCapacity"
-          ]
-        }
+        "references/sdk/api-types"
       ]
     },
     {
       "group": "UI Kit ",
-      "pages": [
-        "references/ui-kit/overview"
-      ]
+      "pages": ["references/ui-kit/overview"]
     }
   ],
   "footerSocials": {

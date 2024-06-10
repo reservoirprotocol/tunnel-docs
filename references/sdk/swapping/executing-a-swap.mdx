@@ -1,10 +1,8 @@
 ---
 title: Executing a Swap
-description: How to execute a swap with the [`swap`](/references/sdk/actions/swap) action
+description: How to execute a swap with the [`execute`](/references/sdk/actions/execute) action
 sidebarTitle: 2️⃣ Executing a Swap
 ---
-
-<Note>The `call` sdk action works very similarly and allows you to perform any tx cross-chain</Note>
 
 ### Before executing a swap
 
@@ -12,7 +10,7 @@ Before executing a swap, you should verify that the user has enough balance on t
 
 ### Executing a swap
 
-Use the sdk's [`swap`](/references/sdk/actions/swap) action to execute the swap and automatically handle the execution of steps.
+Use the sdk's [`execute`](/references/sdk/actions/execute) action to execute the swap and automatically handle the execution of steps.
 
 ```typescript
 import { getClient } from '@reservoir0x/relay-sdk'
@@ -20,14 +18,11 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-await getClient()?.actions.swap({
+const quote = await getClient()?.actions.getQuote({ ...options })
+
+await getClient()?.actions.execute({
+  quote,
   wallet,
-  chainId: 1, // The chain id to swap from
-  currency: "0x0000000000000000000000000000000000000000",
-  toChainId: 8543, // The chain id to swap to
-  toCurrency: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-  amount: '100000000000000000', // Amount in wei to swap
-  recipient, // A valid address to send the funds to
   onProgress: ({
     steps,
     currentStep,
