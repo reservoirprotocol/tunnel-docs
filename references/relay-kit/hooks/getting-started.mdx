@@ -1,0 +1,36 @@
+---
+title: Getting Started
+description: Installing and Configuring RelayKit Hooks
+sidebarTitle: Getting Started
+---
+
+## Installation 
+Use this lightweight React hook package to integrate Relay into your custom interface. Start by installing the required packages:
+
+<CodeGroup>
+```shell yarn
+yarn add react react-dom viem @reservoir0x/relay-kit-hooks
+```
+```shell npm
+npm install --save react react-dom viem @reservoir0x/relay-kit-hooks
+```
+```shell pnpm
+pnpm add react react-dom viem @reservoir0x/relay-kit-hooks
+```
+```shell bun
+bun add react react-dom viem @reservoir0x/relay-kit-hooks
+```
+</CodeGroup>
+
+If using typescript ensure that you're on v5+. Refer to the package json for the latest version requirements for the peer dependencies. 
+
+## Installation
+The hooks require [TanStack Query](https://tanstack.com/query/latest) to be installed and configured. Refer to the [Tanstack installation instructions](https://tanstack.com/query/latest/docs/framework/react/installation). Once Tanstack is configured in your React application, that's all you need to get started.
+
+## Hooks
+Each hook is configured separately to allow for as much flexibility as possible. All hooks come with a query function that can be used outisde of a React context to fetch the data (useful when using SSR or in a context that doesn't use React).
+
+* [useQuote](/references/relay-kit/hooks/useQuote)
+* [useRelayChains](/references/relay-kit/hooks/useRelayChains)
+* [useRequests](/references/relay-kit/hooks/useRequests)
+* [useTokenList](/references/relay-kit/hooks/useTokenList)

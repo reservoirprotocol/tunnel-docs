@@ -28,16 +28,16 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
+      "name": "API",
       "url": "references/api"
     },
     {
-      "name": "SDK Reference",
+      "name": "SDK",
       "url": "references/sdk"
     },
     {
-      "name": "UI Kit (coming soon!)",
-      "url": "references/ui-kit"
+      "name": "UI",
+      "url": "references/relay-kit"
     }
   ],
   "navigation": [
@@ -80,10 +80,16 @@
         "references/api/get-config",
         "references/api/get-intents-status",
         "references/api/get-requests",
-        "references/api/execute-call",
-        "references/api/execute-bridge",
+        "references/api/get-currencies",
         "references/api/execute-swap",
-        "references/api/transactions-index"
+        "references/api/transactions-index",
+        {
+          "group": "Deprecated",
+          "pages": [
+            "references/api/execute-call",
+            "references/api/execute-bridge"
+          ]
+        }
       ]
     },
     {
@@ -117,8 +123,24 @@
       ]
     },
     {
-      "group": "UI Kit ",
-      "pages": ["references/ui-kit/overview"]
+      "group": "RelayKit",
+      "pages": [
+        "references/relay-kit/overview",
+        {
+          "group": "Hooks",
+          "pages": [
+            "references/relay-kit/hooks/getting-started",
+            "references/relay-kit/hooks/useQuote",
+            "references/relay-kit/hooks/useRelayChains",
+            "references/relay-kit/hooks/useRequests",
+            "references/relay-kit/hooks/useTokenList"
+          ]
+        },
+        {
+          "group": "UI",
+          "pages": ["references/relay-kit/ui/getting-started"]
+        }
+      ]
     }
   ],
   "footerSocials": {
