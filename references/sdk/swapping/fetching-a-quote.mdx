@@ -13,7 +13,7 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-const quote = await getClient()?.actions.getSwapQuote({
+const quote = await getClient()?.actions.getQuote({
   wallet,
   chainId: 1, // The chain id to swap from
   currency: "0x0000000000000000000000000000000000000000",
