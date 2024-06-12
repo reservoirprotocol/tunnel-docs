@@ -28,15 +28,15 @@
   },
   "tabs": [
     {
-      "name": "API",
+      "name": "API Reference",
       "url": "references/api"
     },
     {
-      "name": "SDK",
+      "name": "SDK Reference",
       "url": "references/sdk"
     },
     {
-      "name": "UI",
+      "name": "UI Kit",
       "url": "references/relay-kit"
     }
   ],
