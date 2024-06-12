@@ -18,7 +18,7 @@ sidebarTitle: RelayKitProvider
 | duneApiKey       | This key is used to fetch token balances to improve the general user experience and suggest relevant tokens to the user. If omitted the flow will continue to work but balances may be missing from the token selection flow. Refer to the [Dune docs](https://docs.dune.com/api-reference/overview/authentication#generate-an-api-key) on how to get an API key. | ❌       |
 | disablePoweredByReservoir | A boolean which disables the powered by Reservoir footer              | ❌       |
 | appName | The name of your application, used in the ui to contextualize actions              | ❌       |
-| appFees | An array of objects representing fees. Each object should contains a `recipient` wallet address and a fee in bps.              | ❌       |
+| appFees | An array of objects representing fees. Each object should contains a `recipient` wallet address and a `fee` in bps (e.g. 100 = 1%).      | ❌       |
 
 The options are also a combination of all the [parameters](/references/sdk/createClient#options) passed to the RelayKit SDK. An sdk instance with these options is created when using this provider.
 

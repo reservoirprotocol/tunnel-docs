@@ -51,6 +51,13 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RelayKitProvider options={{
+          appName: 'Relay Demo',
+          appFees: [
+            {
+              recipient: '0x0000000000000000000000000000000000000000',
+              fee: '100' // 1%
+            }
+          ]
           duneApiKey: "YOUR_DUNE_KEY",
           chains
         }}>
