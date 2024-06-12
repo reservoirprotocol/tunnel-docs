@@ -140,10 +140,11 @@
           "group": "UI",
           "pages": [
             "references/relay-kit/ui/getting-started",
-            "references/relay-kit/ui/theming",
-            "references/relay-kit/ui/troubleshooting",
             "references/relay-kit/ui/relay-kit-provider",
-            "references/relay-kit/ui/swap-widget"
+            "references/relay-kit/ui/swap-widget",
+            "references/relay-kit/ui/theming",
+            "references/relay-kit/ui/troubleshooting"
+            
           ]
         }
       ]
