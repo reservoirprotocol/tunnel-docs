@@ -1,0 +1,46 @@
+---
+title: Theming
+description: Customize the ui theme to fit your app
+sidebarTitle: Theming
+---
+
+## Creating a Theme
+
+RelayKit UI can be fully themed using an intuitive set of theme tokens. You can choose to override all tokens or just a few to make the components match your application theme. You can view the full list of theme overrides [here](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/themes/RelayKitTheme.ts#L10).
+
+```tsx
+import { RelayKitTheme } from '@reservoir0x/relay-kit-ui'
+
+const theme = RelayKitTheme = {
+  font: "Inter",
+  primaryColor: "#09F9E9"
+  focusColor: "#08DECF"
+  text: {
+    default: "#000"
+    subtle: "#fff"
+  }
+  buttons: {
+    primary: "#09F9E9"
+  }
+}
+```
+
+### Fonts
+
+If you are overriding any fonts with custom fonts you need to configure the custom font if your application. For example if you're using nextjs you can refer to this [doc](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) or if you're pulling the fonts in via css you can refer to this [doc](https://www.w3schools.com/css/css3_fonts.asp).
+
+## Usage
+
+Now that your theme is configured you'll just need to pass it into the `RelayKitProvider`.
+
+```tsx
+import { RelayKitProvider, RelayKitTheme } from '@reservoir0x/relay-kit-ui'
+
+const theme: RelayKitTheme = { ... } //Previously created theme
+
+...
+
+<RelayKitProvider theme={theme}>
+  {YOUR_APP}
+</RelayKitProvider>
+```
