@@ -1,0 +1,16 @@
+---
+title: Troubleshooting
+description: Having trouble? Start here
+sidebarTitle: Troubleshooting
+---
+
+### WagmiProviderNotFoundError: `useConfig` must be used within `WagmiProvider`
+This issue is usually the result of multiple wagmi versions, make sure you only have 1 version of wagmi installed. You may also want to delete and reinstall your node modules and clear all caches.
+### No QueryClient set, use QueryClientProvider to set one
+If you've set the QueryClientProvider with a QueryClient it could be that you have multiple versions of tanstack/react-query installed. Make sure to double check and reduce this to just a single version of the package. You may also want to delete and reinstall your node modules and clear all caches.
+### The UI looks unstyled
+Make sure you've imported the ui package styles:
+```typescript
+import '@reservoir0x/relay-kit-ui/styles.css'
+```
+If the issue persists make sure there's no reset css or other css file overriding the styles provided by the package.

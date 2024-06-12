@@ -1,18 +1,16 @@
 ---
 title: Executing a Bridge
-description: How to execute a bridge with the [`bridge`](/references/sdk/actions/bridge) action
+description: How to execute a bridge with the [`execute`](/references/sdk/actions/execute) action
 sidebarTitle: 2️⃣ Executing a Bridge
 ---
 
-<Note>The `call` sdk action works very similarly and allows you to perform any tx cross-chain</Note>
-
 ### Before executing a bridge
 
-Before executing a bridge, you should verify that the user has enough balance on the origin chain to cover the full bridge amount + fees. Check out [fetching a quote](/references/sdk/fetching-a-quote#fetching-a-quote) for more details on calculating the fees.
+Before executing a bridge, you should verify that the user has enough balance on the origin chain to cover the full bridge amount + fees. Check out our [fees](/how-it-works/fees) doc for more details on calculating the fees.
 
 ### Executing a bridge
 
-Use the sdk's [`bridge`](/references/sdk/actions/bridge) action to execute the bridge and automatically handle the execution of steps.
+Use the sdk's [`execute`](/references/sdk/actions/execute) action to execute the bridge and automatically handle the execution of steps.
 
 ```typescript
 import { getClient } from '@reservoir0x/relay-sdk'
@@ -20,13 +18,13 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-await getClient()?.actions.bridge({
+const quote = await getClient()?.actions.getQuote({
+  ...options
+})
+
+await getClient()?.actions.execute({
+  quote,
   wallet,
-  chainId: 1, // The chain id to bridge from
-  toChainId: 7777777, // The chain id to bridge to
-  amount: '100000000000000000', // Amount in wei to bridge
-  currency: 'eth', // `eth` | `usdc`
-  recipient, // A valid address to send the funds to
   onProgress: (steps, fees, currentStep, currentStepItem) => {
     console.log(steps, fees, currentStep, currentStepItem)
   }

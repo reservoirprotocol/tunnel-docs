@@ -1,0 +1,57 @@
+---
+title: SwapWidget
+description: Swap Cross Chain Instantly
+sidebarTitle: SwapWidget
+---
+
+## Parameters
+
+| Parameter    | Description                                                                                                                                    | Required |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| defaultFromToken       | An object representing a token that will be used as the default to swap from. | ✅       |
+| defaultToToken | An object representing a token that will be used as the default to swap to. | ❌       |
+| onFromTokenChange | A callback triggered when the user changes the from token | ❌ |
+| onToTokenChange | A callback triggered when the user changes the to token | ❌ |
+| defaultToAddress | A wallet address to send the proceeds to. | ❌       |
+| defaultAmount | The default amount to swap, the amount is in the from token currency.  | ❌       |
+| defaultTradeType | This can either  be `EXACT_INPUT` or `EXACT_OUTPUT`, each of these refers to prefilling the output amount or the input amount and having the quote return the other side. | ❌       |
+| onConnectWallet | A callback to connect the user's wallet. The widget can be used to fetch quotes for unauthenticated sessions but executing the quote requires an authenticated session. | ✅       |
+| onAnalyticEvent | A callback which sends useful [events](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/constants/events.ts) to pipe into your existing analytics integration. | ❌       |
+
+## Usage
+
+```tsx
+import { SwapWidget } from '@reservoir0x/relay-kit-ui'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+
+export default function MyComponent() {
+  const { openConnectModal } = useConnectModal()
+
+  return (
+    <SwapWidget
+      defaultToToken={{
+        chainId: 10,
+        address: '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
+        decimals: 6,
+        name: 'USDC',
+        symbol: 'USDC',
+        logoURI: 'https://ethereum-optimism.github.io/data/USDC/logo.png'
+      }}
+      defaultFromToken={{
+        chainId: 8453,
+        address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+        decimals: 6,
+        name: 'USDC',
+        symbol: 'USDC',
+        logoURI: 'https://ethereum-optimism.github.io/data/USDC/logo.png'
+      }}
+      defaultAmount={'5'}
+      onConnectWallet={openConnectModal}
+      onAnalyticEvent={(eventName, data) => {
+        console.log('Analytic Event', eventName, data)
+      }}
+    />
+  )
+}
+
+```

@@ -1,0 +1,28 @@
+#navbar a[href*="/references"] {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.card-link {
+  color: var(--tw-prose-links);
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 10px;
+  display: inline-block;
+  margin-right: 5px;
+  border-bottom: 1px solid transparent;
+}
+
+.card-link:hover { 
+  border-bottom: 1px solid rgb(var(--primary-light));
+}
+
+#ui-kit-overview-cards a > div > div:first-child {
+  float: left;
+  margin-right: 12px;
+}
+
+#ui-kit-overview-cards a > div h2 {
+  margin: 0;
+  display: inline;
+}

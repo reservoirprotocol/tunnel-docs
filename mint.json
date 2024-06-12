@@ -28,16 +28,16 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
+      "name": "API",
       "url": "references/api"
     },
     {
-      "name": "SDK Reference",
+      "name": "SDK",
       "url": "references/sdk"
     },
     {
-      "name": "UI Kit (coming soon!)",
-      "url": "references/ui-kit"
+      "name": "UI",
+      "url": "references/relay-kit"
     }
   ],
   "navigation": [
@@ -80,16 +80,31 @@
         "references/api/get-config",
         "references/api/get-intents-status",
         "references/api/get-requests",
-        "references/api/execute-call",
-        "references/api/execute-bridge",
+        "references/api/get-currencies",
         "references/api/execute-swap",
-        "references/api/transactions-index"
+        "references/api/transactions-index",
+        {
+          "group": "Deprecated",
+          "pages": [
+            "references/api/execute-call",
+            "references/api/execute-bridge"
+          ]
+        }
       ]
     },
     {
       "group": "SDK Reference",
       "pages": [
         "references/sdk/getting-started",
+        "references/sdk/createClient",
+        {
+          "group": "Actions",
+          "pages": [
+            "references/sdk/actions/getSolverCapacity",
+            "references/sdk/actions/getQuote",
+            "references/sdk/actions/execute"
+          ]
+        },
         {
           "group": "Bridging",
           "pages": [
@@ -104,25 +119,33 @@
             "references/sdk/swapping/executing-a-swap"
           ]
         },
-        "references/sdk/api-types",
-        "references/sdk/createClient",
-        {
-          "group": "Actions",
-          "pages": [
-            "references/sdk/actions/call",
-            "references/sdk/actions/bridge",
-            "references/sdk/actions/swap",
-            "references/sdk/actions/getCallQuote",
-            "references/sdk/actions/getBridgeQuote",
-            "references/sdk/actions/getSolverCapacity"
-          ]
-        }
+        "references/sdk/api-types"
       ]
     },
     {
-      "group": "UI Kit ",
+      "group": "RelayKit",
       "pages": [
-        "references/ui-kit/overview"
+        "references/relay-kit/overview",
+        {
+          "group": "Hooks",
+          "pages": [
+            "references/relay-kit/hooks/getting-started",
+            "references/relay-kit/hooks/useQuote",
+            "references/relay-kit/hooks/useRelayChains",
+            "references/relay-kit/hooks/useRequests",
+            "references/relay-kit/hooks/useTokenList"
+          ]
+        },
+        {
+          "group": "UI",
+          "pages": [
+            "references/relay-kit/ui/getting-started",
+            "references/relay-kit/ui/theming",
+            "references/relay-kit/ui/troubleshooting",
+            "references/relay-kit/ui/relay-kit-provider",
+            "references/relay-kit/ui/swap-widget"
+          ]
+        }
       ]
     }
   ],

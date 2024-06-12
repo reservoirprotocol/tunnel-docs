@@ -1,0 +1,103 @@
+---
+title: useQuote
+description: Fetch a quote and then execute it with this convenient hook
+sidebarTitle: useQuote
+---
+
+## Parameters
+
+| Parameter    | Description                                                                                                                                    | Required |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| client       | A RelayClient instance. You can create one using the [SDK](http://localhost:3000/references/sdk/createClient) or retrieve one using the [useRelayClient](/) hook from the UI kit. | ✅       |
+| wallet       | A valid [WalletClient](https://viem.sh/docs/clients/wallet.html) from Viem or an AdaptedWallet generated from an adapter. This parameter can be left empty if just retrieving a quote, but is required for executing a quote. | ❌       |
+| options      | Options that map directly to the [execute API](/references/api/execute-swap).                                                                                                  | ✅       |
+| onRequest    | A callback function that triggers when a request is made to fetch the quote.                                                                   | ❌       |
+| onResponse   | A callback function that triggers when a response is returned.                                                                                 | ❌       |
+| queryOptions | Tanstack query options. Refer to the [Tanstack](https://tanstack.com/query/latest/docs/framework/react/guides/query-options) docs.              | ❌       |
+
+## Return Data
+
+The hooks returns an object with the base [Tanstack Query response](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery), it also returns an `executeQuote` function which allows you to conveniently execute the quote. The function takes one parameter, an [onProgress callback](/references/sdk/actions/execute) that mirrors the underlying execute action. from the SDK.
+
+## Usage
+
+<CodeGroup>
+```typescript Fetching a Quote
+import { useQuote } from '@reservoir0x/relay-kit-hooks'
+import { useWalletClient } from 'wagmi'
+import { getClient } from '@reservoir0x/relay-sdk'
+
+const queryOptions = {...} //Query options from tanstack
+const walletClient = useWalletClient()
+const relayClient = getClient() //Either use getClient, createClient or useRelayClient
+
+const {
+    data: quote,
+    isLoading: isFetchingQuote,
+    executeQuote,
+    error
+  } = useQuote(
+    relayClient ? relayClient : undefined,
+    walletClient.data,
+    {
+      user: address,
+      originChainId: 1,
+      destinationChainId: 10,
+      originCurrency: "0x0000000000000000000000000000",
+      destinationCurrency: "0x0000000000000000000000000000",
+      tradeType: "EXACT_INPUT",
+      amount: "10000000"
+    },
+    () => {
+      console.log("Request Triggered!")
+    },
+    () => {
+      console.log("Response Returned!")
+    },
+    queryOptions
+  )
+
+```
+```typescript Executing a Quote
+import { useQuote } from '@reservoir0x/relay-kit-hooks'
+import { useWalletClient } from 'wagmi'
+import { getClient } from '@reservoir0x/relay-sdk'
+
+const queryOptions = {...} //Query options from tanstack
+const walletClient = useWalletClient()
+const relayClient = getClient() //Either use getClient, createClient or useRelayClient
+
+const {
+    data: quote,
+    isLoading: isFetchingQuote,
+    executeQuote,
+    error
+  } = useQuote( ... ) //Refer to the previous example
+
+...
+
+//Then use the executeQuote function on a button for example
+<button onClick={() => {
+  executeQuote(({ steps, currentStep, currentStepItem, txHashes, details }) => {
+    //Handle the callback function
+  })
+}}>Execute Quote</button>
+
+```
+</CodeGroup>
+
+## Query Function
+
+```typescript
+import { queryQuote } from '@reservoir0x/relay-kit-hooks'
+
+const response = queryQuote("https://api.relay.link", {
+  user: address,
+  originChainId: 1,
+  destinationChainId: 10,
+  originCurrency: "0x0000000000000000000000000000",
+  destinationCurrency: "0x0000000000000000000000000000",
+  tradeType: "EXACT_INPUT",
+  amount: "10000000"
+})
+```
