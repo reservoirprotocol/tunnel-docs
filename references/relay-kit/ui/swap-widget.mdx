@@ -18,6 +18,8 @@ sidebarTitle: SwapWidget
 | **defaultAmount** | The default amount to swap, the amount is in the from token currency.  | ❌       |
 | **defaultTradeType** | This can either  be `EXACT_INPUT` or `EXACT_OUTPUT`, each of these refers to prefilling the output amount or the input amount and having the quote return the other side. | ❌       |
 | **onConnectWallet** | A callback to connect the user's wallet. The widget can be used to fetch quotes for unauthenticated sessions but executing the quote requires an authenticated session. | ✅       |
+| **onFromTokenChange** | A callback that is called whenever the from token is changed. | ❌       |
+| **onToTokenChange** | A callback that is called whenever the to token is changed. | ❌       |
 | **onAnalyticEvent** | A callback which sends useful [events](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/constants/events.ts) to pipe into your existing analytics integration. | ❌       |
 
 ## Usage
