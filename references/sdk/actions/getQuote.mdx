@@ -33,6 +33,20 @@ const quote = await getClient()?.actions.getQuote({
 });
 ```
 
+### Cross-Chain Swap Example
+
+```typescript
+// Cross-Chain Swap from USDC on Ethereum to DAI on Optimism
+const quote = await getClient()?.actions.getQuote({
+  chainId: 1,
+  toChainId: 10,
+  currency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", // USDC on Ethereum
+  toCurrency: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1", // DAI on Optimism
+  value: "100000", // 100 USDC
+  wallet,
+});
+```
+
 ### Wrap/Unwrap Example
 
 ```typescript
@@ -50,14 +64,16 @@ const quote = await getClient()?.actions.getQuote({
 ### Send Example
 
 ```typescript
+// Send ERC20 / Native Currency to another address on the same chain
+// Note: The recipient address must be specified for send transactions and be different from the wallet address
 const quote = await getClient()?.actions.getQuote({
   chainId: 1,
   toChainId: 1,
-  currency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", // USDC (any erc20 or native currency)
+  currency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", // USDC
   toCurrency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
   value: "100000", // 100 USDC
   wallet,
-  recipient: "0x0000c3caa36e2d9a8cd5269c976ede05018f0000", // Recipient address for the send, must be specified for send transactions
+  recipient: "0x0000c3caa36e2d9a8cd5269c976ede05018f0000",
 });
 ```
 
