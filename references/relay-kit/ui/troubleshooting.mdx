@@ -14,3 +14,9 @@ Make sure you've imported the ui package styles:
 import '@reservoir0x/relay-kit-ui/styles.css'
 ```
 If the issue persists make sure there's no reset css or other css file overriding the styles provided by the package.
+### Incompatability
+If you see an error message that looks like this:
+```
+The types of 'utils.adaptViemWallet' are incompatible between these types
+```
+It could be that multiple versions of peer dependencies are installed. Review your package lock file for duplicate dependencies.
