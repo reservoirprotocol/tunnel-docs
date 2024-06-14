@@ -76,6 +76,7 @@
       "pages": [
         "references/api/overview",
         "references/api/step-execution",
+        "references/api/handling-errors",
         "references/api/get-chains",
         "references/api/get-config",
         "references/api/get-intents-status",
@@ -144,7 +145,6 @@
             "references/relay-kit/ui/swap-widget",
             "references/relay-kit/ui/theming",
             "references/relay-kit/ui/troubleshooting"
-            
           ]
         }
       ]

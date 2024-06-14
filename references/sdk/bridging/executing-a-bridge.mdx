@@ -3,6 +3,7 @@ title: Executing a Bridge
 description: How to execute a bridge with the [`execute`](/references/sdk/actions/execute) action
 sidebarTitle: 2️⃣ Executing a Bridge
 ---
+import { HandlingErrorsTip } from '/snippets/HandlingErrorsTip.mdx'
 
 ### Before executing a bridge
 
@@ -36,3 +37,5 @@ update your UI with the current step and status. The `currentStep` has an `actio
 
 
 Once all `stepsItems` have a `status` of `complete`, the bridge was completed successfully and you you can show a success screen in your UI. ✅
+
+<HandlingErrorsTip/>

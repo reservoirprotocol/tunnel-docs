@@ -1,0 +1,26 @@
+---
+title: Handling Errors
+---
+
+When an endpoint returns an error it will be accompanied with a `code`. The code is a predictable way to anticipate errors and handle them accordingly. Below is a list of errors returned by various APIs
+
+| Name                    | Description |
+|-------------------------|-------------|
+| UNAUTHORIZED            | Unauthorized access to authenticated endpoints         |
+| UNKNOWN_ERROR           | When the error is unknown         |
+| UNSUPPORTED_CURRENCY    | Internal currency lookup fails         |
+| UNSUPPORTED_CHAIN       | Chain id supplied is unsupported         |
+| UNSUPPORTED_ROUTE       | Combination of chains and/or currencies is not supported         |
+| INSUFFICIENT_FUNDS      | Insufficient balance to perform crosschain action         |
+| INSUFFICIENT_LIQUIDITY  | Solver liquidity is insufficient to fulfill order         |
+| INVALID_ADDRESS         | Address format is invalid or address has been blocked by OFAC         |
+| AMOUNT_TOO_LOW          | Amount is too small to cover transaction fees         |
+
+These errors will be accompanied by a contextual message, for example:
+
+```json
+{
+  "message": "Swap output amount is too small to cover fees required to execute swap",
+  "code": "AMOUNT_TOO_LOW"
+}
+```

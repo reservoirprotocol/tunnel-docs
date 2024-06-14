@@ -4,6 +4,8 @@ description: How to execute a swap with the [`execute`](/references/sdk/actions/
 sidebarTitle: 2️⃣ Executing a Swap
 ---
 
+import { HandlingErrorsTip } from '/snippets/HandlingErrorsTip.mdx'
+
 ### Before executing a swap
 
 Before executing a swap, you should verify that the user has enough balance on the origin chain to cover the gas fee required for swapping.
@@ -39,3 +41,5 @@ All you have to do now is use the `onProgress` callback to
 update your UI with the current step and status. The `currentStep` has an `action` and `description` that can be helpful to display in your UI. Each `stepItem` also has an array of `txHashes` that you can use to link users to their transactions on a blockexplorer. In addition to that there's also a `details` object which summarizes the swap, currencyIn and currencyOut etc.
 
 Once all `stepsItems` have a `status` of `complete`, the swap was completed successfully and you you can show a success screen in your UI. ✅
+
+<HandlingErrorsTip/>
