@@ -6,15 +6,15 @@ When an endpoint returns an error it will be accompanied with a `code`. The code
 
 | Name                    | Description |
 |-------------------------|-------------|
-| UNAUTHORIZED            | Unauthorized access to authenticated endpoints         |
-| UNKNOWN_ERROR           | When the error is unknown         |
-| UNSUPPORTED_CURRENCY    | Internal currency lookup fails         |
-| UNSUPPORTED_CHAIN       | Chain id supplied is unsupported         |
-| UNSUPPORTED_ROUTE       | Combination of chains and/or currencies is not supported         |
-| INSUFFICIENT_FUNDS      | Insufficient balance to perform crosschain action         |
-| INSUFFICIENT_LIQUIDITY  | Solver liquidity is insufficient to fulfill order         |
-| INVALID_ADDRESS         | Address format is invalid or address has been blocked by OFAC         |
-| AMOUNT_TOO_LOW          | Amount is too small to cover transaction fees         |
+| `UNAUTHORIZED`            | Unauthorized access to authenticated endpoints         |
+| `UNKNOWN_ERROR`           | When the error is unknown         |
+| `UNSUPPORTED_CURRENCY`    | Currency is not a valid native currency or erc20 token         |
+| `UNSUPPORTED_CHAIN`       | Chain id supplied is unsupported         |
+| `UNSUPPORTED_ROUTE`       | Combination of chains and/or currencies is not supported         |
+| `INSUFFICIENT_FUNDS`      | Insufficient balance to perform crosschain action         |
+| `INSUFFICIENT_LIQUIDITY`  | Solver liquidity is insufficient to fulfill order         |
+| `INVALID_ADDRESS`         | Address format is invalid or address has been blocked by OFAC         |
+| `AMOUNT_TOO_LOW`          | Amount is too small to cover transaction fees         |
 
 These errors will be accompanied by a contextual message, for example:
 
