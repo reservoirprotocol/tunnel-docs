@@ -11,7 +11,7 @@ RelayKit UI can be fully themed using an intuitive set of theme tokens. You can 
 ```tsx
 import { RelayKitTheme } from '@reservoir0x/relay-kit-ui'
 
-const theme = RelayKitTheme = {
+const theme: RelayKitTheme = {
   font: "Inter",
   primaryColor: "#09F9E9"
   focusColor: "#08DECF"
@@ -20,7 +20,14 @@ const theme = RelayKitTheme = {
     subtle: "#fff"
   }
   buttons: {
-    primary: "#09F9E9"
+    primary: {
+      color: "#000"
+      background: "#09F9E9",
+      hover: {
+        color: "#000"
+        background: "#0ad1c4",
+      }
+    }
   }
 }
 ```
