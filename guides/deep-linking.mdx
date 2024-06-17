@@ -4,14 +4,16 @@ description: 'How to deep link to the Relay App'
 ---
 
 
+## Deep Linking to the Bridge Widget
+
 The following query parameters are supported:
 
 | Parameter     | Description     | Example |
 | --------------|-----------------| --------|
-| `fromChainId` | The chainId of the from chain  | `8453` |
+| `fromChainId` | The chainId of the origin chain  | `8453` |
 | `toAddress` | A valid address to receive the bridge | `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` |
 | `amount` | The amount to have the input initially set to  | `0.1` |
-| `currency` | The currency to have preselected | `eth` or `usdc` |
+| `currency` | The currency to have preselected | `eth`, `usdc`, `sipher`, `degen`, or `xai` |
 | `lockToChain` | Disable selecting a toChain | `true` |
 | `lockCurrency` | Disable selecting a currency | `true` |
 
@@ -19,22 +21,36 @@ The following query parameters are supported:
 To deep link to a specific `toChain`, you must replace the slug after `/bridge` with the desired chain's name, like so: `relay.link/bridge/{chainName}`. Spaces should be replaced with dashes. You can check out the list of supported chains [`here`](/resources/supported-chains).
 
 
-## Examples 
+### Examples 
 
-### Bridge from Zora to Base 
+#### Bridge from Zora to Base 
 <a href={`https://relay.link/bridge/base?fromChainId=7777777`} target="_blank">`https://relay.link/bridge/base?fromChainId=7777777`</a>
 
-### Bridge from Ethereum to Optimism with a preset address
+#### Bridge from Ethereum to Optimism with a preset address
 <a href={`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`} target="_blank">`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`</a>
 
-### Bridge 0.01 ETH from Optimism to Zora 
+#### Bridge 0.01 ETH from Optimism to Zora 
 <a href={`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`} target="_blank">`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`</a>
 
-### Bridge from Ethereum to Base with the currency and toChain locked
+#### Bridge from Ethereum to Base with the currency and toChain locked
 <a href={`https://relay.link/bridge/base?fromChainId=1&lockCurrency=true&lockToChain=true`} target="_blank">`https://relay.link/bridge/base?fromChainId=1&lockCurrency=true&lockToChain=true`</a>
 
-### Bridge $100 USDC from Base to Arbitrum
+#### Bridge $100 USDC from Base to Arbitrum
 <a href={`https://relay.link/bridge/arbitrum?fromChainId=8453&currency=usdc&amount=100`} target="_blank">`https://relay.link/bridge/arbitrum?fromChainId=8453&currency=usdc&amount=100`</a>
+
+
+## Deep Linking to the Swap Widget
+
+The following query parameters are supported:
+
+| Parameter     | Description     | Example |
+| --------------|-----------------| --------|
+| `fromChainId` | The chainId of the origin chain  | `8453` |
+| `fromCurrency` | The currency address on the origin chain  | `0x4200000000000000000000000000000000000006` |
+| `toChainId` | The chainId of the destination chain  | `1` |
+| `toCurrency` | The currency address on the destination chain  | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
+| `amount` | The amount to have the input initially set to in the widget  | `0.1` |
+| `tradeType` | Whether to use the amount as the output or the input for the basis of the swap  | `EXACT_INPUT` or `EXACT_OUTPUT` |
 
 
 
