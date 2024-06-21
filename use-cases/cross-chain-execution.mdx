@@ -48,20 +48,23 @@ wallet = createWalletClient({
   transport: http()
 })
 
-//A simple bridge requires no data, so 0x (null data) is provided
 //In this example we're bridging from zora to base
+const quote = await getClient()?.actions.getQuote({
+  wallet,
+  chainId: 7777777, // The chain id to bridge from
+  toChainId: 8453, // The chain id to bridge to
+  amount: '100000000000000000', // Amount in wei to bridge
+  currency: '0x0000000000000000000000000000', // ERC20 Address
+  toCurrency: '0x0000000000000000000000000000', // ERC20 Address
+  recipient: '0x03508bB71268BBA25ECaCC8F620e01866650532c', // A valid address to send the funds to
+})
 
-getClient().actions.call({
-  chainId: 7777777,
-  toChainId: 8453,
-  txs: [{
-    to: "0x03508bB71268BBA25ECaCC8F620e01866650532c",
-   	value: "1000000",
-  }],
-  wallet: wallet,
-  onProgress: (steps) => {
-    console.log(steps)
-  },
+await getClient()?.actions.execute({
+  quote,
+  wallet,
+  onProgress: (steps, fees, currentStep, currentStepItem) => {
+    console.log(steps, fees, currentStep, currentStepItem)
+  }
 })
 ```
 
@@ -80,7 +83,7 @@ wallet = createWalletClient({
 //If executing this code snippet you'll need to make sure that you own a frenpet and have the necessary $FP to buy the accessory
 //In this example we're submitting the transaction from zora to base
 
-getClient().actions.call({
+const quote = await getClient().actions.getQuote({
   chainId: 7777777,
   toChainId: 8453,
   txs: [{
@@ -88,10 +91,15 @@ getClient().actions.call({
     value: "0",
     data: "0x715488b000000000000000000000000000000000000000000000000000000000000038860000000000000000000000000000000000000000000000000000000000000001"
   }]
-  wallet: wallet,
-  onProgress: (steps) => {
-    console.log(steps)
-  },
+  wallet,
+})
+
+await getClient()?.actions.execute({
+  quote,
+  wallet,
+  onProgress: (steps, fees, currentStep, currentStepItem) => {
+    console.log(steps, fees, currentStep, currentStepItem)
+  }
 })
 ```
 
@@ -109,7 +117,7 @@ wallet = createWalletClient({
 //This particular contract is a free mint so the value has been set to 0
 //In this example we're bridging from zora to base
 
-getClient().actions.call({
+const quote = getClient().actions.getQuote({
   chainId: 7777777,
   toChainId: 8453,
   txs: [{
@@ -121,10 +129,15 @@ getClient().actions.call({
    	value: "1000000",
     data: "0x"
   }]
-  wallet: wallet,
-  onProgress: (steps) => {
-    console.log(steps)
-  },
+  wallet,
+})
+
+await getClient()?.actions.execute({
+  quote,
+  wallet,
+  onProgress: (steps, fees, currentStep, currentStepItem) => {
+    console.log(steps, fees, currentStep, currentStepItem)
+  }
 })
 ```
 
@@ -142,7 +155,7 @@ wallet = createWalletClient({
 //This particular contract is a free mint so the value has been set to 0
 //In this example we're calling the mintFee contract method, paying for it on base but executing it on zora
 
-getClient().actions.call({
+const quote = getClient().actions.getQuote({
   chainId: 8453,
   toChainId: 7777777,
   txs: [{
@@ -150,10 +163,15 @@ getClient().actions.call({
     value: "0x03005753e800",
     data: "0x8a35ace300000000000000000000000000000000000000000000000000000000000000011d4da48b07b88f64"
   }]
-  wallet: wallet,
-  onProgress: (steps) => {
-    console.log(steps)
-  },
+  wallet
+})
+
+await getClient()?.actions.execute({
+  quote,
+  wallet,
+  onProgress: (steps, fees, currentStep, currentStepItem) => {
+    console.log(steps, fees, currentStep, currentStepItem)
+  }
 })
 ```
 

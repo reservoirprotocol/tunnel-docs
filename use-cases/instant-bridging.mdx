@@ -15,7 +15,7 @@ While the Relay Protocol is still in development, users rely on [Reservoir](http
 
 ## Integrating Instant Bridging
 
-The Relay SDK facilitates interacting with the underlying Relay API. To get started make sure that you install and configure the [Relay SDK](https://docs.relay.link/references/sdk/getting-started). Ensure that everything is configured properly before moving on to implementing the call action.
+The Relay SDK facilitates interacting with the underlying Relay API. To get started make sure that you install and configure the [Relay SDK](https://docs.relay.link/references/sdk/getting-started). Ensure that everything is configured properly before moving on to implementing the getQuote and execute action.
 
 ```typescript Instant Bridge
 
@@ -29,21 +29,24 @@ wallet = createWalletClient({
   transport: http()
 })
 
-//A simple bridge requires no data, so 0x (null data) is provided
 //In this example we're bridging from zora to base
 
-getClient().actions.call({
-  chainId: 7777777, //This is not required as the call action will use the active configured chain
-  toChainId: 8453,
-  txs: [{
-    to: "0x03508bB71268BBA25ECaCC8F620e01866650532c",
-   	value: "1000000",
-    data: "0x"
-  }],
-  wallet: wallet,
-  onProgress: (steps) => {
-    console.log(steps)
-  },
+const quote = await getClient()?.actions.getQuote({
+  wallet,
+  chainId: 7777777, // The chain id to bridge from
+  toChainId: 8453, // The chain id to bridge to
+  amount: '100000000000000000', // Amount in wei to bridge
+  currency: '0x0000000000000000000000000000', // ERC20 Address
+  toCurrency: '0x0000000000000000000000000000', // ERC20 Address
+  recipient, // A valid address to send the funds to
+})
+
+await getClient()?.actions.execute({
+  quote,
+  wallet,
+  onProgress: (steps, fees, currentStep, currentStepItem) => {
+    console.log(steps, fees, currentStep, currentStepItem)
+  }
 })
 ```
 
