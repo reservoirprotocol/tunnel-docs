@@ -70,15 +70,20 @@ import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
 
-await getClient()?.actions.bridge({
+const quote = await getClient()?.actions.getQuote({
   wallet,
   chainId: 0,
   toChainId: 1,
   amount: '1000',
-  currency: 'eth',
-  onProgress: (steps, fees, currentStep, currentStepItem) => {
-    console.log(steps, fees, currentStep, currentStepItem)
-  }
+  currency: 'eth'
+})
+
+await relayClient.actions.execute({
+  quote,
+  wallet,
+  onProgress(steps) {
+    setStep(getCurrentStepDescription(steps))
+  },
 })
 ```
 </CodeGroup>
