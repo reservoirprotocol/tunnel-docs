@@ -7,9 +7,9 @@ The Reservoir relayer is a production-grade relayer currently supporting Relay. 
 
 ## How does it work?
 
-When a user wishes to bridge, they submit an order and a transfer to the Reservoir relayer, who validates the order and sends the funds to the user on the destination chain. Reservoir maintain a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, Reservoir refunds the user directly as soon as possible.
+When a user wishes to bridge, they submit an order and a transfer to the Reservoir relayer, who validates the order and sends the funds to the user on the destination chain. Reservoir maintains a balance on all chains in order to make executions, and then periodically rebalances to ensure there is sufficient liquidity on all chains. In the rare case of a transaction failure, Reservoir refunds the user directly as soon as possible.
 
-While this model requires trust in Reservoir as a service provider, it reduces the costs of executing cross-chain actions to an absolute minimum. Since each cross chain action is simply an origin chain transfer and a destination chain transfer (42000 gas total), it is substantively cheaper than bridging on other bridges.
+While this model requires trust in Reservoir as a service provider, it reduces the costs of executing cross-chain actions to an absolute minimum. Since each cross-chain action is simply an origin chain transfer and a destination chain transfer (42000 gas total), it is substantively cheaper than bridging on other bridges.
 
 ## Why start with a trusted system?
 
@@ -36,15 +36,15 @@ When a user wishes to Relay, the application receives an order (quote) from the 
 
 #### Onchain order attribution
 
-When the user accepts the order, she submits a transfer to the solver. An orderId associated with the quote is appended in the tx calldata. This orderId will be used on the destination chain to link fills across chains.
+When the user accepts the order, they submit a transfer to the solver. An order ID associated with the quote is appended in the tx calldata. This order ID will be used on the destination chain to link fills across chains.
 
 #### Order validation and filling
 
-Upon validation of the inbound transfer transaction, the Reservoir relayer will fill the order on the destination chain. Included in the fill transaction is the orderId associated with the the quote. Reservoir maps the origin and destination chain transactions together by orderId to ensure the transaction was filled appropriately.
+Upon validation of the inbound transfer transaction, the Reservoir relayer will fill the order on the destination chain. Included in the fill transaction is the order ID associated with the quote. Reservoir maps the origin and destination chain transactions together by order ID to ensure the transaction is filled appropriately.
 
 #### Rebalancing
 
-The Reservoir relayer uses a robust rebalancing algorithm to make sure funds are as available as possible for cross-chain executions. The user is not responsible for any rebalancing activity. Should the Reservoir relayer become "off-balance", the capacity for instant relaying may be limited.
+The Reservoir relayer uses a robust rebalancing algorithm to make sure funds are as available as possible for cross-chain executions. The user is not responsible for any rebalancing activity. If the Reservoir relayer becomes "off-balance", the capacity for instant relaying may be limited.
 
 #### Refunds
 
@@ -52,7 +52,7 @@ If for some reason the quoted execution is no longer available by the time of re
 
 #### Partial fills
 
-If the user submits the transfer event after quote expiration, the relayer may not be able to fill the order at the quoted price if gas prices on the destination chain have increased substantively. In this case, the relayer will attempt to fill the order at the best possible price, and give the rest of the bridged value to the user.
+If the user submits the transfer event after quote expiration, the relayer may not be able to fill the order at the quoted price if gas prices on the destination chain have increased substantially. In this case, the relayer will attempt to fill the order at the best possible price, and give the rest of the bridged value to the user.
 
 ### Disputes
 

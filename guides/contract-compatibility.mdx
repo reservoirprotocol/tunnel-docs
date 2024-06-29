@@ -1,15 +1,15 @@
 ---
-title: 'Contract Compatibility'
-description: 'How to make your contract compatible with Relay'
+title: "Contract Compatibility"
+description: "How to make your contract compatible with Relay"
 ---
 
 Relay allows a user to pay on Chain A for an arbitrary set of transactions to be executed on Chain B. These transactions are executed by a relayer, not the user themselves, which means you need to make special considerations to make sure your contract is compatible.
 
 ## General overview
 
-When Relayers execute txs on behalf of users, they do so via a multicall contract (to be specific, we use Vectorized's gas-optimized [Multicaller](https://github.com/Vectorized/multicaller) contract). This protects the Relayer from malicious transactions.
+When Relayers execute transactions on behalf of users, they do so via a multicall contract (to be specific, we use Vectorized's gas-optimized [Multicaller](https://github.com/Vectorized/multicaller) contract). This protects the Relayer from malicious transactions.
 
-One exception is simple bridge transactions, where the `data` is empty. For these, the Relayer will execute them directly, in order to avoid gas overhead of going via Multicaller. 
+One exception is simple bridge transactions, where the `data` is empty. For these, the Relayer will execute them directly to avoid the gas overhead of using Multicaller.
 
 ## Sender Attribution
 
@@ -45,15 +45,10 @@ Alternatively, you can simply bridge a small amount of gas and have the user exe
 
 We will soon add functionality to our SDK to handle this flow completely automatically, but until then, you can do it manually like this:
 
-- Estimate the cost of the tx on destination
+- Estimate the cost of the transaction on destination
 - Get a quote to bridge enough gas (small buffer recommended to handle fluctuation)
 - User executes the bridge of gas money from Origin to Destination
 - User executes the action on Destination
 - (Optional) If selling an asset, User could potentially bridge the proceeds back to Origin
 
 This might seem like a lot, but especially when Origin and Destination are both L2s, it can be quite fast and cheap. Arguably, much better than the user needing to worry about having a balance on many chains.
-
-
-
-
-

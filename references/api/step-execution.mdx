@@ -192,7 +192,7 @@ After the message is signed the second action is to submit the `post` body to th
 The design pattern of this API is completely generic, allowing for automatic support of new types of liquidity without needing to update the app. This data can be fed directly into an Ethereum library such as viem, making it easy to sign and submit the exact data that is needed.
 
 ### Transaction Step
-A transaction that needs to be submitted on-chain. After the transaction is submitted onchain you can poll the step items `check` endpoint. The endpoint will return a status which when successful will return 'success'. The step item can then be successfully marked as complete. _Note that the transaction step item contains a `chainId` for which the transaction should be submitted on._
+A transaction that needs to be submitted onchain. After the transaction is submitted onchain you can poll the step items `check` endpoint. The endpoint will return a status which when successful will return 'success'. The step item can then be successfully marked as complete. _Note that the transaction step item contains a `chainId` for which the transaction should be submitted on._
 
 
 ### Steps Example

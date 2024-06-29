@@ -5,7 +5,7 @@ description: "Learn about the Relay Protocol"
 
 ## Introduction
 
-Relay Protocol is a cross-chain payments system that connects users to relayers willing to perform onchain actions on their behalf. Relay’s design minimizes gas costs, enables rapid chain expansion, and maximizes capital efficiency, all while remaining open and trustless. Such a system is particularly well suited for low-value, high frequency cross-chain actions such as those expected in a world of chain abstraction.
+Relay Protocol is a cross-chain payments system that connects users to relayers willing to perform onchain actions on their behalf. Relay’s design minimizes gas costs, enables rapid chain expansion, and maximizes capital efficiency all while remaining open and trustless. Such a system is particularly well-suited for low-value, high frequency cross-chain actions such as those expected in a world of chain abstraction.
 
 ## Background: Cross-Chain Relaying
 
@@ -63,7 +63,7 @@ The biggest unlock from this is that because the relayer’s escrowed funds act 
 
 This can make a huge difference to the sort of use-cases that are possible to implement cross-chain, especially when transaction values are low (e.g. $1 NFT mints).
 
-Intuitively, it might seem insecure to send funds directly to the relayer, but the risk and UX is similar to the typical flow:
+Intuitively, it might seem insecure to send funds directly to the relayer, but the risk and UX are similar to the typical flow:
 
 - User is transferring funds into a state where they no longer control them
 - The full value of their transaction is locked in escrow as collateral
@@ -79,7 +79,7 @@ Interoperability protocols are often slow in expanding to new chains for a numbe
 - Canonical smart contracts need to be deployed and managed on every supported chain by the core team
 - Liquidity pools need sufficient depth to offer good prices
 
-As a result, most protocols are not well suited to supporting the long tail of chains in a world of abundant L2s. Relay was designed with this in mind.
+As a result, most protocols are not well-suited to supporting the long tail of chains in a world of abundant L2s. Relay was designed with this in mind.
 
 Because settlement happens on a single dedicated chain, and asset transfers happen through direct transfers, it means there are no smart contracts required on the origin and destination chains. All it takes is a single relayer that is willing to offer service on that chain, and it can be supported. No permission or deployments are required, while still being able to tap into the security that the protocol provides.
 
@@ -94,7 +94,7 @@ For Relay, settlement is done on a low-cost L2 with a trust-minimized bridge to 
 
 Consider the case where orders are settled every 2 minutes, which is comparable to other interoperability protocols that do message validation like Wormhole, LayerZero, etc. This is around 240 times quicker than Across. Once you factor in that only half the relayer’s capital can be used for filling (because the rest is used as escrow), it works out around 120x more capital efficient. This means Relayer can either earn more or charge less for the same amount of capital.
 
-One other nice thing about individual settlement is that it doesn't require global consensus or third party validation. You just need the two parties involved in the transaction, the user and the relayer, to agree that the order was filled. This allows even more aggressive settlement time. In Relay, actors will be incentivized (through reputation, bond penalties, etc) to quickly “self-settle” orders and only rely on 3rd party validation to settle disputes. This can result in even greater capital efficiency for relayers.
+One other nice thing about individual settlement is that it doesn't require global consensus or third party validation. You just need the two parties involved in the transaction, the user and the relayer, to agree that the order was filled. This allows even more aggressive settlement time. In Relay, actors will be incentivized (through reputation, bond penalties, etc.) to quickly “self-settle” orders and only rely on third party validation to settle disputes. This can result in even greater capital efficiency for relayers.
 
 ### Relay ETH
 

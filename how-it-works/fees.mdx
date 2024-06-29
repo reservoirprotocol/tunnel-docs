@@ -5,9 +5,9 @@ description: "Learn about Relay fees"
 
 ### Fee Glossary
 
-Relay quotes include the following fees: `gas`, `relayerService`, and `relayerGas`. The two relayer fees combined (service and gas) are combined to make the full `relayer` fee.
+Relay quotes include the following fees: `gas`, `relayerService`, and `relayerGas`. The two relayer fees (service and gas) are combined to make the full `relayer` fee.
 
-__gas__: The gas fee to be paid on the origin chain to execute the transaction. This is paid by the user usually to deposit funds to the relayer to get the bridge or swap started.
+__gas__: The gas fee to be paid on the origin chain to execute the transaction. This is usually paid by the user to deposit funds to the relayer to initiate the bridge or swap.
 
 __relayer__: The sum of the relayerService and the relayerGas.
 
@@ -49,7 +49,7 @@ The user balance property will reflect the offchain balance:
 
 #### How can I claim my offchain balance?
 
-To claim the funds all that you need to do is craft a bridge to any chain from chainId 0, this will transfer the offchain balance to your wallet on the desired chain. Below are some examples of how to do this:
+To claim the funds, all you need to do is create a bridge to any chain from chainId 0, this will transfer the offchain balance to your wallet on the desired chain. Below are some examples of how to do this:
 
 <CodeGroup>
 ```bash API
@@ -85,5 +85,6 @@ await relayClient.actions.execute({
     setStep(getCurrentStepDescription(steps))
   },
 })
+
 ```
 </CodeGroup>
