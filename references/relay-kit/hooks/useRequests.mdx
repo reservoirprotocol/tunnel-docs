@@ -1,16 +1,16 @@
 ---
 title: useRequests
-description: Fetch cross chain Relay transactions
+description: Fetch cross-chain Relay transactions
 sidebarTitle: useRequests
 ---
 
 ## Parameters
 
-| Parameter    | Description                                                                                                                                    | Required |
-|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| **baseApiUrl**       | Base api url for the relay api, defaults to https://api.relay.link but can also be configured to https://api.testnets.relay.link | ❌       |
-| **options**      | Query parameters that map directly to the [requests api](/references/api/get-requests)                                                                                                   | ❌       |
-| **queryOptions** | Tanstack query options. Refer to the [Tanstack](https://tanstack.com/query/latest/docs/framework/react/guides/query-options) docs.              | ❌       |
+| Parameter        | Description                                                                                                                        | Required |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **baseApiUrl**   | Base api url for the relay api, defaults to https://api.relay.link but can also be configured to https://api.testnets.relay.link   | ❌       |
+| **options**      | Query parameters that map directly to the [requests api](/references/api/get-requests)                                             | ❌       |
+| **queryOptions** | Tanstack query options. Refer to the [Tanstack](https://tanstack.com/query/latest/docs/framework/react/guides/query-options) docs. | ❌       |
 
 ## Return Data
 
@@ -24,7 +24,7 @@ import { useRequests } from '@reservoir0x/relay-kit-hooks'
 
 const { data: transactions } = useRequests()
 
-```
+````
 </CodeGroup>
 
 ## Query Function
@@ -34,4 +34,4 @@ import { queryRequests } from '@reservoir0x/relay-kit-hooks'
 
 queryRequests()
 
-```
+````

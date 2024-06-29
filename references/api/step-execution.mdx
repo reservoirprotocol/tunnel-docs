@@ -2,29 +2,40 @@
 title: Step Execution Overview
 ---
 
-<Warning>We recommend using the [SDK](/references/sdk/getting-started) over our APIs. The SDK will iterate the steps and return useful callback information.</Warning>
+<Warning>
+  We recommend using the [SDK](/references/sdk/getting-started) over our APIs.
+  The SDK will iterate the steps and return useful callback information.
+</Warning>
 
 ## Step Execution using the API
+
 When executing orders using the API directly, there are often multiple steps, like submitting a deposit transaction to the solver or signing a message. These steps differ based on the desired action and best route to execute the action. To make this simple, you can use the execute endpoints, which return the exact steps that you need to follow, including descriptions that you can display to users.
 
 The flow looks like this:
 
 <Steps>
   <Step title="Fetching Steps" icon="server">
-    Call the execute API ([call api](/references/api/execute-call)) or the ([bridge api](/references/api/execute-bridge))
+    Call the execute API ([call api](/references/api/execute-call)) or the
+    ([bridge api](/references/api/execute-bridge))
   </Step>
   <Step title="Iterate Through Steps" icon="list-ul">
-    Iterate through the steps and the items within a step, taking the necessary actions. Steps with no items, or an empty array of items, should be skipped. If step item data is missing then polling the api is necessary
+    Iterate through the steps and the items within a step, taking the necessary
+    actions. Steps with no items, or an empty array of items, should be skipped.
+    If step item data is missing then polling the api is necessary
   </Step>
   <Step title="Executing Steps" icon="list-check">
-    As mentioned above each step contains an array of one or more items. These items need to be iterated and completed depending on the kind of step ([signature](#signature-step) or [transaction](#transaction-step))
+    As mentioned above each step contains an array of one or more items. These
+    items need to be iterated and completed depending on the kind of step
+    ([signature](#signature-step) or [transaction](#transaction-step))
   </Step>
   <Step title="Success!" icon="circle-check">
-  Once all the steps are complete you can consider the action complete and notify the user
+    Once all the steps are complete you can consider the action complete and
+    notify the user
   </Step>
 </Steps>
 
 ### Signature Step
+
 A message that needs to be signed. Every signature comes with sign data and post data. The first action we need to take is to sign the message, keep in mind the signatureKind and use the appropriate signing method. Refer to your crypto library of choice on how to sign (viem, web3, etc).
 
 <CodeGroup>
@@ -39,10 +50,11 @@ const message = {
 }
 
 const eip191Message = "\x19Ethereum Signed Message:\n" + message.message.length + message.message;
-```
+
+````
 ```javascript Signing EIP712
 //Creating an EIP-712 signature involves signing a structured object composed of a domain, types, and values.
-//When receiving a signatureKind: "eip712" from the API, you'll need to structure the signature in eth_signTypedData_v4 format. 
+//When receiving a signatureKind: "eip712" from the API, you'll need to structure the signature in eth_signTypedData_v4 format.
 //Below, you'll find an example that illustrates how the domain, types, and values can be structured to create the signature.
 const data = {
         "signatureKind": "eip712",
@@ -182,7 +194,8 @@ const data = {
         },
         "primaryType": "OrderComponents"
     }
-```
+````
+
 </CodeGroup>
 
 **Posting the data**
@@ -192,8 +205,8 @@ After the message is signed the second action is to submit the `post` body to th
 The design pattern of this API is completely generic, allowing for automatic support of new types of liquidity without needing to update the app. This data can be fed directly into an Ethereum library such as viem, making it easy to sign and submit the exact data that is needed.
 
 ### Transaction Step
-A transaction that needs to be submitted on-chain. After the transaction is submitted onchain you can poll the step items `check` endpoint. The endpoint will return a status which when successful will return 'success'. The step item can then be successfully marked as complete. _Note that the transaction step item contains a `chainId` for which the transaction should be submitted on._
 
+A transaction that needs to be submitted onchain. After the transaction is submitted onchain you can poll the step items `check` endpoint. The endpoint will return a status which when successful will return 'success'. The step item can then be successfully marked as complete. _Note that the transaction step item contains a `chainId` for which the transaction should be submitted on._
 
 ### Steps Example
 
