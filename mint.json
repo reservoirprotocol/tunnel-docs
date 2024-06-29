@@ -81,6 +81,7 @@
         "references/api/get-config",
         "references/api/get-intents-status",
         "references/api/get-requests",
+        "references/api/get-token-price",
         "references/api/get-currencies",
         "references/api/execute-swap",
         "references/api/transactions-index",
