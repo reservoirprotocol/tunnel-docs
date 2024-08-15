@@ -16,14 +16,11 @@ description: Execute a quote and get updates on its progress
 
 ```typescript
 import { getClient, Execute, getQuote } from "@reservoir0x/relay-sdk";
-import { createWalletClient, http } from 'viem'
+import { useWalletClient } from 'wagmi'
 
 ...
 
-wallet = createWalletClient({
-  account: address,
-  transport: http()
-})
+const wallet = useWalletClient()
 
 const options = ... //define this based on getQuote options
 
