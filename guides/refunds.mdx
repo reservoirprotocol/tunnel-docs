@@ -1,0 +1,24 @@
+---
+title: 'Refunds'
+description: 'Learn how Relay handles refunds.'
+---
+
+Relay strives for 100% successful bridges & swaps. Occassionally, due to a variety of 
+possible circumstances, a bridge or swap might be refunded instead of completed. 
+You can learn how Relay handles those refunds in this guide.
+
+## What causes a refund?
+A refund is triggered when the swap or bridge fails to complete.
+A failure can occur for a variety of reasons including but not exclusive to:
+- Transactions Reverting: Before giving a quote, we simulate the transaction to insure it will succeed.
+Between the time the quote is given and the user accepts & deposits funds, the transaction could revert.
+Transactions revertin could be cause by if there is a contested mint or execution was delayed.
+- User's Wallet Address is Different Than Transaction Depositing Address: This happens when the user
+switches wallets right before signing the transaction. Users must execute the transaction with the wallet
+address that received the quote.
+- User Deposits Too Little: There are two cases for how this can happen.
+  1. The user explicityly deposits a lower amount than Relay requested.
+  2. The user sent the deposit we requested but did so delayed so the original quote is no longer valid.
+  Quotes expire have 1 minute and a new one is generated. 
+- User Sends Deposits With the Same Request ID in the Calldata multiple times
+- User Send Deposits Without a Request ID in the Calldata
