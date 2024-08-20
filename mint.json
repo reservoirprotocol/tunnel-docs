@@ -55,7 +55,8 @@
         "guides/contract-compatibility",
         "guides/ux-best-practices",
         "guides/just-in-time-gas",
-        "guides/deep-linking"
+        "guides/deep-linking",
+        "guides/refunds"
       ]
     },
     {
