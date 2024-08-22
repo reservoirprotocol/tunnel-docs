@@ -23,7 +23,7 @@ description: How to implement Calling (executing crosschain transactions)
 ## Fetch the Price
 
 The Price is a lightweight quote, excluding steps and calldata but it includes a preview of what the full quote might contain. Prices are subject to change once you get the quote so you should handle price changes accordingly.
-Once you determine where the user wants to call the contract from and where the contract has been deployed to, and their preferred payment currency then you can pass everything into the [getPrice](/references/sdk/actions/get-price) or the [usePrice](/references/sdk/hooks/usePrice) hook depending on if you're using the sdk or the ui hooks. Note that for calling a contract across chains you'll need to provide three key pieces of information in addition to the usual data required to call:
+Once you determine where the user wants to call the contract from and where the contract has been deployed to, and their preferred payment currency then you can pass everything into the [getPrice](/references/sdk/actions/getPrice) or the [usePrice](/references/relay-kit/hooks/usePrice) hook depending on if you're using the sdk or the ui hooks. Note that for calling a contract across chains you'll need to provide three key pieces of information in addition to the usual data required to call:
 * **tradeType** must be `EXACT_OUTPUT`
 * **txs** can either be an array of `to`, `data` and `value` or it can be the response from viem's [simulateContract](https://viem.sh/docs/contract/simulateContract) method. You can see an example below of how this is done
 * **amount** must be the sum of all the txs values
