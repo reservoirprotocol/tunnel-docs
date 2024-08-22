@@ -52,8 +52,9 @@
     {
       "group": "Guides",
       "pages": [
-        "guides/contract-compatibility",
-        "guides/ux-best-practices",
+        "guides/bridging",
+        "guides/swapping",
+        "guides/calling",
         "guides/just-in-time-gas",
         "guides/deep-linking"
       ]
@@ -63,6 +64,7 @@
       "pages": [
         "how-it-works/relay-protocol",
         "how-it-works/the-reservoir-relayer",
+        "how-it-works/contract-compatibility",
         "how-it-works/swapping",
         "how-it-works/fees"
       ]
@@ -83,13 +85,15 @@
         "references/api/get-requests",
         "references/api/get-token-price",
         "references/api/get-currencies",
-        "references/api/execute-swap",
+        "references/api/get-price",
+        "references/api/get-quote",
         "references/api/transactions-index",
         {
           "group": "Deprecated",
           "pages": [
             "references/api/execute-call",
-            "references/api/execute-bridge"
+            "references/api/execute-bridge",
+            "references/api/execute-swap"
           ]
         }
       ]
@@ -103,22 +107,9 @@
           "group": "Actions",
           "pages": [
             "references/sdk/actions/getSolverCapacity",
+            "references/sdk/actions/getPrice",
             "references/sdk/actions/getQuote",
             "references/sdk/actions/execute"
-          ]
-        },
-        {
-          "group": "Bridging",
-          "pages": [
-            "references/sdk/bridging/fetching-a-quote",
-            "references/sdk/bridging/executing-a-bridge"
-          ]
-        },
-        {
-          "group": "Swapping",
-          "pages": [
-            "references/sdk/swapping/fetching-a-quote",
-            "references/sdk/swapping/executing-a-swap"
           ]
         },
         "references/sdk/api-types"
@@ -132,6 +123,7 @@
           "group": "Hooks",
           "pages": [
             "references/relay-kit/hooks/getting-started",
+            "references/relay-kit/hooks/usePrice",
             "references/relay-kit/hooks/useQuote",
             "references/relay-kit/hooks/useRelayChains",
             "references/relay-kit/hooks/useRequests",
@@ -165,5 +157,23 @@
     "posthog": {
       "apiKey": "phc_lt2ItRZ4JcNk7wFGqF74QjJ2TxQlqmO9jLaL8Tvkvgt"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/references/sdk/bridging/fetching-a-quote",
+      "destination": "/guides/bridging"
+    },
+    {
+      "source": "/references/sdk/bridging/executing-a-bridge",
+      "destination": "/guides/bridging"
+    },
+    {
+      "source": "/references/sdk/swapping/fetching-a-quote",
+      "destination": "/guides/swapping"
+    },
+    {
+      "source": "/references/sdk/swapping/executing-a-swap",
+      "destination": "/guides/swapping"
+    }
+  ]
 }
