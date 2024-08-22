@@ -10,10 +10,14 @@ Learn more about Relay's refund logic and how it works.
 ## What is a refund?
 A refund is returned funds to a user due to a failed swap or bridge.
 Relay will refund the user's their funds on the destination chain. 
-However, if the refund amount is not enough to cover the cost of gas, the relay will be marked
-as failed & no refund will be sent.
+If the destination chain is unavailable, Relay will refund the user's funds on the deposit chain. 
+The destination chain might be unavaible for a variety of reasons like a network outage.
 
-## What is refunded?
+## When is there no refund given?
+If the refund amount is not enough to cover the cost of gas, Relay will 
+mark the bridge or swap as failed & no refund will be sent.
+
+## What currency is used for refunds?
 For bridges, Relay will refund the user in the original currency they sent.
 For swaps, Relay will refunds users in the default currency of the chain.  You can determine 
 the default currency of a chain by looking at the fee currency. For example,
@@ -23,7 +27,7 @@ Degen uses Degen.
 
 ## When does a refund happen?
 A refund happens automatically when a swap or bridge fails to complete.
-If a failure occurs, Relay will refund the user's funds in an 1 hour or less. Please 
+If a failure occurs, Relay will refund the user's funds almost instantly. Please 
 remember no refund is given if the refund amount cannot cover the cost of gas.
 
 ## Why do refunds happen?
