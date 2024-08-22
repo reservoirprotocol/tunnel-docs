@@ -23,7 +23,7 @@ Degen uses Degen.
 
 ## When does a refund happen?
 A refund happens automatically when a swap or bridge fails to complete.
-If a failure occurs, Relay will refund the user's funds in approximately 1 hour. Please 
+If a failure occurs, Relay will refund the user's funds in an 1 hour or less. Please 
 remember no refund is given if the refund amount cannot cover the cost of gas.
 
 ## Why do refunds happen?
@@ -36,7 +36,7 @@ Transactions reverting could be cause by if there is a contested mint or executi
 switches wallets right before signing the transaction. Users must execute the transaction with the wallet
 address that received the quote.
 - *User Deposits Too Little:* There are two cases for how this can happen.
-  1. The user explicityly deposits a lower amount than Relay requested.
+  1. The user explicitly deposits a lower amount than Relay requested.
   2. The user sent the deposit we requested but did so delayed so the original quote is no longer valid.
   Quotes expire after 1 minute then a new quote is generated. 
 - *Destination Chain is Unavailable:* Occasionally, the destination chain will
