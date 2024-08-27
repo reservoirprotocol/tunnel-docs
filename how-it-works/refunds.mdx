@@ -18,7 +18,7 @@ A refund is triggered when the swap or bridge fails to complete.
 A failure can occur for a variety of reasons including but not exclusive to:
 - *Transactions Reverting:* Before giving a quote, we simulate the transaction to insure it will succeed.
 Between the time the quote is given and the user accepts & deposits funds, the transaction could revert.
-Transactions reverting could be cause by if there is a contested mint or execution was delayed.
+Transactions reverting could be caused by if there is a contested mint or execution was delayed.
 - *User's Wallet Address is Different Than Transaction Depositing Address:* This happens when the user
 switches wallets right before signing the transaction. Users must execute the transaction with the wallet
 address that received the quote.
@@ -29,7 +29,7 @@ address that received the quote.
 - *Destination Chain is Unavailable:* Occasionally, the destination chain will
 have a network outage beyond our control. An example could be an RPC that is down or 
 the chain is experiencing a large reorginization.
-- *User Sends Deposits With the Same Request ID in the Calldata multiple times*
+- *User Sends Deposits With the Same Request ID in the Calldata Multiple Times*
 - *User Send Deposits Without a Request ID in the Calldata*
 
 ## When is there no refund given?
@@ -37,7 +37,7 @@ If the refund amount is not enough to cover the cost of gas, Relay will
 mark the bridge or swap as failed & no refund will be sent.
 
 ## What currency is used for refunds?
-For bridges, Relay will refund the user in the original currency they sent.
+For bridges, Relay will refund the user in the original currency they sent. <br />
 For swaps, Relay will refund users in the default currency of the chain.  You can determine 
 the default currency of a chain by looking at the fee currency. For example,
 if a chain's default currency is ETH than ETH will be refunded. We have a few chains that
