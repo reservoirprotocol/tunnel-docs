@@ -66,7 +66,8 @@
         "how-it-works/the-reservoir-relayer",
         "how-it-works/contract-compatibility",
         "how-it-works/swapping",
-        "how-it-works/fees"
+        "how-it-works/fees",
+        "how-it-works/refunds"
       ]
     },
     {
