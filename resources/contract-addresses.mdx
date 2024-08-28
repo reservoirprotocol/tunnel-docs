@@ -11,48 +11,39 @@ We are currently in the process of getting all contracts verified and audited.
 <Info>Please note that not all deployed contracts have the same address across all chains.
 Please check carefully to ensure you are using the correct contract address for the chain you are using.</Info>
 
+### `multicall3`
+| Contract                                      | Chain Support                            |
+|-----------------------------------------------|------------------------------------------|
+| 0xca11bde05977b3631167028862be2a173976ca11    | Arbitrum, Arbitrum Nova, Avalanche, Linea, BOB, Apex, Blast, Taiko, Scroll, Xai, Forma, Zora, Degen |
 
+### `multicaller`
+| Contract                                      | Chain Support                            |
+|-----------------------------------------------|------------------------------------------|
+| 0x0000000000002bdbf1bf3279983603ec279cc6df    | Arbitrum, Arbitrum Nova, Blast, Forma, Zora |
+| *No contract*                                 | Avalanche, Linea, BOB, Taiko, Scroll, Xai, Degen |
 
-### **Permit2**
-| Contract Addresses                                      | Chains Supported                                                                                       |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `0x000000000022D473030F116dDEE9F6B43aC78BA3`            | mainnet, ancient8, arbitrum, arbitrum_nova, base, blast, bob, boba, cyber, gnosis, optimism, polygon_zkevm, zksync |
+### `onlyOwnerMulticaller`
+| Contract                                      | Chain Support                            |
+|-----------------------------------------------|------------------------------------------|
+| 0xb90ed4c123843cbfd66b11411ee7694ef37e6e72    | Arbitrum, Arbitrum Nova, Avalanche, Linea, BOB, Apex, Blast, Taiko, Scroll, Xai, Forma, Zora, Degen |
 
+### `relayReceiver`
+| Contract                                      | Chain Support                            |
+|-----------------------------------------------|------------------------------------------|
+| 0xa5f565650890fba1824ee0f21ebbbf660a179934    | Arbitrum, Arbitrum Nova, Apex, Zora, Blast |
+| 0x00000000aa467eba42a3d604b3d74d63b2b6c6cb    | Linea, BOB, Scroll, Forma |
+| 0xa06e1351E2fD2D45b5D35633ca7eCF328684a109    | Taiko, Xai, Degen |
 
+### `erc20Router`
+|   Contract                                      |   Chain Support                                                                   |
+|-------------------------------------------------|-----------------------------------------------------------------------------------|
+| 0xa1bea5fe917450041748dbbbe7e9ac57a4bbebab      | Ethereum, Polygon, Base, Arbitrum, Arbitrum Nova, Optimism, Blast, Zora, Avalanche, Degen |
+| 0xe0b062d028236fa09fe33db8019ffeeee6bf79ed      | Apex, Xai                                                                         |
+| *No contract*                                   | Linea, BOB, Scroll, Taiko, Forma                                                    |
 
-### **Multicaller**
-| Contract Addresses                                      | Chains Supported                                                                                       |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `0x0000000000002Bdbf1Bf3279983603Ec279CC6dF`            | mainnet, ancient8, arbitrum, arbitrum_nova, base, blast, bob, cyber, gnosis, optimism, polygon_zkevm, zksync |
-| `0xB0E22F8B026c5dc4b0Bc33eF4C5d3231544aEE3e`            | boba                                                                                                   |
-
-
-
-### **ERC20Router**
-| Contract Addresses                                      | Chains Supported                                                                                       |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `0xE0B062D028236FA09Fe33dB8019FFEEEe6bF79Ed`            | mainnet, ancient8, arbitrum, arbitrum_nova, base, blast, bob, cyber, gnosis, optimism, polygon_zkevm, zksync, zora, avalanche, apex_proof_of_play, degen, xai |
-| `0x83095Af87DE31eF97ECCa8312493F42547A5ff2C`            | boba                                                                                                   |
-
-
-
-### **ApprovalProxy**
-| Contract Addresses                                      | Chains Supported                                                                                       |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `0xfD06C0018318BF78705ccFf2b961Ef8eBC0bacA0`            | mainnet, ancient8, arbitrum, arbitrum_nova, base, blast, bob, cyber, gnosis, optimism, polygon_zkevm, zksync, zora, avalanche, apex_proof_of_play, degen, xai |
-| `0xcdf11EF8FeB47C9a9498c4F89D71f1768fEADec7`            | boba                                                                                                   |
-
-
-
-### **RelayReceiver**
-| Contract Addresses                                      | Chains Supported                                                                                       |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `0xa06e1351E2fD2D45b5D35633ca7eCF328684a109`            | mainnet, ancient8, arbitrum, arbitrum_nova, base, blast, bob, boba, cyber, gnosis, optimism, polygon_zkevm, zksync |
-
-
-
-### **OnlyOwnerMulticaller**
-| Contract Addresses                                      | Chains Supported                                                                                       |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `0xb90ed4c123843cbFD66b11411Ee7694eF37E6E72`            | mainnet, ancient8, arbitrum, arbitrum_nova, base, blast, bob, boba, cyber, gnosis, optimism, polygon_zkevm, zksync |
-
+### `approvalProxy`
+| Contract                                        | Chain Support                                                             |
+|-------------------------------------------------|-------------------------------------------------------------------------------|
+| 0x77a917df7a084b7b3e43517ae28373c2a5492625      | Ethereum, Polygon, Base, Arbitrum, Arbitrum Nova, Optimism, Blast, Zora, Avalanche, Degen |
+| 0xfd06c0018318bf78705ccff2b961ef8ebc0baca0      | Apex, Xai                                                                     |
+| No contract                                     | Linea, BOB, Scroll, Taiko, Forma                                               |
