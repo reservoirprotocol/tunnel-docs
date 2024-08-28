@@ -72,7 +72,7 @@
     },
     {
       "group": "Resources",
-      "pages": ["resources/supported-chains", "resources/brand-assets"]
+      "pages": ["resources/supported-chains", "resources/contract-addresses","resources/brand-assets"]
     },
     {
       "group": "API Reference",
