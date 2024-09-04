@@ -11,7 +11,7 @@ The flow looks like this:
 
 <Steps>
   <Step title="Fetching Steps" icon="server">
-    Call the [Get Quote API](/references/api/get-quote) to start your execution. These APIs are now deprecated: [Call API](/references/api/execute-call) and [Bridge API](/references/api/execute-bridge).
+    Call the [Get Quote API](/references/api/get-quote) or [Get Price API](/references/api/get-price) to start your execution.
   </Step>
   <Step title="Iterate Through Steps" icon="list-ul">
     Iterate through the steps and the items within a step, taking the necessary actions. Steps with no items, or an empty array of items, should be skipped. If step item data is missing then polling the api is necessary.
