@@ -11,16 +11,16 @@ The flow looks like this:
 
 <Steps>
   <Step title="Fetching Steps" icon="server">
-    Call the execute API ([call api](/references/api/execute-call)) or the ([bridge api](/references/api/execute-bridge))
+    Call the [Get Quote API](/references/api/get-quote) to start your execution. These APIs are now deprecated: [Call API](/references/api/execute-call) and [Bridge API](/references/api/execute-bridge).
   </Step>
   <Step title="Iterate Through Steps" icon="list-ul">
-    Iterate through the steps and the items within a step, taking the necessary actions. Steps with no items, or an empty array of items, should be skipped. If step item data is missing then polling the api is necessary
+    Iterate through the steps and the items within a step, taking the necessary actions. Steps with no items, or an empty array of items, should be skipped. If step item data is missing then polling the api is necessary.
   </Step>
   <Step title="Executing Steps" icon="list-check">
-    As mentioned above each step contains an array of one or more items. These items need to be iterated and completed depending on the kind of step ([signature](#signature-step) or [transaction](#transaction-step))
+    As mentioned above each step contains an array of one or more items. These items need to be iterated and completed depending on the kind of step ([signature](#signature-step) or [transaction](#transaction-step)).
   </Step>
   <Step title="Success!" icon="circle-check">
-  Once all the steps are complete you can consider the action complete and notify the user
+  Once all the steps are complete you can consider the action complete and notify the user.
   </Step>
 </Steps>
 
