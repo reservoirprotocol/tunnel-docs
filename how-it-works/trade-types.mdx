@@ -1,0 +1,22 @@
+---
+title: "Trade Types"
+description: "Learn trade types Relay supports."
+---
+
+Relay supports two trade types: `exact_input` & `exact_output`.
+
+Learn about how these work and what secnarios they best support.
+
+## Exact Input
+
+The first supported type is `EXACT_INPUT`. In this order type, the user specifies how much of the input currency they want to provide for a swap or brigde. 
+The user is told how much of the output token they will receive for a given input.
+This trade type fails if the input amount is too small to cover associated fees with the request. Associated fees can include but are not limited to 
+relay fees, app fees, and gas fees.
+
+## Exact Output
+
+The second supported type is `EXACT_OUTPUT`. In this order type, the user specifies how much of the output currency they want to receive from the swap or bridge. 
+The user is told how much of the origin token this will require.
+This trade type automatically accounts for any associated fees including relay fees, app fees, and gas fees.
+We recommend using `EXACT_OUTPUT` for very small amounts to be bridged/swapped.

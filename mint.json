@@ -67,7 +67,9 @@
         "how-it-works/contract-compatibility",
         "how-it-works/swapping",
         "how-it-works/fees",
-        "how-it-works/refunds"
+        "how-it-works/refunds",
+        "how-it-works/trade-types",
+        "how-it-works/surplus-and-shortage"
       ]
     },
     {
@@ -82,7 +84,7 @@
         "references/api/handling-errors",
         "references/api/get-chains",
         "references/api/get-config",
-        "references/api/get-intents-status",
+        "references/api/get-intents-status-v2",
         "references/api/get-requests",
         "references/api/get-token-price",
         "references/api/get-currencies",
@@ -94,7 +96,8 @@
           "pages": [
             "references/api/execute-call",
             "references/api/execute-bridge",
-            "references/api/execute-swap"
+            "references/api/execute-swap",
+            "references/api/get-intents-status"
           ]
         }
       ]
