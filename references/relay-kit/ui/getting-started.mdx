@@ -70,7 +70,15 @@ const App = () => {
 }
 ```
 
-Make sure to also import the styles.css file otherwise the component will be unstyled. If you're using the `convertViemChainToRelayChain` you'll need to install and import the `@reservoir0x/relay-sdk` to use this function.
+If you're using the `convertViemChainToRelayChain` you'll need to install and import the `@reservoir0x/relay-sdk` to use this function.
+
+### Styling
+
+Make sure to import the styles.css globally otherwise the components will be unstyled:
+
+```tsx
+import '@reservoir0x/relay-kit-ui/styles.css'
+```
 
 ### Configuring Chains Dynamically
 While you can easily supply chains that your application supports, you may want to fetch the supported Relay chains dynamically and configure them in your application. This can be done by using the `useRelayChains` hook.
