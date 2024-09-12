@@ -74,7 +74,12 @@
     },
     {
       "group": "Resources",
-      "pages": ["resources/supported-chains", "resources/contract-addresses","resources/brand-assets"]
+      "pages": [
+        "resources/supported-chains", 
+        "resources/contract-addresses",
+        "resources/bounties",
+        "resources/brand-assets"
+      ]
     },
     {
       "group": "API Reference",
