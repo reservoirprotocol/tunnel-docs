@@ -4,4 +4,11 @@ description: How to Deposit to Solana from an EVM Chain
 ---
 
 Relay now supports depositing to Solana from any EVM chain we support. This is a great way to 
-get users funds on Solana for games, 
+get users funds on Solana to complete transactions.
+
+There are few things that make depositing to Solana different than another EVM chain. See the information you'll need in the table below.
+
+|  Param  |  Input  |  Description  |
+|  `chainId`  | `792703809`  | This is the chainId assigned to access Solana. |
+| `recipient`  | User's Solana Address  | This must be a valid Solana address. Do **not** use an Ethereum wallet address, this will not work  |
+| `toCurrency`  |  Contract Address of Token  | This must be a valid Solana token address. Do not use an EVM address.  |
