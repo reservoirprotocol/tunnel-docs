@@ -14,13 +14,16 @@ There are few things that make depositing to Solana different than another EVM c
 |--------------|-----------------------|------------------------------------------------------------------------------------|
 | `chainId`    | `792703809`           | This is the chainId assigned to access Solana for Relay's tools.                                      |
 | `recipient`  | User's Solana Address  | This must be a valid Solana address. Do **not** use an Ethereum wallet address.     |
-| `toCurrency` | Contract Address of Token | This must be a valid Solana token address. Do **not** use an EVM address.               |
+| `toCurrency` | Contract Address of Token | This must be a valid Solana token address. Do **not** use an EVM address. We support any token tradeable on [Jupiter](https://jup.ag/). |
 
-These are the Solana tokens that are currently supported by Relay.
+These are the most frequently used Solana tokens & their contract addresses on Relay.
 | Token | Token Address | Token Symbol | Decimals |
 |-------|---------------|--------------|----------| 
 | SOL   | 11111111111111111111111111111111 | SOL | 9 |
 | USDC  | EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v | USDC | 6 |
+| USDT  | Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB | USDT | 6 |
+
+<Tip>Relay supports **any** Solana token available on Jupiter. You can visit [Jupiter](https://jup.ag/) to explore all the tokens available.</Tip>
 
 ## API
 
