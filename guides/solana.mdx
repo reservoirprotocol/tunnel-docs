@@ -1,42 +1,71 @@
 ---
 title: Solana Support
-description: How to Deposit to Solana from an EVM Chain
+description: How to Deposit or Withdraw on Solana from an EVM Chain
 ---
 
-Relay now supports depositing to Solana from any EVM chain we support. This is a great way to 
+Relay now fully supports depositing & withdrawing to Solana from any EVM chain we support. This is a great way to 
 get users funds on Solana to complete transactions. You can onboard users funds from Blast ETH 
-to Solana USDC to make transactions on a game. You could also swap funds from Base Degen to Solana SOL for users to mint.
+to Solana USDC to make transactions on a game. You could also swap funds from Solana SOL to Zora ETH for users to mint.
 The possibilities are limitless when you use Relay embedded in your app.
 
-<Info>Solana withdrawal support coming soon!</Info>
+## Required Information
 
-There are few things that make depositing to Solana different than another EVM chain. See the information you'll need in the table below.
+There are few things that make transacting on Solana different than another EVM chain. The provided information 
+below should review all the exceptions where your input is Solana specific.
 
-| Param        | Input                 | Description                                                                        |
-|--------------|-----------------------|------------------------------------------------------------------------------------|
-| `chainId`    | `792703809`           | This is the chainId assigned to access Solana for Relay's tools.                                      |
-| `recipient`  | User's Solana Address  | This must be a valid Solana address. Do **not** use an Ethereum wallet address.     |
-| `toCurrency` | Contract Address of Token | This must be a valid Solana token address. Do **not** use an EVM address. We support any token tradeable on [Jupiter](https://jup.ag/). |
+<Warning>Solana wallet addresses are case sensitive. </Warning>
 
-These are the most frequently used Solana tokens & their contract addresses on Relay.
+### SDK Properties
+
+| Action   | Parameter     | Input                    | Description                                                                                      |
+|----------|---------------|--------------------------|--------------------------------------------------------------------------------------------------|
+| Deposit to Solana  | `toChainId`     | `792703809`              | Chain ID assigned to access Solana for Relay's tools.                                             |
+|          | `recipient`   | User's Solana Address     | Must be a valid Solana address. Do **not** use an Ethereum wallet address. *Case Sensitive*    |
+|          | `toCurrency`  | Contract Address of Solana Token | Must be a valid Solana token address. Do **not** use an EVM address. We support all tokens tradeable on [Jupiter](https://jup.ag/). |
+| Withdraw from Solana | `chainId`   | `792703809`              | Chain ID assigned to access Solana for Relay's tools.                                             |
+|          | `currency`| Contract Address of Solana Token | Must be a valid Solana token address. Do **not** use an EVM address. We support all tokens tradeable on [Jupiter](https://jup.ag/). |
+
+<Info>When withdrawing from Solana using the SDK, you will not need to speicify the depositing wallet address. </Info>
+
+### API Params
+
+| Action  | Parameter            | Input                   | Description                                                                                          |
+|---------|----------------------|-------------------------|------------------------------------------------------------------------------------------------------|
+| Deposit to Solana | `recipient`         | User's Solana Address    | Must be a valid Solana address. Do **not** use an Ethereum wallet address. *Case Sensitive*                            |
+|         | `destinationChainId` | `792703809`              | Chain ID assigned to access Solana for Relay's tools.                                                 |
+|         | `destinationCurrency`| Contract Address of Solana Token| Must be a valid Solana token address. Do **not** use an EVM address. We support all tokens tradeable on [Jupiter](https://jup.ag/). |
+| Withdraw from Solana| `user`              | User's Solana Address    | Must be a valid Solana address. Do **not** use an Ethereum wallet address. *Case Sensitive*        |
+|         | `originChainId`     | `792703809`              | Chain ID assigned to access Solana for Relay's tools.                                                 |
+|         | `originCurrency`    | Contract Address of Solana Token| Must be a valid Solana token address. Do **not** use an EVM address. We support all tokens tradeable on [Jupiter](https://jup.ag/). |
+
+### Solana Tokens
+In the table, we have provided the most frequently used Solana tokens & their contract addresses. 
+We do support all tradeable tokens on [Jupiter](https://jup.ag/).
+
+<Warning>Solana token addresses are case sensitive. </Warning>
+
 | Token | Token Address | Token Symbol | Decimals |
 |-------|---------------|--------------|----------| 
-| SOL   | 11111111111111111111111111111111 | SOL | 9 |
-| USDC  | EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v | USDC | 6 |
-| wSol  | So11111111111111111111111111111111111111112 | wSOL | 9 |
-| USDT  | Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB | USDT | 6 |
+| SOL   | `11111111111111111111111111111111` | SOL | 9 |
+| USDC  | `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | USDC | 6 |
+| wSol  | `So11111111111111111111111111111111111111112` | wSOL | 9 |
+| USDT  | `Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB` | USDT | 6 |
 
 <Tip>Relay supports **any** Solana token available on Jupiter. You can visit [Jupiter](https://jup.ag/) to explore all the tokens available.</Tip>
 
 ## API
 
-Once you have the necessary information, you can start utilizing our API to deposit from 
-a supported EVM chain to Solana. To get started, 
+Once you have the necessary information, you can start utilizing our API for full 
+Solana withdrawal and deposit support. To get started, 
 check out the [execution steps](/references/api/step-execution) of our API. Then 
 when you're ready to swap, head over to the [Get Quote](/references/api/get-quote) API endpoint.
 
+Please note that instead of the usual calldata returned with EVM transactions,
+ there’s different calldata that needs to be handled accordingly.
+
 ## SDK
 
-You'll need the same information shared in the table to utilize the SDK to swap 
-from an EVM chain to Solana. To get started, learn how to set up our [SDK client](/references/sdk/getting-started). 
-Afterwards, explore our [getQuote](/references/sdk/actions/getQuote) SDK action to start swapping.
+You'll need the information shared in the tables above to utilize the SDK to deposit or withdraw from Solana.
+ To get started, learn how to set up our [SDK client](/references/sdk/getting-started). 
+Afterwards, explore our [getQuote](/references/sdk/actions/getQuote) SDK action to start swapping. 
+More documentation related to the adapter needed for Solana coming soon.
