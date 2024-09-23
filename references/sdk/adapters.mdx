@@ -1,0 +1,116 @@
+---
+title: Adapters
+description: An introduction to adapters and how to use them
+---
+
+### What is an adapter anyway?
+
+An adapter is a function that takes parameters and returns an object that adheres to this [interface](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/types/AdaptedWallet.ts). Let's review the interface in depth:
+
+| Property                   | Description                                                                                     | Required |
+| -------------------------- | ----------------------------------------------------------------------------------------------- | -------- |
+| **vmType**                    | A string that can either be `'SOL'` or `'EVM'`                                                   | ✅       |
+| **getChainId**                | An async function that returns a chain id                                                                                              | ✅       |
+| **handleSignMessageStep**     | An async function that given a signature step item and a step generates a signature                                                                                              | ✅       |
+| **handleSendTransactionStep** | An async function that given a chain id, a transaction step item and a step returns a transaction hash                                                                                              | ✅       |
+| **handleConfirmTransactionStep** | An async function that given a transaction hash, a chain id, an onReplaced function and an onCancelled function returns a promise with either an evm receipt or an svm receipt | ✅       |
+| **address**                   | An async function that returns the currently connected to address, an address that can sign messages and submit transactions                                                                                              | ✅       |
+| **switchChain**               | An async function that given a chain id switches to that chain, either by prompting the user or automatically switching chains                                                                                              | ✅       |
+| **transport**                 | An optional [transport](https://viem.sh/docs/clients/intro.html) to use when making rpc calls.                                                                                               | ❌      |
+
+
+### What adapters are available out of the box?
+
+The following adapters are officially maintained and developed by the Reservoir Relay team:
+
+[Solana Adapter](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/relay-solana-wallet-adapter): This adapter gives the sdk the ability to submit transactions on the Solana network. It does not support signing messages and under the hood it uses the [solana web3 sdk](https://solana-labs.github.io/solana-web3.js/).
+
+[Viem Adapter](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/sdk/src/utils/viemWallet.ts): This adapter is the default one used when no adapter is provided. You can also import it yourself to convert any viem wallet client into an adapted wallet ready to be used in the sdk.
+
+[Ethers Adapter](https://github.com/reservoirprotocol/relay-kit/tree/main/packages/relay-ethers-wallet-adapter): If your application uses ethers then you'll need this adapter to use the SDK. You'll still need to install viem as that's required for polling transactions but you can pass in your ethers signer to submit transactions and sign messages.
+
+### How can I use an adapter?
+
+You can either make your own adapter, as long as it adheres to the interface above or you can use one of the officials adapters developed and maintained by the Reservoir Relay team. All of our sdk methods handle a viem wallet or adapted wallet. The viem wallet adapter is used by default when a [viem wallet](https://viem.sh/docs/clients/wallet.html) is passed in for convenience. Refer below for implementation details:
+
+<CodeGroup>
+```typescript Solana
+import { getClient, Execute, getQuote } from "@reservoir0x/relay-sdk";
+import { adaptSolanaWallet } from '@reservoir0x/relay-solana-wallet-adapter'
+import { Connection, Keypair, clusterApiUrl, SystemProgram, Transaction } from '@solana/web3.js';
+...
+
+//In this example we are loading a keypair as the wallet, but if you have a connector like dynamic you can just fetch the connection from that library
+const wallet = Keypair.generate();
+const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
+const walletAddress = wallet.publicKey.toString()
+
+const adaptedWallet = adaptSolanaWallet(
+  walletAddress,
+  792703809, //chain id that Relay uses to identify solana 
+  connection,
+  connection.sendTransaction
+)
+
+const options = ... //define this based on getQuote options
+
+const quote = await getClient().actions.getQuote(options)
+
+getClient().actions.execute({
+  quote,
+  wallet: adaptedWallet,
+  onProgress: ({steps, fees, breakdown, currentStep, currentStepItem, txHashes, details}) => {
+        //custom handling
+  },
+  ...
+})
+```
+```typescript Viem
+import { getClient, Execute, getQuote, adaptViemWallet } from "@reservoir0x/relay-sdk";
+import { createWalletClient } from 'wagmi'
+import { mainnet } from 'viem/chains'
+
+...
+ 
+const walletClient = createWalletClient({
+  chain: mainnet,
+  transport: custom(window.ethereum!)
+})
+
+const options = ... //define this based on getQuote options
+
+const quote = await getClient().actions.getQuote(options)
+
+getClient().actions.execute({
+  quote,
+  wallet: adaptViemWallet(walletClient),
+  onProgress: ({steps, fees, breakdown, currentStep, currentStepItem, txHashes, details}) => {
+        //custom handling
+  },
+  ...
+})
+```
+```typescript Ethers
+import { getClient } from '@reservoir0x/relay-sdk'
+import { adaptEthersSigner } from '@reservoir0x/relay-ethers-wallet-adapter'
+import { useSigner } from 'wagmi'
+
+...
+
+const { data: signer } = useSigner()
+const adaptedWallet = adaptEthersSigner(signer)
+
+const options = ... //define this based on getQuote options
+
+const quote = await getClient().actions.getQuote(options)
+
+getClient().actions.execute({
+  quote,
+  wallet: adaptedWallet,
+  onProgress: ({steps, fees, breakdown, currentStep, currentStepItem, txHashes, details}) => {
+        //custom handling
+  },
+  ...
+})
+```
+</CodeGroup>

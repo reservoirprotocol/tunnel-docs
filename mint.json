@@ -76,7 +76,7 @@
     {
       "group": "Resources",
       "pages": [
-        "resources/supported-chains", 
+        "resources/supported-chains",
         "resources/contract-addresses",
         "resources/bounties",
         "resources/brand-assets"
@@ -122,6 +122,7 @@
             "references/sdk/actions/execute"
           ]
         },
+        "references/sdk/adapters",
         "references/sdk/api-types"
       ]
     },
