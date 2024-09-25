@@ -26,3 +26,16 @@
   margin: 0;
   display: inline;
 }
+
+
+.relay-table {
+
+  td:not(:first-child) {
+    padding-left: 24px;
+  }
+
+  th:not(:first-child) {
+    padding-left: 24px;
+  }
+
+}
