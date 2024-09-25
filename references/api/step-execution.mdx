@@ -251,6 +251,29 @@ Along with the steps you'll see that the following objects are returned: fees, b
 
 ---
 
+### Checking the fill status
+Along with the step data there's an optional check object. You can use this object to check if the status of the transaction is complete. The object details the method and the endpoint to request. You should poll this until the endpoint returns `success`.
+
+```json
+{
+    "check": {
+        "endpoint": "/intents/status?requestId=0x341b28c6467bfbffb72ad78ec5ddf1f77b8f9c79be134223e3248a7d4fcd43b6",
+        "method": "GET"
+    }
+}
+```
+
+The check api will always return a status, the expected statuses are as follows:
+
+| Status   | Description |
+|----------|-------------|
+| refund   | Execution was refunded on the origin chain unless `refundOrigin` parameter is set to false, in which case the refund is made on the destination chain |
+| delayed  | If the time pending is 2x the p50 fill time, we mark the request as delayed |
+| waiting  | Waiting for a deposit |
+| failure  | The fill has failed and was not refundable, check the details property for more information on the failure |
+| pending  | Fill is currently pending |
+| success  | Fill was successfully processed |
+
 ### SDK Reference
 
 To review the official way the SDK handles execution, please refer to the [executeSteps](https://github.com/reservoirprotocol/relay-sdk/blob/main/packages/sdk/src/utils/executeSteps.ts#L31) file which implements executing steps detailed above.
