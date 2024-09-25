@@ -1,67 +1,93 @@
+import React from 'react'
+
 export const Chains = ({ env, id }) => {
-if (typeof document === "undefined") {
+  const chainToDexMap = {
+  '1': { name: 'ethereum', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
+  '10': { name: 'optimism', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
+  '137': { name: 'polygon', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
+  '185': { name: 'mint', dexes: [], wrappedCurrencies: ['WETH'] },
+  '288': { name: 'boba', dexes: ['SushiSwap'], wrappedCurrencies: ['WETH'] },
+  '324': { name: 'zksync', dexes: [], wrappedCurrencies: ['WETH'] },
+  '480': { name: 'world-chain', dexes: [], wrappedCurrencies: [] },
+  '690': { name: 'redstone', dexes: [], wrappedCurrencies: ['WETH'] },
+  '1101': { name: 'polygon-zkevm', dexes: ['SushiSwap'], wrappedCurrencies: ['WETH'] },
+  '1135': { name: 'lisk', dexes: [], wrappedCurrencies: ['WETH'] },
+  '2911': { name: 'hychain', dexes: [], wrappedCurrencies: [] },
+  '5112': { name: 'ham', dexes: [], wrappedCurrencies: ['WETH'] },
+  '7560': { name: 'cyber', dexes: [], wrappedCurrencies: ['WETH'] },
+  '8333': { name: 'B3', dexes: [], wrappedCurrencies: ['WETH'] },
+  '8453': { name: 'base', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
+  '17071': { name: 'onchain-points', dexes: [], wrappedCurrencies: [] },
+  '33979': { name: 'funki', dexes: [], wrappedCurrencies: [] },
+  '34443': { name: 'mode', dexes: [], wrappedCurrencies: ['WETH'] },
+  '42161': { name: 'arbitrum', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
+  '42170': { name: 'arbitrum-nova', dexes: ['SushiSwap'], wrappedCurrencies: ['WETH'] },
+  '43114': { name: 'avalanche', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
+  '55244': { name: 'superposition', dexes: [], wrappedCurrencies: [] },
+  '59144': { name: 'linea', dexes: [], wrappedCurrencies: ['WETH'] },
+  '60808': { name: 'bob', dexes: [], wrappedCurrencies: ['WETH'] },
+  '70700': { name: 'apex', dexes: [], wrappedCurrencies: ['WETH'] },
+  '70701': { name: 'boss', dexes: [], wrappedCurrencies: ['WETH'] },
+  '81457': { name: 'blast', dexes: ['Uniswap'], wrappedCurrencies: ['WETH'] },
+  '167000': { name: 'taiko', dexes: [], wrappedCurrencies: ['WETH'] },
+  '534352': { name: 'scroll', dexes: ['SushiSwap'], wrappedCurrencies: ['WETH'] },
+  '660279': { name: 'xai', dexes: [], wrappedCurrencies: ['WXAI'] },
+  '984122': { name: 'forma', dexes: [], wrappedCurrencies: ['WTIA'] },
+  '7777777': { name: 'zora', dexes: ['Uniswap'], wrappedCurrencies: ['WETH'] },
+  '666666666': { name: 'degen', dexes: [], wrappedCurrencies: ['WDEGEN'] },
+  '792703809': { name: 'solana', dexes: ['Jupiter'], wrappedCurrencies: ['WSOL'] },
+  '888888888': { name: 'ancient8', dexes: [], wrappedCurrencies: ['WETH'] },
+  '1380012617': { name: 'rari', dexes: [], wrappedCurrencies: [] }
+};
+  if (typeof document === "undefined") {
     return null;
   } else {
     setTimeout(() => {
-      const tbody = document.getElementById(id)
-      const theader = document.getElementById(`${id}Theader`)
-      fetch(env === "testnets" ? "https://api.testnets.relay.link/chains" : "https://api.relay.link/chains").then((response) => response.json()).then((response) => {
-        let rows = ""
-        const currencies = []
-        const currencyIds = []
-        response?.chains?.forEach((chain) => {
-          chain.erc20Currencies.forEach((currency) => {
-            if (!currencyIds.includes(currency.id)) {
-              currencyIds.push(currency.id)
-              currencies.push(currency)
-            }
-          })
-          if (!currencyIds.includes(chain.currency.id) && chain.currency.id !== "eth") {
-            currencyIds.push(chain.currency.id)
-            currencies.push(chain.currency)
-          }
-        })
-        response?.chains?.sort((a, b) => a.displayName.localeCompare(b.displayName))?.forEach((chain) => {
-          const chainCurrencyIds = chain.erc20Currencies?.map((currency) => currency.id)
-          if (!chainCurrencyIds.includes(chain.currency.id)) {
-            chainCurrencyIds.push(chain.currency.id)
-          }
-          rows += `<tr style="font-size: 14px"><td style="padding: 5px;">
-                ${chain.displayName}
-              </td>
-              <td style="padding: 5px;">✅</td>
-              ${currencyIds.map((currencyId) => `<td style="padding: 5px;">${chainCurrencyIds.includes(currencyId) ? "✅" : "" }</td>`).join("")}</tr>`
-        })
-        tbody.innerHTML = rows;
-        theader.innerHTML = `
-          <th style="font-weight: 600; text-align: 'left'; padding: 5px;">
-            Chain
-          </th>
-          <th
-            style="font-weight: 600; text-align: 'left'; padding: 5px; padding-left: 0; padding-right: 20px;"
-          >
-            ETH
-          </th>${currencies.map((currency) => {
-            return `<th
-            style="font-weight: 600; text-align: 'left'; padding: 5px; padding-left: 0; padding-right: 20px;"
-          >
-            ${currency.symbol}
-          </th>`
-          }).join("")}`
-      })
-    }, 1)
+      const tbody = document.getElementById(id);
+      const theader = document.getElementById(`${id}Theader`);
+      fetch(env === "testnets" ? "https://api.testnets.relay.link/chains" : "https://api.relay.link/chains")
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response)
+
+          let tableRows =  response.chains.map((chain) => {
+            const dexes = chainToDexMap[chain.id] ? chainToDexMap[chain.id].dexes.join(", ") : "";
+            return `
+              <tr>
+                <td style="text-transform: capitalize">${chain.name}</td>
+                <td>${dexes.length > 0 ? 'All Tokens' : [chain.currency, ...chain.erc20Currencies].map(c => c.symbol).join(", ")}</td>
+                <td>${chain.depositFee/ 100}%</td>
+                <td>${chain.withdrawalFee / 100}%</td>
+              </tr>
+            `;
+          }).join("");
+      
+      console.log(tableRows)
+          tbody.innerHTML = tableRows;
+        });
+    }, 1);
   }
 
-  return <table>
+  return (
+    <table style={{ width: '100%', borderSpacing: '48px'}} className="relay-table">
       <thead
         style={{
           borderBottom: "1px solid rgb(227 226 230)",
           paddingBottom: 5,
+          width: '100%',
           fontSize: 16,
         }}
       >
-        <tr id={`${id}Theader`}></tr>
+        <tr id={`${id}Theader`} style={{
+          textAlign: 'left'
+        }}>
+          <th>Chain Name</th>
+          <th>Supported Tokens</th>
+          <th>Deposit Fee</th>
+          <th>Withdrawal Fee</th>
+        </tr>
       </thead>
       <tbody id={id}></tbody>
     </table>
+  );
 };
