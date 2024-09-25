@@ -55,7 +55,7 @@ export const Chains = ({ env, id }) => {
             return `
               <tr>
                 <td style="text-transform: capitalize">${chain.name}</td>
-                <td>${dexes.length > 0 ? 'All Tokens' : [chain.currency, ...chain.erc20Currencies].map(c => c.symbol).join(", ")}</td>
+                <td>${dexes.length > 0 ? 'All' : 'Limited'}</td>
                 <td>${chain.depositFee/ 100}%</td>
                 <td>${chain.withdrawalFee / 100}%</td>
               </tr>
