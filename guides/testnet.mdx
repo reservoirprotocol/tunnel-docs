@@ -3,10 +3,25 @@ title: Testnet Support
 description: How to Utilize Testnets on Relay
 ---
 
+import { Chains } from "/snippets/Chains.mdx";
+
 Relay supports a variety of testnet and tokens. We recommend using testnets and their tokens as a way to test bridging with no cost. Our testnet chains are full 
 supported across all of our tools: APIs, SDK, and UI Kit. Feel free to explore the chains offered below. For the latest list, please explore our
 [Testnets Supported Chains](/resources/supported-chains#testnets).
 
 <Tip>**Testnets are not recommended for testing swaps.** Testnets typically lack real DEX liquidity making testnet swaps fail. We recommend using 
 inexspensive L2s like Base or Arbitrum to test swapping. The cost of gas will outweight the time required to debug testnet-specific issues like illiquidity.</Tip>
+
+## Testnets Supported
+
+You can see all the testnets we support in the table below. You can also query our API to get a JSON of the 
+supported testnets: https://api.testnets.relay.link/chains The API response will also return chain IDs and other relevant information.
+
+<Chains id="testnetChains"  env="testnets"/>
+
+## API Support
+
+## SDK Support
+
+## UI Kit Support
 
