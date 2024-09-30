@@ -57,7 +57,8 @@
         "guides/calling",
         "guides/just-in-time-gas",
         "guides/deep-linking",
-        "guides/solana"
+        "guides/solana",
+        "guides/testnet"
       ]
     },
     {
