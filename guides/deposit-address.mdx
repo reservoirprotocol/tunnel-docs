@@ -62,6 +62,8 @@ There are a few current limitations though we are working on adding new features
 - When non-native currency (alternative erc20) or NFTs are sent to the deposit address, we 
 do not support sending them back or recovering of those assets. We soon will add backwards-compatibility when 
 this limitation is removed & feature is launched.
+- If funds are sent to the wrong deposit address, there is a likelihood that the wrong address will not be one that Relay has access to. In the 
+event that a wrong deposit address is used, we cannot guarantee recovery of sent funds.
 
 ## Debugging
 
