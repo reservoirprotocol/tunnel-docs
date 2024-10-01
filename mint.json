@@ -57,6 +57,7 @@
         "guides/calling",
         "guides/just-in-time-gas",
         "guides/deep-linking",
+        "guides/deposit-address",
         "guides/solana"
       ]
     },
