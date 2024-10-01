@@ -1,8 +1,140 @@
 ---
 title: 'Deposit Address'
-description: 'Learn how to use Relay with a deposit address for instant swapping.'
+description: 'Learn how to use Relay with a deposit address for instant bridging.'
 ---
 
-Relay supports instantly and cheaply swaping from a variety of EVM and non-EVM chain to any token. We are now launching deposit addresseds to allow users to swap with connecitng a wallet. 
+Relay supports instantly and cheaply bridging from a variety of EVM and non-EVM chain to any token. 
+We are now launching deposit addresses to allow users to bridge without connecitng a wallet. Users can send funds to a designated address 
+and Relay will instantly deposit the correct tokens on the destination chain in the user's wallet. This is a great way for users to quickly 
+start transacting on a new chain!
 
-Using a deposit address is as simple as sending funds to a designated adressed on any support chain and receiving funds on a different chain
+Please note, only brigding is supported with deposit addresses right now. We are working diligently to add swapping support. Please check this page 
+or follow our [X](https://x.com/relayprotocol) for the latest updates about this feature.
+
+## How It Works
+
+A deposit address is linked to a single request. There is no pre-generation of deposit address 
+required. Currently, re-using a deposit address is not possible. Deposit addresses currently are 
+single use only. When using this feature, you will need to make sure `useDepositAddress` is set to 
+`true` in the request. You will also need to specify the `refundTo` address. This is the address 
+used in case of refunds.
+
+When depositing, the deposit transaction must come from the specified `user` address. If funds are 
+received from the wrong `user` address, a refund will be sent to the `refundTo` address.
+
+The deposit transaction requires no calldata. You just need to send the specified value to the  
+address specified in the response data. The response data will return you the deposit address 
+needed to complete the bridge. 
+
+When using deposit addresses, there are more relayer gas fees associated with bridges. Typically about 
+33,000 more gas is required than regular bridges. For the smallet bridges, we recommend 
+using another method since so much gas is required.
+
+If a deposit takes longer than 30 seconds, a new quote will automatically be generated post-deposit. 
+This is done to account fro gas fluctuation. Generating a new quote can change the amount received 
+after depositing.
+
+## Edge Cases
+
+To prevent common edge cases, we have protection and logic to prevent this from happening. Any refunds 
+will happen automatically and instantly. Some commmon edge casese are described below:
+- Depositing to the Wrong Chain -- For example, if the bridge deposit request is on Base but the funds 
+are received on Optimism, a refund sent to the `refundTo` address will be quickly and automatically 
+dispensed. 
+- Double Spend -- We also protect again double spend when the deposit address sends the funds twice. The automatic, instant 
+refund will be sent to the `refundTo` address.
+- Depositing from the Wrong Address -- The deposit must be received from the specified `user` address. 
+If funds are received from the wrong sender, a refund will be despensed to that sender or wrong address. The 
+`refundTo` address will not be used in this case.
+- Extra Funds are Received -- If the user deposits more funds than what is quoted, a quote will be 
+generated post-deposit and the entire amount will be bridged. This is so all funds received are bridged 
+and returned to the user. 
+- Less Funds are Received -- If the user deposits less funds than what is quoted, a new quote will be generated 
+post-deposit and completed. This is to account for the shortage of funds received.
+
+
+## Limitations
+
+There are a few current limitations though we are working on adding new features to reduce limitations. 
+- Only native currency bridging is allowed.
+- Calldata execution on destination is not allowed.
+- Only exact input brigding is allowed. Specifying exact output will not work.
+- When non-native currency (alternative erc20) or NFTs are sent to the deposit address, we 
+do not support sending them back or recovering of those assets. We soon will add backwards-compatibility when 
+this limitation is removed & feature is launched.
+
+## Debugging
+
+When looking up the status of a bridge or fetching the request data, please use the `requestId` and our [Get Execution Status API](/references/api/get-intents-status-v2).
+The transaction hash of the deposit transaction cannot be used to lookup the status of the bridge.
+To help with debugging transaction, make sure to store the `requestId` along with other data (quotes, transactions, 
+bridges, etc). The `requestId` is unique to Relay's database and will be returned with the quote.
+
+
+## Example Request
+You will find an example below of sending 0.01 ETH from Base to Optimism.
+
+```curl
+curl --request POST \
+  --url 'https://api.relay.link/quote' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"user": "0xF0AE622e463fa757Cf72243569E18Be7Df1996cd",
+	"originChainId": 8453,
+	"originCurrency": "0x0000000000000000000000000000000000000000",
+	"destinationChainId": 10,
+	"destinationCurrency": "0x0000000000000000000000000000000000000000",
+	"tradeType": "EXACT_INPUT",
+	"recipient": "0xF0AE622e463fa757Cf72243569E18Be7Df1996cd",
+	"amount": "100000000000000000",
+	"usePermit": false,
+	"useExternalLiquidity": false,
+	"referrer": "relay.link/bridge",
+	"useDepositAddress": true,
+	"refundTo": "0xF0AE622e463fa757Cf72243569E18Be7Df1996cd"
+}'
+```
+- `useDepositAddress` must be set to `true` <br />
+- `refundTo` must be set when `useDepositAddress` is being used. 
+This is the address that refunds will be sent to in case of an issue.
+
+## Example Response
+
+```curl
+	"steps": [
+		{
+			"id": "deposit",
+			"action": "Confirm transaction in your wallet",
+			"description": "Deposit funds for executing the calls",
+			"kind": "transaction",
+			"requestId": "0xa1dea21f62a85b9ede98b7a6442b7b9574bdfd71adabc03397242adf122038de",
+"items": [
+				{
+					"status": "incomplete",
+					"data": {
+						"from": "0xF0AE622e463fa757Cf72243569E18Be7Df1996cd",
+						"to": "0x1ba74e01d46372008260ec971f77eb6032b938a4",
+						"data": "0x",
+						"value": "100000000000000000",
+						"maxFeePerGas": "4222843",
+						"maxPriorityFeePerGas": "987146",
+						"chainId": 8453
+					},
+					"check": {
+						"endpoint": "/intents/status?requestId=0xa1dea21f62a85b9ede98b7a6442b7b9574bdfd71adabc03397242adf122038de",
+						"method": "GET"
+					}
+				}
+			]
+		}
+	],
+.
+.
+.
+(other metadata associated with the quote, such as fees, rate, etc, omitted for brevity)
+.
+.
+.
+```
+- There will only ever be one step in the response.
+- The deposit transaction will never have any calldata.
