@@ -55,10 +55,16 @@
         "guides/bridging",
         "guides/swapping",
         "guides/calling",
-        "guides/just-in-time-gas",
-        "guides/deep-linking",
         "guides/solana",
-        "guides/testnet"
+        "guides/testnet",
+        {
+          "group": "Advanced",
+          "pages": [
+            "guides/just-in-time-gas",
+            "guides/deep-linking",
+            "guides/deposit-address"
+          ]
+        }
       ]
     },
     {
