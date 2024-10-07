@@ -1,79 +1,63 @@
 ---
-title: 'Deposit Address'
-description: 'Learn how to use Relay with a deposit address for instant bridging.'
+title: "Deposit Address"
+description: "Learn how to use Relay with a deposit address for instant bridging."
 ---
 
-Relay supports instantly and cheaply bridging from a variety of EVM and non-EVM chain to any token. 
-We are now launching deposit addresses to allow users to bridge without connecitng a wallet. Users can send funds to a designated address 
-and Relay will instantly deposit the correct tokens on the destination chain in the user's wallet. This is a great way for users to quickly 
+Relay supports instantly and cheaply bridging from a variety of EVM and non-EVM chain to any token.
+We are now launching deposit addresses to allow users to bridge without connecitng a wallet. Users can send funds to a designated address
+and Relay will instantly deposit the correct tokens on the destination chain in the user's wallet. This is a great way for users to quickly
 start transacting on a new chain!
 
-Please note, only brigding is supported with deposit addresses right now. We are working diligently to add swapping support. Please check this page 
+Please note, only brigding is supported with deposit addresses right now. We are working diligently to add swapping support. Please check this page
 or follow our [X](https://x.com/relayprotocol) for the latest updates about this feature.
 
 ## How It Works
 
-A deposit address is linked to a single request. There is no pre-generation of deposit address 
-required. Currently, re-using a deposit address is not possible. Deposit addresses currently are 
-single use only. When using this feature, you will need to make sure `useDepositAddress` is set to 
-`true` in the request. You will also need to specify the `refundTo` address. This is the address 
-used in case of refunds.
+A deposit address is linked to a single bridge request. They are generated on-demand, and they cannot be reused. To enabled using a deposit address for your bridge, you will need to set the `useDepositAddress` body parameter to `true` in the bridge request. You will also need to specify the `refundTo` address, this is the address
+used where refunds are sent to in case of any issues.
 
-When depositing, the deposit transaction must come from the specified `user` address. If funds are 
-received from the wrong `user` address, a refund will be sent to the `refundTo` address.
+When depositing, the deposit transaction must come from the specified `user` address. If funds are
+received from the wrong address, a refund of the deposited amount will be sent to the `refundTo` address.
 
-The deposit transaction requires no calldata. You just need to send the specified value to the  
-address specified in the response data. The response data will return you the deposit address 
-needed to complete the bridge. 
+The deposit transaction requires no calldata. You just need to send the requested value to the  
+address specified in the API request response data. The response data will return you the transaction to execute to complete the bridge, which includes the deposit address and the amount to send.
 
-When using deposit addresses, there are more relayer gas fees associated with bridges. Typically about 
-33,000 extra gas is required than regular bridges. For the smallet bridges, we recommend 
-using another method since so much gas is required.
+When using deposit addresses, there are more relayer gas fees associated with bridges. Typically about
+33,000 extra gas is required than regular native bridges. For very small bridges, we don't recommend using deposit addresses since so much gas is required.
 
-If a deposit takes longer than 30 seconds, a new quote will automatically be generated post-deposit. 
-This is done to account fro gas fluctuation. Generating a new quote can change the amount received 
+If a deposit takes longer than 30 seconds, a new quote will automatically be generated post-deposit, to account for gas fluctuation. This can change the amount received
 after depositing.
 
 ## Edge Cases
 
-To prevent common edge cases, we have protection and logic to prevent this from happening. Any refunds 
-will happen automatically and instantly. Some commmon edge casese are described below:
-- Depositing to the Wrong Chain -- For example, if the bridge deposit request is on Base but the funds 
-are received on Optimism, a refund sent to the `refundTo` address will be quickly and automatically 
-dispensed. 
-- Double Spend -- We also protect again double spend when the deposit address sends the funds twice. The automatic, instant 
-refund will be sent to the `refundTo` address.
-- Depositing from the Wrong Address -- The deposit must be received from the specified `user` address. 
-If funds are received from the wrong sender, a refund will be despensed to that sender or wrong address. The 
-`refundTo` address will not be used in this case.
-- Extra Funds are Received -- If the user deposits more funds than what is quoted, a quote will be 
-generated post-deposit and the entire amount will be bridged. This is so all funds received are bridged 
-and returned to the user. 
-- Less Funds are Received -- If the user deposits less funds than what is quoted, a new quote will be generated 
-post-deposit and completed. This is to account for the shortage of funds received.
+We have automatic handling for common edge cases that can occur when using deposit addresses;
 
+- Depositing to the Wrong Chain -- For example, if the bridge request requires a deposit on Base but the funds
+  are deposited on Optimism, the amount is automatically refunded to the `refundTo` address.
+- Double Spend -- If funds are deposited to the same deposit addressed twice, we automatically refund the second deposit amount to the refundTo address.
+- Depositing from the Wrong Address -- The deposit must be received from the `user` address specified in the bridge request.
+  If funds are received from the wrong sender, a refund will be sent to that sender address and the bridge will not be filled.
+- Extra Funds are Received -- If the user deposits more funds than what is quoted, the quote will be
+  regenerated to account for this surplus amount.
+- Less Funds are Received -- If the user deposits less funds than what is quoted, a new quote will be generated to account for the lower amount, and the bridge will be filled.
 
 ## Limitations
 
-There are a few current limitations though we are working on adding new features to reduce limitations. 
 - Only native currency bridging is allowed.
 - Calldata execution on destination is not allowed.
 - Only exact input brigding is allowed. Specifying exact output will not work.
-- When non-native currency (alternative erc20) or NFTs are sent to the deposit address, we 
-do not support sending them back or recovering of those assets. We soon will add backwards-compatibility when 
-this limitation is removed & feature is launched.
-- If funds are sent to the wrong deposit address, there is a likelihood that the wrong address will not be one that Relay has access to. In the 
-event that a wrong deposit address is used, we cannot guarantee recovery of sent funds.
+- When non-native currency (alternative erc20) or NFTs are sent to the deposit address, we
+  do not support sending them back or recovering of those assets.
 
 ## Debugging
 
 When looking up the status of a bridge or fetching the request data, please use the `requestId` and our [Get Execution Status API](/references/api/get-intents-status-v2).
-The transaction hash of the deposit transaction cannot be used to lookup the status of the bridge.
-To help with debugging transaction, make sure to store the `requestId` along with other data (quotes, transactions, 
+The transaction hash of the deposit transaction cannot be used to lookup the status of the bridge for deposit address bridges.
+To help with debugging transaction, make sure to store the `requestId` along with other data (quotes, transactions,
 bridges, etc). The `requestId` is unique to Relay's database and will be returned with the quote.
 
-
 ## Example Request
+
 You will find an example below of sending 0.01 ETH from Base to Optimism.
 
 ```curl
@@ -96,9 +80,10 @@ curl --request POST \
 	"refundTo": "0xF0AE622e463fa757Cf72243569E18Be7Df1996cd"
 }'
 ```
+
 - `useDepositAddress` must be set to `true` <br />
-- `refundTo` must be set when `useDepositAddress` is being used. 
-This is the address that refunds will be sent to in case of an issue.
+- `refundTo` must be set when `useDepositAddress` is being used.
+  This is the address that refunds will be sent to in case of an issue.
 
 ## Example Response
 
@@ -138,5 +123,3 @@ This is the address that refunds will be sent to in case of an issue.
 .
 .
 ```
-- There will only ever be one step in the response.
-- The deposit transaction will never have any calldata.
