@@ -16,6 +16,13 @@ sidebarTitle: SwapWidget
 | **lockToToken** | Disables selecting a to token in the ui. A `defaultToToken` is required in order for this setting to be applied. | ❌       |
 | **onFromTokenChange** | A callback triggered when the user changes the from token | ❌ |
 | **onToTokenChange** | A callback triggered when the user changes the to token | ❌ |
+| **lockChainId** | If set, locks the chain selection to the specified chain ID. | ❌ |
+| **tokens** | An array of [Token](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/types/index.ts#L5) objects to restrict the available tokens for selection. | ❌ |
+| **wallet** | An [AdaptedWallet](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/sdk/src/types/AdaptedWallet.ts#L13) object representing the user's wallet. | ❌ |
+| **multiWalletSupportEnabled** | A boolean indicating whether multi-wallet (evm/svm) support is enabled. | ❌ |
+| **linkedWallets** | An array of [LinkedWallet](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/types/index.ts#L14) objects when multi-wallet support is enabled. | ❌ (✅ if multiWalletSupportEnabled is true) |
+| **onSetPrimaryWallet** | A callback function to set the primary wallet when multi-wallet support is enabled. | ❌ (✅ if multiWalletSupportEnabled is true) |
+| **onLinkNewWallet** | A callback function to link a new wallet when multi-wallet support is enabled. | ❌ (✅ if multiWalletSupportEnabled is true) |
 | **defaultToAddress** | A wallet address to send the proceeds to. | ❌       |
 | **defaultAmount** | The default amount to swap, the amount is in the from token currency.  | ❌       |
 | **defaultTradeType** | This can either  be `EXACT_INPUT` or `EXACT_OUTPUT`, each of these refers to prefilling the output amount or the input amount and having the quote return the other side. | ❌       |
