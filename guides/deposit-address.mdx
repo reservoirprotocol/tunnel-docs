@@ -16,9 +16,6 @@ or follow our [X](https://x.com/relayprotocol) for the latest updates about this
 A deposit address is linked to a single bridge request. They are generated on-demand, and they cannot be reused. To enabled using a deposit address for your bridge, you will need to set the `useDepositAddress` body parameter to `true` in the bridge request. You will also need to specify the `refundTo` address, this is the address
 used where refunds are sent to in case of any issues.
 
-When depositing, the deposit transaction must come from the specified `user` address. If funds are
-received from the wrong address, a refund of the deposited amount will be sent to the `refundTo` address.
-
 The deposit transaction requires no calldata. You just need to send the requested value to the  
 address specified in the API request response data. The response data will return you the transaction to execute to complete the bridge, which includes the deposit address and the amount to send.
 
@@ -35,8 +32,6 @@ We have automatic handling for common edge cases that can occur when using depos
 - Depositing to the Wrong Chain -- For example, if the bridge request requires a deposit on Base but the funds
   are deposited on Optimism, the amount is automatically refunded to the `refundTo` address.
 - Double Spend -- If funds are deposited to the same deposit addressed twice, we automatically refund the second deposit amount to the refundTo address.
-- Depositing from the Wrong Address -- The deposit must be received from the `user` address specified in the bridge request.
-  If funds are received from the wrong sender, a refund will be sent to that sender address and the bridge will not be filled.
 - Extra Funds are Received -- If the user deposits more funds than what is quoted, the quote will be
   regenerated to account for this surplus amount.
 - Less Funds are Received -- If the user deposits less funds than what is quoted, a new quote will be generated to account for the lower amount, and the bridge will be filled.
