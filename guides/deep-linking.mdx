@@ -15,7 +15,7 @@ The following query parameters are supported:
 | `fromChainId` | The chainId of the origin chain  | `8453` |
 | `fromCurrency` | The currency address for the from chain | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
 | `toCurrency` | The currency address for the to chain | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
-| `tradeType` | Whether to use the amount as the output or the input for the basis of the swap  | `EXACT_INPUT` or `EXACT_OUTPUT` |
+| `tradeType` | Whether to use the amount as the output or the input for the basis of the swap  | `EXACT_INPUT`, `EXPECTED_OUTPUT`, `EXACT_OUTPUT` |
 
 
 To deep link to a specific `toChain`, you must replace the slug after `/bridge` with the desired chain's name, like so: `relay.link/bridge/{chainName}`. Spaces should be replaced with dashes. You can check out the list of supported chains [`here`](/resources/supported-chains).
@@ -48,7 +48,7 @@ The following query parameters are supported:
 | `fromCurrency` | The currency address on the origin chain  | `0x4200000000000000000000000000000000000006` |
 | `toCurrency` | The currency address on the destination chain  | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
 | `amount` | The amount to have the input initially set to in the widget  | `0.1` |
-| `tradeType` | Whether to use the amount as the output or the input for the basis of the swap  | `EXACT_INPUT` or `EXACT_OUTPUT` |
+| `tradeType` | Whether to use the amount as the output or the input for the basis of the swap  | `EXACT_INPUT`, `EXPECTED_OUTPUT`, `EXACT_OUTPUT` |
 | `fromChainId` | The chainId of the origin chain  | `8453` |
 
 ### Examples 
