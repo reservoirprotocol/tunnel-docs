@@ -53,7 +53,7 @@ const quote = await relayClient.actions.getQuote({
   chainId: baseSepolia.id,
   toChainId: sepolia.id,
   wallet,
-  value: totalGasEstimationWithBuffer.toString(),
+  amount: totalGasEstimationWithBuffer.toString(),
 })
 
 await relayClient.actions.execute({
@@ -99,7 +99,7 @@ const quote = await relayClient.actions.getQuote({
   chainId: sepolia.id,
   toChainId: baseSepolia.id,
   wallet,
-  value: destinationEthBalance.value.toString()
+  amount: destinationEthBalance.value.toString()
 })
 
 const bufferedGasFee = BigInt(quote?.fees?.gas ?? 0) * (BigInt(100) + BigInt(5)) / BigInt(100) // add 5% buffer to handle flucation

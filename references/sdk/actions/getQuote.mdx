@@ -31,7 +31,7 @@ const quote = await getClient()?.actions.getQuote({
   toChainId: 10,
   currency: "0x0000000000000000000000000000000000000000",
   toCurrency: "0x0000000000000000000000000000000000000000",
-  value: "10000000000000000", // 0.01 ETH
+  amount: "10000000000000000", // 0.01 ETH
   wallet,
 });
 ```
@@ -45,7 +45,7 @@ const quote = await getClient()?.actions.getQuote({
   toChainId: 10,
   currency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", // USDC on Ethereum
   toCurrency: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1", // DAI on Optimism
-  value: "100000", // 100 USDC
+  amount: "100000", // 100 USDC
   wallet,
 });
 ```
@@ -59,7 +59,7 @@ const quote = await getClient()?.actions.getQuote({
   toChainId: 1,
   currency: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", // WETH
   toCurrency: "0x0000000000000000000000000000000000000000",
-  value: "10000000000000000", // 0.01 ETH
+  amount: "10000000000000000", // 0.01 ETH
   wallet,
 });
 ```
@@ -74,7 +74,7 @@ const quote = await getClient()?.actions.getQuote({
   toChainId: 1,
   currency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", // USDC
   toCurrency: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-  value: "100000", // 100 USDC
+  amount: "100000", // 100 USDC
   wallet,
   recipient: "0x0000c3caa36e2d9a8cd5269c976ede05018f0000",
 });
