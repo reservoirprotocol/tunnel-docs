@@ -103,6 +103,7 @@
         "references/api/get-currencies",
         "references/api/get-price",
         "references/api/get-quote",
+        "references/api/swap-multi-input",
         "references/api/transactions-index",
         {
           "group": "Deprecated",
