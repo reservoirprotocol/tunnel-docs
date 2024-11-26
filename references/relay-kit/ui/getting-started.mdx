@@ -88,11 +88,12 @@ import { useRelayChains } from '@reservoir0x/relay-kit-hooks'
 import { RelayKitProvider } from '@reservoir0x/relay-kit-ui'
 import { convertViemChainToRelayChain } from '@reservoir0x/relay-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { MAINNET_RELAY_API, TESTNET_RELAY_API } from '@reservoir0x/relay-sdk'
 
 const queryClient = new QueryClient()
 
 const App = () => {
-  const { chains, viemChains } = useRelayChains(relayApi)
+  const { chains, viemChains } = useRelayChains(MAINNET_RELAY_API)
 
   useEffect(() => {
     if (!wagmiConfig && chains && viemChains) {
@@ -106,13 +107,14 @@ const App = () => {
         })
       )
     }
-  }, [chains, relayApi])
+  }, [chains])
 
   return (
     <QueryClientProvider client={queryClient}>
       <RelayKitProvider options={{
           duneApiKey: "YOUR_DUNE_KEY",
-          chains
+          chains,
+          baseApiUrl: MAINNET_RELAY_API
         }}>
         <WagmiProvider config={wagmiConfig}>
           <YourApp />
