@@ -35,16 +35,21 @@ Once all dependencies are installed you can now configure and wrap your applicat
 import { RelayKitProvider } from '@reservoir0x/relay-kit-ui'
 import { convertViemChainToRelayChain } from '@reservoir0x/relay-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { http, createConfig, WagmiProvider } from '@wagmi/core'
+import { mainnet } from '@wagmi/core/chains'
+import { MAINNET_RELAY_API, TESTNET_RELAY_API } from '@reservoir0x/relay-sdk'
 import '@reservoir0x/relay-kit-ui/styles.css'
 
 const queryClient = new QueryClient()
 
 const chains = [convertViemChainToRelayChain(mainnet)]
 
-const wagmiConfig = getDefaultConfig({
+const wagmiConfig = createConfig({
   appName: 'Relay Demo',
-  projectId: "YOUR_WALLET_CONNECT_ID",
-  chains: [mainnet]
+  chains: [mainnet],
+  transports: {
+    [mainnet.id]: http(),
+  }
 })
 
 const App = () => {
@@ -59,7 +64,8 @@ const App = () => {
             }
           ]
           duneApiKey: "YOUR_DUNE_KEY",
-          chains
+          chains,
+          baseApiUrl: MAINNET_RELAY_API
         }}>
         <WagmiProvider config={wagmiConfig}>
           <YourApp />
@@ -88,26 +94,38 @@ import { useRelayChains } from '@reservoir0x/relay-kit-hooks'
 import { RelayKitProvider } from '@reservoir0x/relay-kit-ui'
 import { convertViemChainToRelayChain } from '@reservoir0x/relay-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { http, createConfig, WagmiProvider } from '@wagmi/core'
+import { mainnet } from '@wagmi/core/chains'
 import { MAINNET_RELAY_API, TESTNET_RELAY_API } from '@reservoir0x/relay-sdk'
 
 const queryClient = new QueryClient()
 
 const App = () => {
+  const [wagmiConfig, setWagmiConfig] = useState<
+    ReturnType<typeof createConfig> | undefined
+  >()
   const { chains, viemChains } = useRelayChains(MAINNET_RELAY_API)
 
   useEffect(() => {
     if (!wagmiConfig && chains && viemChains) {
       setWagmiConfig(
-        getDefaultConfig({
+        createConfig({
           appName: 'Relay Demo',
-          projectId: 'YOUR_WALLET_CONNECT_ID',
           chains: (viemChains && viemChains.length === 0
             ? [mainnet]
-            : viemChains) as [Chain, ...Chain[]]
+            : viemChains) as [Chain, ...Chain[]],
+          transports: {
+            [mainnet.id]: http(),
+          }
         })
       )
     }
   }, [chains])
+
+  //Prevent loading the page until wagmi config is set, you can set a temporary config to swap out later to unblock the ui
+  if (!wagmiConfig) {
+    return null
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
