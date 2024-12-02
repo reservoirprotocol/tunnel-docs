@@ -16,7 +16,7 @@ sidebarTitle: SwapWidget
 | **lockToToken** | Disables selecting a to token in the ui. A `defaultToToken` is required in order for this setting to be applied. | ❌       |
 | **onFromTokenChange** | A callback triggered when the user changes the from token | ❌ |
 | **onToTokenChange** | A callback triggered when the user changes the to token | ❌ |
-| **lockChainId** | If set, locks the chain selection to the specified chain ID. | ❌ |
+| **lockChainId** | If set, locks the chain selection to the specified chain ID. Requires default tokens to be configured for this to work properly. | ❌ |
 | **tokens** | An array of [Token](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/types/index.ts#L5) objects to restrict the available tokens for selection. | ❌ |
 | **wallet** | An [AdaptedWallet](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/sdk/src/types/AdaptedWallet.ts#L13) object representing the user's wallet. | ❌ |
 | **multiWalletSupportEnabled** | A boolean indicating whether multi-wallet (evm/svm) support is enabled. | ❌ |
