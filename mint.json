@@ -174,7 +174,8 @@
   },
   "analytics": {
     "posthog": {
-      "apiKey": "phc_lt2ItRZ4JcNk7wFGqF74QjJ2TxQlqmO9jLaL8Tvkvgt"
+      "apiKey": "phc_bidXwDZgxGlWqfNtx8fhLESozcfupLUETfYB306Apmc",
+      "apiHost": "https://posthog.reservoir.tools"
     }
   },
   "redirects": [
