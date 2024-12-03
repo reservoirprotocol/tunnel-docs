@@ -7,27 +7,27 @@ description: "Learn about Relay fees"
 
 Relay quotes include the following fees: `gas`, `relayerService`, and `relayerGas`. The two relayer fees (service and gas) are combined to make the full `relayer` fee.
 
-__gas__: The gas fee to be paid on the origin chain to execute the transaction. This is usually paid by the user to deposit funds to the relayer to initiate the bridge or swap.
+**gas**: The gas fee to be paid on the origin chain to execute the transaction. This is usually paid by the user to deposit funds to the relayer to initiate the bridge or swap.
 
-__relayer__: The sum of the relayerService and the relayerGas.
+**relayer**: The sum of the relayerService and the relayerGas.
 
-__relayerService__: The service fee paid to the relayer to facilitate execution.
+**relayerService**: The service fee paid to the relayer to facilitate execution.
 
-__relayerGas__: The gas fee given to the solver to pay gas fees on the destination chain.
+**relayerGas**: The gas fee given to the solver to pay gas fees on the destination chain.
 
-__app__: Third party fees added on top of the existing fees, this fee is added by app developers and accrues offchain to minimize gas costs.
+**app**: Third party fees added on top of the existing fees, this fee is added by app developers and accrues offchain to minimize gas costs.
 
 Gas fees are estimates and may fluctuate over time, if using in a calculation we recommend adding a small buffer to account for these fluctuations.
 
 ### What are app fees?
 
-App fees are third party fees added on top by app developers. The fees accrue offchain and can be claimed by the wallet at any point. This flow allows for us to be hyper gas efficient instead of sending fees on every transaction. You can accrue fees by including appFees in the execute request, right now this is only supported for the bridge and call execution flows (swapping support coming soon).
+App fees are third party fees added on top by app developers. The fees accrue offchain and can be claimed by the wallet at any point. This flow allows for us to be hyper gas efficient instead of sending fees on every transaction. You can accrue fees by including `appFees` in the [Quote API](https://docs.relay.link/references/api/get-quote).
 
 #### How do I know my offchain balance?
 
 Look up accrued offchain fees by using the [config](/references/api/get-config) api. Make sure that you pass in the originChainId as 0. Here's an example of how the url should be constructed:
 
-`https://api.relay.link/config/v2?originChainId=0&currencyId=eth&user=0x03508bB71268BBA25ECaCC8F620e01866650532c&destinationChainId=1`
+[`https://api.relay.link/config/v2?originChainId=0&currencyId=eth&user=0x03508bB71268BBA25ECaCC8F620e01866650532c&destinationChainId=1`](https://api.relay.link/config/v2?originChainId=0\&currencyId=eth\&user=0x03508bB71268BBA25ECaCC8F620e01866650532c\&destinationChainId=1)
 
 The user balance property will reflect the offchain balance:
 
@@ -52,39 +52,40 @@ The user balance property will reflect the offchain balance:
 To claim the funds, all you need to do is create a bridge to any chain from chainId 0, this will transfer the offchain balance to your wallet on the desired chain. Below are some examples of how to do this:
 
 <CodeGroup>
-```bash API
-curl --request POST \
-  --url https://api.relay.link/execute/bridge \
-  --header 'Content-Type: application/json' \
-  --data '{
-  "user": "0x03508bB71268BBA25ECaCC8F620e01866650532c",
-  "originChainId": 0,
-  "destinationChainId": 1,
-  "currency": "eth",
-  "amount": "1000"
-}'
-```
-```javascript SDK
-import { getClient } from '@reservoir0x/relay-sdk'
-import { useWalletClient } from 'wagmi'
+  ```bash API
+  curl --request POST \
+    --url https://api.relay.link/execute/bridge \
+    --header 'Content-Type: application/json' \
+    --data '{
+    "user": "0x03508bB71268BBA25ECaCC8F620e01866650532c",
+    "originChainId": 0,
+    "destinationChainId": 1,
+    "currency": "eth",
+    "amount": "1000"
+  }'
+  ```
 
-const { data: wallet } = useWalletClient()
+  ```javascript SDK
+  import { getClient } from '@reservoir0x/relay-sdk'
+  import { useWalletClient } from 'wagmi'
 
-const quote = await getClient()?.actions.getQuote({
-  wallet,
-  chainId: 0,
-  toChainId: 1,
-  amount: '1000',
-  currency: 'eth'
-})
+  const { data: wallet } = useWalletClient()
 
-await relayClient.actions.execute({
-  quote,
-  wallet,
-  onProgress(steps) {
-    setStep(getCurrentStepDescription(steps))
-  },
-})
+  const quote = await getClient()?.actions.getQuote({
+    wallet,
+    chainId: 0,
+    toChainId: 1,
+    amount: '1000',
+    currency: 'eth'
+  })
 
-```
+  await relayClient.actions.execute({
+    quote,
+    wallet,
+    onProgress(steps) {
+      setStep(getCurrentStepDescription(steps))
+    },
+  })
+
+  ```
 </CodeGroup>
