@@ -28,6 +28,8 @@ sidebarTitle: SwapWidget
 | **defaultTradeType** | This can either  be `EXACT_INPUT` or `EXACT_OUTPUT`, each of these refers to prefilling the output amount or the input amount and having the quote return the other side. | ❌       |
 | **onConnectWallet** | A callback to connect the user's wallet. The widget can be used to fetch quotes for unauthenticated sessions but executing the quote requires an authenticated session. | ✅       |
 | **onAnalyticEvent** | A callback which sends useful [events](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/constants/events.ts) to pipe into your existing analytics integration. | ❌       |
+| **onSwapValidating** | A callback that returns the quote object along with executable steps while validating the swap | ❌       |
+| **onSwapSuccess** | A callback that returns the quote object along with executable steps when the swap is complete | ❌       |
 
 ## Usage
 
