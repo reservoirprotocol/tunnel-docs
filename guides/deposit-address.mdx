@@ -30,7 +30,7 @@ If a deposit occurs more than than 30 seconds after the quote is generated, a ne
 We have automatic handling for common edge cases that can occur when using deposit addresses;
 
 - Depositing to the Wrong Chain -- For example, if the bridge request requires a deposit on Base but the funds
-  are deposited on Optimism, this amount is bridged to the destination chain originally requested as long as its enough to cover the fees and gas associated with the bridge. Please note that this will mean a new quote will be generated in-flight.
+  are deposited on Optimism, this amount is bridged to the destination chain originally requested as long as its enough to cover the fees and gas associated with the bridge. Please note that this will mean a new quote will be generated in-flight. NOTE: This is only supported for native ETH, see limitations.
 - Double Spend -- If funds are deposited to the same deposit addressed twice, we automatically refund the second deposit amount to the refundTo address if its specified. Otherwise, the funds require manual intervention.
 - Extra Funds are Received -- If the user deposits more funds than what is quoted, the quote will be
   regenerated to account for this surplus amount and the bridge will still be filled.
@@ -39,6 +39,8 @@ We have automatic handling for common edge cases that can occur when using depos
 ## Limitations
 
 - Calldata execution on destination is not allowed.
+- The deposit transaction must come from an EOA, we do not index funds that are transfered via an internal transaction only, i.e account abstracted wallets.
+- If an ERC20 is sent to the wrong chain, it is currently not supported to be auto-bridged like it is for ETH.
 - Only exact input brigding is allowed. Specifying exact output will not work.
 - When non-supported currency or NFTs are sent to the deposit address, we
   currently do not support recovering of those assets.
