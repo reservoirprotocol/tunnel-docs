@@ -10,8 +10,10 @@ start transacting on a new chain!
 
 ## How It Works
 
-A deposit address is linked to a single bridge request. They are generated on-demand, and they cannot be reused. To enable using a deposit address for your bridge, you will need to set the `useDepositAddress` body parameter to `true` in the quote request. You will also need to specify the `refundTo` address, this is the address
-used where refunds are sent to in case of any issues.
+A deposit address is linked to a single bridge request. They are generated on-demand, and they cannot be reused. To enable using a deposit address for your bridge, you will need to set the `useDepositAddress` body parameter to `true` in the quote request. 
+
+Failures via deposit addresses are extremely rare, but are still possible. If something goes wrong, we will default to manually handling refunds. If you wish to automatically receive refunds on the origin chain, specify the `refundTo` address. This will mean refunds will automatically be issued on origin in case of any filling failures. 
+
 
 The deposit transaction requires no calldata. You just need to send any value to the  
 address specified in the API request response data.  As long as this amount is enough to cover any gas or relay fees, it will be automatically bridged based on the route requested in the initial quote.
@@ -28,10 +30,10 @@ If a deposit occurs more than than 30 seconds after the quote is generated, a ne
 We have automatic handling for common edge cases that can occur when using deposit addresses;
 
 - Depositing to the Wrong Chain -- For example, if the bridge request requires a deposit on Base but the funds
-  are deposited on Optimism, the amount is automatically refunded to the `refundTo` address.
-- Double Spend -- If funds are deposited to the same deposit addressed twice, we automatically refund the second deposit amount to the refundTo address.
+  are deposited on Optimism, this amount is bridged to the destination chain originally requested as long as its enough to cover the fees and gas associated with the bridge. Please note that this will mean a new quote will be generated in-flight.
+- Double Spend -- If funds are deposited to the same deposit addressed twice, we automatically refund the second deposit amount to the refundTo address if its specified. Otherwise, the funds require manual intervention.
 - Extra Funds are Received -- If the user deposits more funds than what is quoted, the quote will be
-  regenerated to account for this surplus amount.
+  regenerated to account for this surplus amount and the bridge will still be filled.
 - Less Funds are Received -- If the user deposits less funds than what is quoted, a new quote will be generated to account for the lower amount, and the bridge will be filled.
 
 ## Limitations
@@ -39,7 +41,7 @@ We have automatic handling for common edge cases that can occur when using depos
 - Calldata execution on destination is not allowed.
 - Only exact input brigding is allowed. Specifying exact output will not work.
 - When non-supported currency or NFTs are sent to the deposit address, we
-  do not support recovering of those assets.
+  currently do not support recovering of those assets.
 
 ## Debugging
 
