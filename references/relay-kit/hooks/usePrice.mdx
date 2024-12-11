@@ -8,7 +8,7 @@ sidebarTitle: usePrice
 
 | Parameter    | Description                                                                                                                                                                                                                   | Required |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| **client**       | A RelayClient instance. You can create one using the [SDK](http://localhost:3000/references/sdk/createClient) or retrieve one using the [useRelayClient](/) hook from the UI kit.                                             | ✅       |
+| **client**       | A RelayClient instance. You can create one using the [SDK](http://localhost:3000/references/sdk/createClient) or retrieve one using the `useRelayClient` hook from the UI kit.                                             | ✅       |
 | **options**      | Options that map directly to the [price API](/references/api/get-price).                                                                                                                                                 | ✅       |
 | **onResponse**   | A callback function that triggers when a response is returned.                                                                                                                                                                | ❌       |
 | **queryOptions** | Tanstack query options. Refer to the [Tanstack](https://tanstack.com/query/latest/docs/framework/react/guides/query-options) docs.                                                                                            | ❌       |
@@ -27,7 +27,7 @@ import { getClient } from '@reservoir0x/relay-sdk'
 
 const queryOptions = {...} //Query options from tanstack
 const walletClient = useWalletClient()
-const relayClient = getClient() //Either use getClient, createClient or useRelayClient
+const relayClient = getClient() //Either use getClient, createClient or useRelayClient from the ui kit
 
 const {
 data: price,

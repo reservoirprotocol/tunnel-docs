@@ -86,7 +86,8 @@ const quote = await getClient()?.actions.getQuote({
 })
 ```
 ```typescript hooks
-import { useQuote, useRelayClient } from '@reservoir0x/relay-kit-hooks'
+import { useRelayClient } from '@reservoir0x/relay-kit-ui'
+import { useQuote } from '@reservoir0x/relay-kit-hooks'
 import { useWalletClient } from 'wagmi'
 
 const { data: wallet } = useWalletClient()
