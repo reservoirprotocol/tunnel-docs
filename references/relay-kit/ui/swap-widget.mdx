@@ -11,6 +11,7 @@ sidebarTitle: SwapWidget
 | Parameter    | Description                                                                                                                                    | Required |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | **defaultFromToken**       | An object representing a token that will be used as the default to swap from. | ✅       |
+| **supportedWalletVMs**       | A required array of VMs that the swap widget should support, if a VM is selected that's not listed it will fall back to the (deposit address)[https://support.relay.link/en/articles/10269920-how-do-deposit-addresses-work] ux. When setting this array make sure that the VMs are connectible by your wallet connection provider (dynamic, rainbow, privy, etc). | ✅       |
 | **defaultToToken** | An object representing a token that will be used as the default to swap to. | ❌       |
 | **lockFromToken** | Disables selecting a from token in the ui. A `defaultFromToken` is required in order for this setting to be applied. | ❌       |
 | **lockToToken** | Disables selecting a to token in the ui. A `defaultToToken` is required in order for this setting to be applied. | ❌       |
@@ -59,6 +60,7 @@ export default function MyComponent() {
         logoURI: 'https://ethereum-optimism.github.io/data/USDC/logo.png'
       }}
       defaultAmount={'5'}
+      supportedWalletVMs={['evm']}
       onConnectWallet={openConnectModal}
       onAnalyticEvent={(eventName, data) => {
         console.log('Analytic Event', eventName, data)
