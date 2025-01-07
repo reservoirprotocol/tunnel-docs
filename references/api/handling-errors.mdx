@@ -4,17 +4,27 @@ title: Handling Errors
 
 When an endpoint returns an error it will be accompanied with a `code`. The code is a predictable way to anticipate errors and handle them accordingly. Below is a list of errors returned by various APIs
 
-| Name                    | Description |
-|-------------------------|-------------|
-| `UNAUTHORIZED`            | Unauthorized access to authenticated endpoints         |
-| `UNKNOWN_ERROR`           | When the error is unknown         |
-| `UNSUPPORTED_CURRENCY`    | Currency is not a valid native currency or erc20 token         |
-| `UNSUPPORTED_CHAIN`       | Chain id supplied is unsupported         |
-| `UNSUPPORTED_ROUTE`       | Combination of chains and/or currencies is not supported         |
-| `INSUFFICIENT_FUNDS`      | Insufficient balance to perform crosschain action         |
-| `INSUFFICIENT_LIQUIDITY`  | Solver liquidity is insufficient to fulfill order         |
-| `INVALID_ADDRESS`         | Address format is invalid or address has been blocked by OFAC         |
-| `AMOUNT_TOO_LOW`          | Amount is too small to cover transaction fees         |
+| Name | Description |
+|------|-------------|
+| `AMOUNT_TOO_LOW` | Amount is too small to cover transaction fees |
+| `ERC20_ROUTER_ADDRESS_NOT_FOUND` | Router address for ERC20 token not found |
+| `EXTRA_TXS_NOT_SUPPORTED` | Extra transactions are not supported for this operation |
+| `INSUFFICIENT_FUNDS` | Insufficient balance to perform crosschain action |
+| `INSUFFICIENT_LIQUIDITY` | Solver liquidity is insufficient to fulfill order |
+| `INVALID_ADDRESS` | Address format is invalid or address has been blocked by OFAC |
+| `INVALID_EXTRA_TXS` | Provided extra transactions are invalid |
+| `NO_QUOTES` | No quotes available for the requested transaction |
+| `NO_SWAP_ROUTES_FOUND` | No valid swap routes found for the requested pair |
+| `PERMIT_FAILED` | Token permit operation failed |
+| `SWAP_IMPACT_TOO_HIGH` | Swap price impact exceeds acceptable threshold |
+| `SWAP_QUOTE_FAILED` | Failed to get quote for swap operation |
+| `UNAUTHORIZED` | Unauthorized access to authenticated endpoints |
+| `UNKNOWN_ERROR` | When the error is unknown |
+| `UNSUPPORTED_CHAIN` | Chain id supplied is unsupported |
+| `UNSUPPORTED_CURRENCY` | Currency is not a valid native currency or erc20 token |
+| `UNSUPPORTED_EXECUTION_TYPE` | Requested execution type is not supported |
+| `UNSUPPORTED_ROUTE` | Combination of chains and/or currencies is not supported |
+| `USER_RECIPIENT_MISMATCH` | User and recipient addresses do not match when required |
 
 These errors will be accompanied by a contextual message, for example:
 
