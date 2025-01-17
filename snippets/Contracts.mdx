@@ -1,24 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React from 'react'
 
-export const Contracts = ({ env = "mainnet" }) => {
-  const [chainData, setChainData] = useState([]);
+export const Contracts = ({ env, id }) => {
+  if (typeof document === "undefined") {
+    return null;
+  } else {
+    setTimeout(() => {
+      const tbody = document.getElementById(id);
+      const theader = document.getElementById(`${id}Theader`);
+      fetch(env === "testnets" ? "https://api.testnets.relay.link/chains" : "https://api.relay.link/chains")
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response)
 
-useEffect(() => {
-fetch(
-env === "testnets"
-? "https://api.testnets.relay.link/chains"
-: "https://api.relay.link/chains"
-)
-.then((response) => response.json())
-.then((response) => {
-setChainData(
-response.chains.sort((a, b) =>
-a.displayName.localeCompare(b.displayName)
-)
-);
-})
-.catch((error) => console.error("Error fetching chains:", error));
-}, [env]);
+          let tableRows = response.chains
+            .sort((a, b) => a.displayName.localeCompare(b.displayName))
+            .map((chain) => {
+              return `
+                <tr>
+                  <td style="text-transform: capitalize">${chain.displayName}</td>
+                  <td>${chain.id}</td>
+                  <td>{chain.contracts.relayReceiver > 0 ? "N/A" : "N/A"}</td>
+          <td>{chain.contracts.erc20Router > 0 ? "N/A" : "N/A"}</td>
+          <td>{chain.contracts.approvalProxy > 0 ? "N/A" : "N/A"}</td>
+                </tr>
+              `;
+            }).join("");
+
+      console.log(tableRows)
+          tbody.innerHTML = tableRows;
+        });
+    }, 1);
+
+}
 
 return (
 
@@ -31,7 +44,12 @@ return (
       fontSize: 16,
     }}
   >
-    <tr style={{ textAlign: "left" }}>
+    <tr
+      id={`${id}Theader`}
+      style={{
+        textAlign: "left",
+      }}
+    >
       <th>Chain Name</th>
       <th>Chain ID</th>
       <th>RelayReceiver</th>
@@ -39,21 +57,6 @@ return (
       <th>ApprovalProxy</th>
     </tr>
   </thead>
-  <tbody>
-    {chainData.map((chain) => {
-      const dexes = chainToDexMap[chain.id]
-        ? chainToDexMap[chain.id].dexes.join(", ")
-        : "";
-      return (
-        <tr key={chain.id}>
-          <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
-          <td>{chain.id}</td>
-          <td>{chain.contracts.relayReceiver > 0 ? "N/A" : "N/A"}</td>
-          <td>{chain.contracts.erc20Router > 0 ? "N/A" : "N/A"}</td>
-          <td>{chain.contracts.approvalProxy > 0 ? "N/A" : "N/A"}</td>
-        </tr>
-      );
-    })}
-  </tbody>
+  <tbody id={id}></tbody>
 </table>
 ); };

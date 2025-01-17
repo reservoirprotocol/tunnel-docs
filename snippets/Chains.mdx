@@ -66,34 +66,38 @@ export const Chains = ({ env, id }) => {
                 </tr>
               `;
             }).join("");
-      
+
       console.log(tableRows)
           tbody.innerHTML = tableRows;
         });
     }, 1);
-  }
 
-  return (
-    <table style={{ width: '100%', borderSpacing: '48px'}} className="relay-table">
-      <thead
-        style={{
-          borderBottom: "1px solid rgb(227 226 230)",
-          paddingBottom: 5,
-          width: '100%',
-          fontSize: 16,
-        }}
-      >
-        <tr id={`${id}Theader`} style={{
-          textAlign: 'left'
-        }}>
-          <th>Chain Name</th>
-          <th>Chain ID</th>
-          <th>Supported Tokens</th>
-          <th>Deposit Fee</th>
-          <th>Withdrawal Fee</th>
-        </tr>
-      </thead>
-      <tbody id={id}></tbody>
-    </table>
-  );
-};
+}
+
+return (
+
+<table style={{ width: "100%", borderSpacing: "48px" }} className="relay-table">
+  <thead
+    style={{
+      borderBottom: "1px solid rgb(227 226 230)",
+      paddingBottom: 5,
+      width: "100%",
+      fontSize: 16,
+    }}
+  >
+    <tr
+      id={`${id}Theader`}
+      style={{
+        textAlign: "left",
+      }}
+    >
+      <th>Chain Name</th>
+      <th>Chain ID</th>
+      <th>Supported Tokens</th>
+      <th>Deposit Fee</th>
+      <th>Withdrawal Fee</th>
+    </tr>
+  </thead>
+  <tbody id={id}></tbody>
+</table>
+); };
