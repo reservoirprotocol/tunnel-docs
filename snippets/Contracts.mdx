@@ -40,23 +40,34 @@ return (
     <tr style={{ textAlign: "left" }}>
       <th>Chain Name</th>
       <th>Chain ID</th>
-      <th>Supported Tokens</th>
-      <th>Deposit Fee</th>
-      <th>Withdrawal Fee</th>
+      <th>RelayReceiver</th>
+      <th>ERC20Router</th>
+      <th>ApprovalProxy</th>
     </tr>
   </thead>
   <tbody>
     {chainData
       .sort((a, b) => a.displayName.localeCompare(b.displayName))
       .map((chain) => {
-        const dexes = chainToDexMap[chain.id]?.dexes.join(", ") || "";
         return (
           <tr key={chain.id}>
             <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
             <td>{chain.id}</td>
-            <td>{dexes.length > 0 ? "All" : "Limited"}</td>
-            <td>{chain.depositFee / 100}%</td>
-            <td>{chain.withdrawalFee / 100}%</td>
+            <td>
+              {chain.contracts.relayReceiver > 0
+                ? chain.contracts.relayReceiver
+                : "N/A"}
+            </td>
+            <td>
+              {chain.contracts.erc20Router > 0
+                ? chain.contracts.erc20Router
+                : "N/A"}
+            </td>
+            <td>
+              {chain.contracts.approvalProxy > 0
+                ? chain.contracts.approvalProxy
+                : "N/A"}
+            </td>
           </tr>
         );
       })}
