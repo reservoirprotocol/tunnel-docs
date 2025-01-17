@@ -4,7 +4,7 @@ export const Contracts = ({ env, id }) => {
   const [chainData, setChainData] = useState([]);
 
 useEffect(() => {
-const fetchChains = async () => {
+const fetchContracts = async () => {
 try {
 const response = await fetch(
 env === "testnets"
@@ -18,7 +18,7 @@ console.error('Error fetching chain data:', error);
 }
 };
 
-    fetchChains();
+    fetchContracts();
 
 }, [env]);
 
@@ -40,33 +40,26 @@ return (
     <tr style={{ textAlign: "left" }}>
       <th>Chain Name</th>
       <th>Chain ID</th>
-      <th>RelayReceiver</th>
-      <th>ERC20Router</th>
-      <th>ApprovalProxy</th>
+      <th>Supported Tokens</th>
+      <th>Deposit Fee</th>
+      <th>Withdrawal Fee</th>
     </tr>
   </thead>
   <tbody>
-    {chainData.map((chain) => (
-      <tr key={chain.id}>
-        <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
-        <td>{chain.id}</td>
-        <td>
-          {chain.contracts.relayReceiver > 0
-            ? chain.contracts.relayReceiver
-            : "N/A"}
-        </td>
-        <td>
-          {chain.contracts.erc20Router > 0
-            ? chain.contracts.erc20Router
-            : "N/A"}
-        </td>
-        <td>
-          {chain.contracts.approvalProxy > 0
-            ? chain.contracts.approvalProxy
-            : "N/A"}
-        </td>
-      </tr>
-    ))}
+    {chainData
+      .sort((a, b) => a.displayName.localeCompare(b.displayName))
+      .map((chain) => {
+        const dexes = chainToDexMap[chain.id]?.dexes.join(", ") || "";
+        return (
+          <tr key={chain.id}>
+            <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
+            <td>{chain.id}</td>
+            <td>{dexes.length > 0 ? "All" : "Limited"}</td>
+            <td>{chain.depositFee / 100}%</td>
+            <td>{chain.withdrawalFee / 100}%</td>
+          </tr>
+        );
+      })}
   </tbody>
 </table>
 ); };
