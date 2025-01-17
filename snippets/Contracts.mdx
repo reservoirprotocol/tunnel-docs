@@ -1,0 +1,78 @@
+// snippets/Chains.jsx
+import React, { useEffect, useState } from "react";
+
+export const Contracts = ({ env = "mainnet" }) => {
+  const [chainData, setChainData] = useState([]);
+
+const chainToDexMap = {
+1: { name: "ethereum", dexes: ["0x"], wrappedCurrencies: ["WETH"] },
+10: { name: "optimism", dexes: ["0x"], wrappedCurrencies: ["WETH"] },
+// ... rest of your chainToDexMap
+};
+
+useEffect(() => {
+fetch(
+env === "testnets"
+? "https://api.testnets.relay.link/chains"
+: "https://api.relay.link/chains"
+)
+.then((response) => response.json())
+.then((response) => {
+setChainData(
+response.chains.sort((a, b) =>
+a.displayName.localeCompare(b.displayName)
+)
+);
+})
+.catch((error) => console.error("Error fetching chains:", error));
+}, [env]);
+
+return (
+
+<table style={{ width: "100%", borderSpacing: "48px" }} className="relay-table">
+  <thead
+    style={{
+      borderBottom: "1px solid rgb(227 226 230)",
+      paddingBottom: 5,
+      width: "100%",
+      fontSize: 16,
+    }}
+  >
+    <tr style={{ textAlign: "left" }}>
+      <th>Chain Name</th>
+      <th>Chain ID</th>
+      <th>RelayReceiver</th>
+      <th>ERC20Router</th>
+      <th>ApprovalProxy</th>
+    </tr>
+  </thead>
+  <tbody>
+    {chainData.map((chain) => {
+      const dexes = chainToDexMap[chain.id]
+        ? chainToDexMap[chain.id].dexes.join(", ")
+        : "";
+      return (
+        <tr key={chain.id}>
+          <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
+          <td>{chain.id}</td>
+          <td>
+            {chain.contracts.relayReceiver > 0
+              ? chain.contracts.relayReceiver
+              : "N/A"}
+          </td>
+          <td>
+            {chain.contracts.erc20Router > 0
+              ? chain.contracts.erc20Router
+              : "N/A"}
+          </td>
+          <td>
+            {chain.contracts.approvalProxy > 0
+              ? chain.contracts.approvalProxy
+              : "N/A"}
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+); };
