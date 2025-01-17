@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react'
-
 export const Chains = ({ env, id }) => {
-  const [chainData, setChainData] = useState([]);
-  
+  const key = `chains-${env}`
   const chainToDexMap = {
     '1': { name: 'ethereum', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
   '10': { name: 'optimism', dexes: ['0x'], wrappedCurrencies: ['WETH'] },
@@ -44,27 +41,61 @@ export const Chains = ({ env, id }) => {
   '1380012617': { name: 'rari', dexes: [], wrappedCurrencies: [] }
   };
 
-useEffect(() => {
-const fetchChains = async () => {
-try {
-const response = await fetch(
-env === "testnets"
-? "https://api.testnets.relay.link/chains"
-: "https://api.relay.link/chains"
-);
-const data = await response.json();
-setChainData(data.chains);
-} catch (error) {
-console.error('Error fetching chain data:', error);
-}
-};
-
-    fetchChains();
-
-}, [env]);
-
 if (typeof window === "undefined") {
-return null;
+  return null;
+}
+
+if (!window[key]) {
+  window[key] = {
+    fetching: false,
+    data: null
+  }
+}
+
+
+
+if (!window[key].fetching) {
+  const appendChains = (data) => {
+    const rootElement = document.getElementById(id)
+    if (!rootElement) {
+      return
+    }
+    const rows = data.sort((a, b) => a.displayName.localeCompare(b.displayName)).map((chain) => {
+    const dexes = chainToDexMap[chain.id]?.dexes.join(", ") || "";
+      return `<tr key=${chain.id}>
+          <td style="text-transform: capitalize;">${chain.displayName}</td>
+          <td>${chain.id}</td>
+          <td>${dexes.length > 0 ? "All" : "Limited"}</td>
+          <td>${chain.depositFee / 100}%</td>
+          <td>${chain.withdrawalFee / 100}%</td>
+        </tr>`
+    })
+    rootElement.innerHTML = rows.join("")
+  }
+
+  const fetchChains = async () => {
+    try {
+      window[key].fetching = true
+      window[key].data = null
+      const response = await fetch(
+        env === "testnets"
+        ? "https://api.testnets.relay.link/chains"
+        : "https://api.relay.link/chains"
+        );
+        const data = await response.json();
+        window[key].fetching = false
+        window[key].data = data.chains
+        appendChains(data.chains)
+    } catch (e) {
+      window[key].fetching = false
+      window[key].data = false
+    }
+  }
+  if (window[key].data) {
+    appendChains(window[key].data)
+  } else {
+    fetchChains()
+  }
 }
 
 return (
@@ -86,21 +117,6 @@ return (
       <th>Withdrawal Fee</th>
     </tr>
   </thead>
-  <tbody>
-    {chainData
-      .sort((a, b) => a.displayName.localeCompare(b.displayName))
-      .map((chain) => {
-        const dexes = chainToDexMap[chain.id]?.dexes.join(", ") || "";
-        return (
-          <tr key={chain.id}>
-            <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
-            <td>{chain.id}</td>
-            <td>{dexes.length > 0 ? "All" : "Limited"}</td>
-            <td>{chain.depositFee / 100}%</td>
-            <td>{chain.withdrawalFee / 100}%</td>
-          </tr>
-        );
-      })}
-  </tbody>
+  <tbody id={id}></tbody>
 </table>
 ); };

@@ -1,29 +1,73 @@
 import React, { useState, useEffect } from 'react'
 
 export const Contracts = ({ env, id }) => {
-  const [chainData, setChainData] = useState([]);
-
-useEffect(() => {
-const fetchContracts = async () => {
-try {
-const response = await fetch(
-env === "testnets"
-? "https://api.testnets.relay.link/chains"
-: "https://api.relay.link/chains"
-);
-const data = await response.json();
-setChainData(data.chains);
-} catch (error) {
-console.error('Error fetching chain data:', error);
-}
-};
-
-    fetchContracts();
-
-}, [env]);
+const key = `chains-${env}`
 
 if (typeof window === "undefined") {
-return null;
+  return null;
+}
+
+if (!window[key]) {
+  window[key] = {
+    fetching: false,
+    data: null
+  }
+}
+
+if (!window[key].fetching) {
+  const appendContracts = (data) => {
+    const rootElement = document.getElementById(id)
+    if (!rootElement) {
+      return
+    }
+    const rows = data.sort((a, b) => a.displayName.localeCompare(b.displayName)).map((chain) => {
+      return `<tr key=${chain.id}>
+        <td style="text-transform: capitalize;">${chain.displayName}</td>
+        <td>${chain.id}</td>
+        <td>
+          ${chain.contracts.relayReceiver > 0
+            ? chain.contracts.relayReceiver
+            : "N/A"}
+        </td>
+        <td>
+          ${chain.contracts.erc20Router > 0
+            ? chain.contracts.erc20Router
+            : "N/A"}
+        </td>
+        <td>
+          ${chain.contracts.approvalProxy > 0
+            ? chain.contracts.approvalProxy
+            : "N/A"}
+        </td>
+      </tr>`
+    })
+    rootElement.innerHTML = rows.join("")
+  }
+
+  const fetchChains = async () => {
+    try {
+      window[key].fetching = true
+      window[key].data = null
+      const response = await fetch(
+        env === "testnets"
+        ? "https://api.testnets.relay.link/chains"
+        : "https://api.relay.link/chains"
+        );
+        const data = await response.json();
+        window[key].fetching = false
+        window[key].data = data.chains
+        appendContracts(data.chains)
+    } catch (e) {
+      window[key].fetching = false
+      window[key].data = false
+    }
+  }
+
+  if (window[key].data) {
+    appendContracts(window[key].data)
+  } else {
+    fetchChains()
+  }
 }
 
 return (
@@ -45,32 +89,7 @@ return (
       <th>ApprovalProxy</th>
     </tr>
   </thead>
-  <tbody>
-    {chainData
-      .sort((a, b) => a.displayName.localeCompare(b.displayName))
-      .map((chain) => {
-        return (
-          <tr key={chain.id}>
-            <td style={{ textTransform: "capitalize" }}>{chain.displayName}</td>
-            <td>{chain.id}</td>
-            <td>
-              {chain.contracts.relayReceiver > 0
-                ? chain.contracts.relayReceiver
-                : "N/A"}
-            </td>
-            <td>
-              {chain.contracts.erc20Router > 0
-                ? chain.contracts.erc20Router
-                : "N/A"}
-            </td>
-            <td>
-              {chain.contracts.approvalProxy > 0
-                ? chain.contracts.approvalProxy
-                : "N/A"}
-            </td>
-          </tr>
-        );
-      })}
+  <tbody id={id}>
   </tbody>
 </table>
 ); };
