@@ -4,21 +4,27 @@ export const Contracts = ({ env = "mainnet" }) => {
   const [chainData, setChainData] = useState([]);
 
 useEffect(() => {
-fetch(
+const fetchChains = async () => {
+try {
+const response = await fetch(
 env === "testnets"
 ? "https://api.testnets.relay.link/chains"
 : "https://api.relay.link/chains"
-)
-.then((response) => response.json())
-.then((response) => {
-setChainData(
-response.chains.sort((a, b) =>
-a.displayName.localeCompare(b.displayName)
-)
 );
-})
-.catch((error) => console.error("Error fetching chains:", error));
+const data = await response.json();
+setChainData(data.chains);
+} catch (error) {
+console.error('Error fetching chain data:', error);
+}
+};
+
+    fetchChains();
+
 }, [env]);
+
+if (typeof window === "undefined") {
+return null;
+}
 
 return (
 
