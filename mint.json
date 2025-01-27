@@ -21,7 +21,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@relay.link"
+      "url": "https://support.relay.link/en/"
     }
   ],
   "topbarCtaButton": {
