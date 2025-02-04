@@ -27,6 +27,7 @@ sidebarTitle: SwapWidget
 | **defaultToAddress** | A wallet address to send the proceeds to. | ❌       |
 | **defaultAmount** | The default amount to swap, the amount is in the from token currency.  | ❌       |
 | **defaultTradeType** | This can either  be `EXACT_INPUT` or `EXACT_OUTPUT`, each of these refers to prefilling the output amount or the input amount and having the quote return the other side. | ❌       |
+| **slippageTolerance** | Slippage tolerance for the swap, if not specified then the slippage tolerance is automatically calculated to avoid front-running. This value is in basis points (1/100th of a percent), e.g. 50 for 0.5% slippage. | ❌       |
 | **onConnectWallet** | A callback to connect the user's wallet. The widget can be used to fetch quotes for unauthenticated sessions but executing the quote requires an authenticated session. | ✅       |
 | **onAnalyticEvent** | A callback which sends useful [events](https://github.com/reservoirprotocol/relay-kit/blob/main/packages/ui/src/constants/events.ts) to pipe into your existing analytics integration. | ❌       |
 | **onSwapValidating** | A callback that returns the quote object along with executable steps while validating the swap | ❌       |
