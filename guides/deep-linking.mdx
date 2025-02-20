@@ -10,7 +10,7 @@ The following query parameters are supported:
 
 | Parameter     | Description     | Example |
 | --------------|-----------------| --------|
-| `toAddress` | A valid address to receive the bridge | `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` |
+| `toAddress` | A valid address to receive the bridge | `0x03508bB71268BBA25ECaCC8F620e01866650532c` |
 | `amount` | The amount to have the input initially set to  | `0.1` |
 | `fromChainId` | The chainId of the origin chain  | `8453` |
 | `fromCurrency` | The currency address for the from chain | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
@@ -27,7 +27,7 @@ To deep link to a specific `toChain`, you must replace the slug after `/bridge` 
 <a href={`https://relay.link/bridge/base?fromChainId=7777777`} target="_blank">`https://relay.link/bridge/base?fromChainId=7777777`</a>
 
 #### Bridge from Ethereum to Optimism with a preset address
-<a href={`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`} target="_blank">`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`</a>
+<a href={`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0x03508bB71268BBA25ECaCC8F620e01866650532c`} target="_blank">`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0x03508bB71268BBA25ECaCC8F620e01866650532c`</a>
 
 #### Bridge 0.01 ETH from Optimism to Zora 
 <a href={`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`} target="_blank">`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`</a>
@@ -44,7 +44,7 @@ The following query parameters are supported:
 
 | Parameter     | Description     | Example |
 | --------------|-----------------| --------|
-| `toAddress` | A valid address to receive the swap | `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` |
+| `toAddress` | A valid address to receive the swap | `0x03508bB71268BBA25ECaCC8F620e01866650532c` |
 | `fromCurrency` | The currency address on the origin chain  | `0x4200000000000000000000000000000000000006` |
 | `toCurrency` | The currency address on the destination chain  | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
 | `amount` | The amount to have the input initially set to in the widget  | `0.1` |
@@ -57,7 +57,7 @@ The following query parameters are supported:
 <a href={`https://relay.link/base?fromChainId=7777777`} target="_blank">`https://relay.link/bridge/base?fromChainId=7777777`</a>
 
 #### Bridge from Ethereum to Optimism with a preset address
-<a href={`https://relay.link/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`} target="_blank">`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0xd8da6bf26964af9d7eed9e03e53415d37aa96045`</a>
+<a href={`https://relay.link/optimism?fromChainId=1&toAddress=0x03508bB71268BBA25ECaCC8F620e01866650532c`} target="_blank">`https://relay.link/bridge/optimism?fromChainId=1&toAddress=0x03508bB71268BBA25ECaCC8F620e01866650532c`</a>
 
 #### Bridge 0.01 ETH from Optimism to Zora 
 <a href={`https://relay.link/zora?fromChainId=10&amount=0.01`} target="_blank">`https://relay.link/bridge/zora?fromChainId=10&amount=0.01`</a>
@@ -65,4 +65,38 @@ The following query parameters are supported:
 #### Bridge $100 USDC from Base to Arbitrum
 <a href={`https://relay.link/arbitrum?fromChainId=8453&fromCurrency=0x833589fcd6edb6e08f4c7c32d4f71b54bda02913&toCurrency=0xaf88d065e77c8cc2239327c5edb3a432268e5831&amount=100`} target="_blank">`https://relay.link/bridge/arbitrum?fromChainId=8453&fromCurrency=0x833589fcd6edb6e08f4c7c32d4f71b54bda02913&toCurrency=0xaf88d065e77c8cc2239327c5edb3a432268e5831&amount=100`</a>
 
+## Deep Linking to the Onramp Page
+
+The following query parameters are supported:
+
+| Parameter     | Description     | Example |
+| --------------|-----------------| --------|
+| `toAddress` | A valid address to receive the bridge | `0x03508bB71268BBA25ECaCC8F620e01866650532c` |
+| `toCurrency` | The currency address for the to chain | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` |
+
+To deep link to a specific `toChain`, you must replace the slug after `/onramp` with the desired chain's name, like so: `relay.link/onramp/{chainName}`. Spaces should be replaced with dashes.
+
+### Unsupported Chains list
+Forma
+Gravity
+Hychain
+Onchain Points
+Powerloom
+Sanko
+Story
+Kai
+
+### Supported Currencies
+Our currencies are currently limited, make sure to check the [currencies api](/api/get-currencies/v1) with depositAddressOnly set to true.
+
+### Examples 
+
+#### Onramp onto Cyber
+<a href={`https://relay.link/onramp/cyber`} target="_blank">`https://relay.link/onramp/cyber`</a>
+
+#### Onramp onto Degen with a preset address
+<a href={`https://relay.link/onramp/degen?toAddress=0x03508bB71268BBA25ECaCC8F620e01866650532c`} target="_blank">`https://relay.link/onramp/degen?toAddress=0x03508bB71268BBA25ECaCC8F620e01866650532c`</a>
+
+#### Onramp onto Base with Base DEGEN
+<a href={`https://relay.link/onramp/base?toCurrency=0x4ed4e862860bed51a9570b96d89af5e1b0efefed`} target="_blank">`https://relay.link/onramp/base?toCurrency=0x4ed4e862860bed51a9570b96d89af5e1b0efefed`</a>
 
