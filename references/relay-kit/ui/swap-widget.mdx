@@ -71,3 +71,43 @@ export default function MyComponent() {
 }
 
 ```
+
+## Slippage Configuration
+
+The `SlippageToleranceConfig` component provides a user interface for configuring slippage tolerance in basis points. This component handles all the complexity of managing slippage values including debouncing, input validation, and conversion between percentage and basis points.
+
+### Parameters
+
+| Parameter | Description | Required |
+|-------------|--------------------------------------------------------------------------------------------|----------|
+| slippageTolerance | The current slippage tolerance value in basis points (e.g., "50" for 0.5%) | ✅ |
+| setSlippageTolerance | Callback function to update the slippage tolerance value | ✅ |
+| onAnalyticEvent | Optional callback for analytics events | ❌ |
+
+
+### Usage
+```tsx
+import { SwapWidget, SlippageToleranceConfig } from '@reservoir0x/relay-kit-ui'
+import { useState } from 'react'
+
+export default function SwapPage() {
+  const [slippageTolerance, setSlippageTolerance] = useState<string | undefined>(undefined)
+
+  return (
+    <div>
+      <SlippageToleranceConfig
+        slippageTolerance={slippageTolerance}
+        setSlippageTolerance={setSlippageTolerance}
+        onAnalyticEvent={(eventName, data) => {
+          console.log('Analytic Event', eventName, data)
+       }}
+      />
+      <SwapWidget
+        slippageTolerance={slippageTolerance}
+        // ... other SwapWidget props
+      />
+    
+    </div>
+  )
+}
+```
