@@ -80,7 +80,6 @@ The `SlippageToleranceConfig` component provides a user interface for configurin
 
 | Parameter | Description | Required |
 |-------------|--------------------------------------------------------------------------------------------|----------|
-| slippageTolerance | The current slippage tolerance value in basis points (e.g., "50" for 0.5%) | ✅ |
 | setSlippageTolerance | Callback function to update the slippage tolerance value | ✅ |
 | onAnalyticEvent | Optional callback for analytics events | ❌ |
 
@@ -96,7 +95,6 @@ export default function SwapPage() {
   return (
     <div>
       <SlippageToleranceConfig
-        slippageTolerance={slippageTolerance}
         setSlippageTolerance={setSlippageTolerance}
         onAnalyticEvent={(eventName, data) => {
           console.log('Analytic Event', eventName, data)
@@ -106,7 +104,6 @@ export default function SwapPage() {
         slippageTolerance={slippageTolerance}
         // ... other SwapWidget props
       />
-    
     </div>
   )
 }
