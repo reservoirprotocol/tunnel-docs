@@ -5,10 +5,6 @@ description: How to Implement Calling (Executing Cross Chain Transactions)
 
 ### Summary
 <Steps>
-  <Step title="Fetch the Price">
-    <a href="#fetch-the-price" style={{position: 'absolute', top:10, left: 10,right:10, bottom:10, borderBottom: 0}}></a>
-    This optional step is quicker than fetching an executable quote but invaluable when crafting a snappy user experience. In this step, we'll fetch the price to display a quote preview to the user. This can be skipped if the call is on the server without user interaction.
-  </Step>
   <Step title="Fetch the Quote">
     <a href="#fetch-the-quote" style={{position: 'absolute', top:10, left: 10,right:10, bottom:10, borderBottom: 0}}></a>
     In this step, we'll fetch a full quote that expires after 30 seconds. It will be a complete quote with all the details required to execute it.
@@ -23,146 +19,14 @@ description: How to Implement Calling (Executing Cross Chain Transactions)
 
 Before we begin it's important to ensure that a contract is compatible with Relay. Please review our [Contract Compatibility](/how-it-works/contract-compatibility) overview to make any necessary changes.
 
+## Fetch the Quote
 
-## Fetch the Price
+First, you'll need to determine where the user wants to call the contract from, where the contract has been deployed to, and their preferred payment currency.
 
-The price is a lightweight quote, excluding steps and calldata; 
-but it includes a preview of what the full quote might contain. 
-Prices are subject to change once you get the quote so you should handle price changes accordingly.
-You'll need to determine where the user wants to call the contract from, where the contract has been deployed to, and their preferred payment currency. 
-Afterwards, you can pass everything into the [getPrice](/references/sdk/actions/getPrice) SDK action or the [usePrice](/references/relay-kit/hooks/usePrice) UI hook. 
-Note that for calling a contract across chains you'll need to provide three key pieces of information in addition to the usual data required to call:
+You can pass that data into the [getQuote](/references/sdk/actions/getQuote) SDK action or [useQuote](/references/relay-kit/hooks/useQuote) UI hook. Note that for calling a contract across chains you'll need to provide three key pieces of information in addition to the usual data required to call:
 * **tradeType** must be `EXACT_OUTPUT`.
 * **txs** can either be an array of `to`, `data` and `value` or it can be the response from viem's [simulateContract](https://viem.sh/docs/contract/simulateContract) method. You can see an example below of how this is done.
 * **amount** must be the sum of all the txs values.
-
-<CodeGroup>
-```typescript sdk
-import { getClient } from '@reservoir0x/relay-sdk'
-import { useAccount } from 'wagmi'
-
-const { address } = useAccount()
-
-const CONTRACT_ADDRESS = "0xabc" //Replace with your contract address
-const CALL_DATA = "0x" // Replace with your calldata
-
-const price = await getClient()?.actions.getPrice({
-  user: address
-  originChainId: 1, // The chain id to call from
-  destinationChainId: 7777777, // The chain id to call to
-  amount: '100000000000000000', // Total value of txs
-  originCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  destinationCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  tradeType: 'EXACT_OUTPUT',
-  txs: [{
-    to: CONTRACT_ADDRESS,
-    value: "100000000000000000", //Must match the amount property
-    data: CALL_DATA
-  }]
-})
-```
-```typescript sdk simulateContract
-import { getClient } from '@reservoir0x/relay-sdk'
-import { useAccount, http, createPublicClient } from 'wagmi'
-import { zora } from 'viem/chains'
-
-const account = useAccount()
-
-const CONTRACT_ADDRESS = "0xabc" //Replace with your contract address
-const CONTRACT_ABI = {} //Replace with your contract abi
-
-const publicClient = createPublicClient({ 
-  chain: zora,
-  transport: http()
-})
- 
-const { request } = await publicClient.simulateContract({
-  address: CONTRACT_ADDRESS,
-  abi: CONTRACT_ABI,
-  functionName: 'mint',
-  account,
-})
-
-const price = await getClient()?.actions.getPrice({
-  user: account.address
-  originChainId: 1, // The chain id to call from
-  destinationChainId: 7777777, // The chain id to call to
-  amount: '100000000000000000', // Total value of txs
-  originCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  destinationCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  tradeType: 'EXACT_OUTPUT',
-  txs: [request]
-})
-```
-```typescript hooks
-import { usePrice } from '@reservoir0x/relay-kit-hooks'
-import { useAccount } from 'wagmi'
-
-const { address } = useAccount()
-
-const CONTRACT_ADDRESS = "0xabc" //Replace with your contract address
-const CALL_DATA = "0x" // Replace with your calldata
-
-const {    
-  data: price,
-  isLoading,
-  error,
-  executeQuote } = usePrice(relayClient, {
-  user: address
-  originChainId: 1, // The chain id to call from
-  destinationChainId: 7777777, // The chain id to call to
-  amount: '100000000000000000', // Total value of txs
-  originCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  destinationCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  tradeType: 'EXACT_OUTPUT',
-  txs: [{
-    to: CONTRACT_ADDRESS,
-    value: "100000000000000000", //Must match the amount property
-    data: CALL_DATA
-  }]
-})
-```
-```typescript hooks simulateContract
-import { usePrice } from '@reservoir0x/relay-kit-hooks'
-import { useAccount } from 'wagmi'
-
-const { address } = useAccount()
-
-const CONTRACT_ADDRESS = "0xabc" //Replace with your contract address
-const CONTRACT_ABI = {} //Replace with your contract abi
-
-const publicClient = createPublicClient({ 
-  chain: zora,
-  transport: http()
-})
- 
-const { request } = await publicClient.simulateContract({
-  address: CONTRACT_ADDRESS,
-  abi: CONTRACT_ABI,
-  functionName: 'mint',
-  account,
-})
-
-const {    
-  data: price,
-  isLoading,
-  error,
-  executeQuote } = usePrice(relayClient, {
-  user: address
-  originChainId: 1, // The chain id to call from
-  destinationChainId: 7777777, // The chain id to call to
-  amount: '100000000000000000', // Total value of txs
-  originCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  destinationCurrency: '0x0000000000000000000000000000', // ERC20 Address
-  tradeType: 'EXACT_OUTPUT',
-  txs: [request]
-})
-```
-</CodeGroup>
-
-## Fetch the Quote
-
-If you followed the previous step, you can pass that same data into the [getQuote](/references/sdk/actions/getQuote) SDK action or [useQuote](/references/relay-kit/hooks/useQuote) UI hook. You'll still need to meet the requirements for `tradeType`, `amount` and `txs`, refer to the previous step for more details.
 
 <CodeGroup>
 ```typescript sdk
