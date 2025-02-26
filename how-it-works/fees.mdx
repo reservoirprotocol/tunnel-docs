@@ -24,6 +24,7 @@ Gas fees are estimates and may fluctuate over time, if using in a calculation we
 App Fee(s) are specified while generating a quote. They accrue off-chain, meaning they are not paid out immediately and instead require the app fee payee to manually claim the fee later. 
 The fee is specified in bps (basis points) over the input value of the order. When specifying a fee, a claim address is also provided which can be used to withdraw fees. Multiple app fees can be specified for a single quote.
 The accrual happening offchain means that we have a database table of the app fee payee address, the currency, and the amount of funds they have claim over for that currency.
+You can accrue fees by including `appFees` in the [Quote API](https://docs.relay.link/references/api/get-quote).
 The app fee payee can claim their accrued fees on any chain that the payment currency exists on. So if they accrued USDC on 50 different chains, we consolidate this automatically when they proceed with claiming their balance.
 The app fee claim works by requesting a quote from originChainId=0, and following the steps to prove your ownership over the claim address by signing a signature and submitting it to us.
 
