@@ -88,10 +88,10 @@
       "group": "Resources",
       "pages": [
         "resources/supported-chains",
+        "resources/supported-routes",
         "resources/contract-addresses",
         "resources/bounties",
-        "resources/brand-assets",
-        "resources/supported-routes"
+        "resources/brand-assets"
       ]
     },
     {
