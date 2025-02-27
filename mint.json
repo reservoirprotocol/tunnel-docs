@@ -90,7 +90,8 @@
         "resources/supported-chains",
         "resources/contract-addresses",
         "resources/bounties",
-        "resources/brand-assets"
+        "resources/brand-assets",
+        "resources/supported-routes"
       ]
     },
     {
