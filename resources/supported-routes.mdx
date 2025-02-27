@@ -11,9 +11,6 @@ To determine if a route is supported (also referred to as whether a token is sup
 curl -X GET "https://api.relay.link/chains"
 ```
 
-
-curl -X GET "https://api.relay.link/chains"
-
 The response will return a list of chains, each containing supported token pairs. To verify if a route is supported, follow these steps:
 
 1. Look for the `tokenSupport` field in the response for a given chain:
@@ -26,7 +23,7 @@ The response will return a list of chains, each containing supported token pairs
 - If `supportsBridging` is `true`, the token is supported for bridging.
 - If `supportsBridging` is `false` or if the token pair is not listed in `erc20Currencies`, then the route is not supported.
 
-###Examples of Supported and Limited Token Routes
+### Examples of Supported and Limited Token Routes
 
 **Example: All Tokens Supported**
 
