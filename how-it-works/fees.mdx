@@ -55,7 +55,7 @@ App fee payees can claim accrued fees on any chain where the payment currency ex
 
 The claim process starts by requesting a quote with `originChainId=0`. To claim the balance, the payee must prove ownership of their claim address by signing a message and submitting it.
 
-#### How do I know my offchain balance?
+#### How to know your offchain balance?
 
 To check your accrued off-chain fees, use the [Config API](/references/api/get-config) with `originChainId=0`. Here's an example curl command:
 
@@ -81,7 +81,7 @@ The response includes the `user.balance` field, reflecting your off-chain balanc
 }
 ```
 
-#### How to Claim Your Off-Chain Balance?
+#### How to claim your off-chain balance?
 
 To claim your app fees, initiate a bridge transaction from chainId=0 to any other chain. If using the API, the response will guide you through signing and submitting a message to the `/execute/permit` endpoint to verify ownership of your claim address. The SDK automates this process for you.
 
