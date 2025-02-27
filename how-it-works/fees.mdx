@@ -21,34 +21,49 @@ Gas fees are estimates and may fluctuate over time, if using in a calculation we
 
 ### What are app fees?
 
-App Fee(s) are specified while generating a quote. They accrue off-chain, meaning they are not paid out immediately and instead require the app fee payee to manually claim the fee later. 
-The fee is specified in bps (basis points) over the input value of the order. When specifying a fee, a claim address is also provided which can be used to withdraw fees. Multiple app fees can be specified for a single quote.
-The accrual happening offchain means that we have a database table of the app fee payee address, the currency, and the amount of funds they have claim over for that currency.
-The app fee payee can claim their accrued fees on any chain that the payment currency exists on. So if they accrued USDC on 50 different chains, we consolidate this automatically when they proceed with claiming their balance.
-The app fee claim works by requesting a quote from originChainId=0, and following the steps to prove your ownership over the claim address by signing a signature and submitting it to us.
+App fees are additional fees set by third-party developers on top of existing fees. These fees are specified when generating a quote and accrue off-chain, meaning they are not immediately paid out. Instead, the app fee payee must manually claim them later.
 
-App fees work differently for cross-chain and same-chain requests:
+App fees are measured in basis points (bps) based on the input value of an order. When setting an app fee, a claim address must be provided, which will be used for withdrawing accumulated fees. A single quote can include multiple app fees.
 
-**Cross-Chain:**
-- App Fee is accrued in the currency sent to the solver
-- App Fee is accrued after the fill transaction completes
+You can accrue fees by including `appFees` in the [Quote API](https://docs.relay.link/references/api/get-quote).
 
-**Same-Chain:**
-- App fees can be applied to same-chain swaps only, not for wraps/unwraps/sends.
-- The app fee amount is added to the operation in the form of native currency. Even if the user is not spending native currency in the operation, so its possible for the user to swap from $MOG -> $MEME, and pay some extra ETH to the solver to pay the app fee.
-- NOTE: This app fee is required to be sent, if not, the tx will fail
-- If the original input currency is native currency, instead of adding more native currency required to be sent, we subtract it from the amount being sent.
-- The app fee is accrued after the same-chain transaction is indexed
+Since app fees accrue off-chain, we maintain a database that tracks:
+- The app fee payee address
+- The currency in which fees are accrued
+- The total claimable balance per currency
 
-App fee balance can be checked via the config api, the steps to which are outlined below:
+### How do app fees work?
+
+App fees behave differently depending on whether the request is cross-chain or same-chain.
+
+**Cross-Chain**
+
+- The app fee accrues in the currency sent to the solver.
+- The app fee is recorded after the fill transaction is completed.
+
+**Same-Chain**
+
+- App fees apply only to swaps—not to wraps, unwraps, or sends.
+- Fees are added in the form of the native currency. Even if the user isn’t initially spending native currency, they may still need to pay a small amount of it. For example, swapping $MOG -> $MEME may still require paying some ETH as an app fee.
+- Important: The app fee must be paid, or the transaction will fail.
+- If the input currency is native currency, instead of adding extra funds, the fee is deducted from the original amount being sent.
+- The fee is recorded only after the same-chain transaction is indexed.
+
+### Claiming App Fees Across Chains
+
+App fee payees can claim accrued fees on any chain where the payment currency exists. If a payee accumulates USDC across multiple chains, these balances will be consolidated automatically when they proceed with a claim.
+
+The claim process starts by requesting a quote with `originChainId=0`. To claim the balance, the payee must prove ownership of their claim address by signing a message and submitting it.
 
 #### How do I know my offchain balance?
 
-Look up accrued offchain fees by using the [config](/references/api/get-config) api. Make sure that you pass in the originChainId as 0. Here's an example of how the url should be constructed:
+To check your accrued off-chain fees, use the [Config API](/references/api/get-config) with `originChainId=0`. Here's an example curl command:
 
-[`https://api.relay.link/config/v2?originChainId=0&currencyId=eth&user=0x03508bB71268BBA25ECaCC8F620e01866650532c&destinationChainId=1`](https://api.relay.link/config/v2?originChainId=0\&currencyId=eth\&user=0x03508bB71268BBA25ECaCC8F620e01866650532c\&destinationChainId=1)
+```
+curl --location 'https://api.relay.link/config/v2?originChainId=0&currencyId=eth&user=0x03508bB71268BBA25ECaCC8F620e01866650532c&destinationChainId=1' 
+```
 
-The user balance property will reflect the offchain balance:
+The response includes the `user.balance` field, reflecting your off-chain balance:
 
 ```
 {
@@ -66,9 +81,9 @@ The user balance property will reflect the offchain balance:
 }
 ```
 
-#### How can I claim my offchain balance?
+#### How to Claim Your Off-Chain Balance?
 
-To claim the funds, all you need to do is create a bridge to any chain from chainId 0, this will transfer the offchain balance to your wallet on the desired chain. Below are some examples of how to do this:
+To claim your app fees, initiate a bridge transaction from chainId=0 to any other chain. If using the API, the response will guide you through signing and submitting a message to the `/execute/permit` endpoint to verify ownership of your claim address. The SDK automates this process for you.
 
 <CodeGroup>
   ```bash API
@@ -108,3 +123,73 @@ To claim the funds, all you need to do is create a bridge to any chain from chai
 
   ```
 </CodeGroup>
+
+An example response from the API would be:
+
+```
+{
+    "steps": [
+        {
+            "id": "authorize",
+            "action": "Sign authorization",
+            "description": "Authorize the solver to spend funds from your wallet",
+            "kind": "signature",
+            "items": [
+                {
+                    "status": "incomplete",
+                    "data": {
+                        "sign": {
+                            "signatureKind": "eip191",
+                            "message": "0x7f47382bd00e61fce60cdbc786e40128605f39a80dd3af6ff3df53aa8a39ffdf"
+                        },
+                        "post": {
+                            "endpoint": "/execute/permits",
+                            "method": "POST",
+                            "body": {
+                                "kind": "request",
+                                "requestId": "0x7f47382bd00e61fce60cdbc786e40128605f39a80dd3af6ff3df53aa8a39ffdf"
+                            }
+                        }
+                    },
+                    "check": {
+                        "endpoint": "/intents/status?requestId=0x7f47382bd00e61fce60cdbc786e40128605f39a80dd3af6ff3df53aa8a39ffdf",
+                        "method": "GET"
+                    }
+                }
+            ]
+        }
+    ],
+    "fees": {
+        "gas": "0",
+        "relayer": "25464163435202",
+        "relayerGas": "25464163435200",
+        "relayerService": "2",
+        "relayerCurrency": "eth",
+        "app": "0",
+        "appCurrency": "eth"
+    },
+    "breakdown": [
+        {
+            "value": "1000",
+            "timeEstimate": 10
+        }
+    ],
+    "balances": {
+        "userBalance": "75021651210714015",
+        "requiredToSolve": "25464163436202"
+    }
+}
+```
+
+You can then send a request to `/execute/permit` with the `requestId` and `signature` to claim your fees. An example request would be:
+
+```
+curl --request POST \
+  --url `https://api.relay.link/execute/permits?signature=${signature}` \
+  --header "Content-Type: application/json" \
+  --data '{
+    "kind": "request",
+    "requestId": "0x7f47382bd00e61fce60cdbc786e40128605f39a80dd3af6ff3df53aa8a39ffdf"
+  }'
+
+```
