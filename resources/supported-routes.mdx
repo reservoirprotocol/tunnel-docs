@@ -3,23 +3,32 @@ title: "Supported Routes"
 description: "Relay currently supports multiple cross chain routes. The following section explains how to find if a particular routes and token pair are supported by Relay "
 ---
 
-### How to find if a route is supported?
+### How to check if a route is supported?
 
-To find if a route is supported (we also sometimes say if a token is supported for bridging), you should use the [Chains API](https://api.relay.link/chains) to check if a route exists for a given token pair.
+To determine if a route is supported (also referred to as whether a token is supported for bridging), use the [Chains API](https://api.relay.link/chains) to check for an available route between a given token pair.
 
 ```bash
 curl -X GET "https://api.relay.link/chains"
 ```
-The response will be a list of chains, each with a list of supported token pairs.
 
-The way to check if a route is supported once you have the response is as follows:
 
-1. Check for the `tokenSupport` field in the response for a give chain. If it is `All`, then all routes where the chain is origin or destination are supported for all tokens. 
-2. If `tokenSupport` is `Limited`, then check for the `erc20Currencies` field in the response. The `erc20Currencies` field is an array of token objects each having metadata indicating if the token is supported for bridging or not.
-3. Look for the `supportsBridging` field in the token object. If it is `true`, then the token is supported for bridging.
-4. If `supportsBridging` is `false`or the token pair is not found in the `erc20Currencies` array, then the route is not supported.
+curl -X GET "https://api.relay.link/chains"
 
-Below is a dummy example response for Optimism chain and how to figure out if a route is supported for the token pair `ETH -> USDC`.
+The response will return a list of chains, each containing supported token pairs. To verify if a route is supported, follow these steps:
+
+1. Look for the `tokenSupport` field in the response for a given chain:
+- If `tokenSupport` is `All`, then all routes involving this chain as either the origin or destination are supported for all tokens.
+- If `tokenSupport` is `Limited`, proceed to step 2.
+
+2. If `tokenSupport` is `Limited`, check the `erc20Currencies` field in the response. This field contains an array of token objects with metadata indicating whether a token supports bridging.
+
+3. Locate the `supportsBridging` field in the token object:
+- If `supportsBridging` is `true`, the token is supported for bridging.
+- If `supportsBridging` is `false` or if the token pair is not listed in `erc20Currencies`, then the route is not supported.
+
+###Examples of Supported and Limited Token Routes
+
+**Example: All Tokens Supported**
 
 ```json
 {
@@ -89,9 +98,9 @@ Below is a dummy example response for Optimism chain and how to figure out if a 
 }
 ```
 
-As you can see, the `tokenSupport` field is `All`, so all routes for the chain are supported for all tokens.
+Since the `tokenSupport` field is `All`, every token on this chain is supported for all routes.
 
-Now, let us look at an example where `tokenSupport` is `Limited`.
+**Example: Limited Token Support**
 
 ```json 
 
@@ -124,8 +133,8 @@ Now, let us look at an example where `tokenSupport` is `Limited`.
         }
 ```
 
-As you can see, the `tokenSupport` field is `Limited`, so only limited token routes would be supported and can be figured out by checking the `erc20Currencies` field.
-The `erc20Currencies` field mentions that `usdc` is supported for bridging, so all routes where `usdc` is the origin or destination token for Zora would be supported.
+Here, `tokenSupport` is `Limited`, meaning only specific tokens can be bridged. In this case, `usdc` is listed under `erc20Currencies` with `supportsBridging: true`, so routes involving `usdc` as an origin or destination token on Zora are supported.
+
 
 
 

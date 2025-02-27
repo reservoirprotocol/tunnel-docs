@@ -15,7 +15,7 @@ Relay quotes include the following fees: `gas`, `relayerService`, and `relayerGa
 
 **relayerGas**: The gas fee given to the solver to pay gas fees on the destination chain.
 
-**app**: Third party fees added on top of the existing fees, this fee is added by app developers and accrues offchain to minimize gas costs.
+**appFees**: Third party fees added on top of the existing fees, this fee is added by app developers and accrues offchain to minimize gas costs.
 
 Gas fees are estimates and may fluctuate over time, if using in a calculation we recommend adding a small buffer to account for these fluctuations.
 
@@ -32,7 +32,7 @@ Since app fees accrue off-chain, we maintain a database that tracks:
 - The currency in which fees are accrued
 - The total claimable balance per currency
 
-### How do app fees work?
+#### How do app fees work?
 
 App fees behave differently depending on whether the request is cross-chain or same-chain.
 
@@ -49,7 +49,7 @@ App fees behave differently depending on whether the request is cross-chain or s
 - If the input currency is native currency, instead of adding extra funds, the fee is deducted from the original amount being sent.
 - The fee is recorded only after the same-chain transaction is indexed.
 
-### Claiming App Fees Across Chains
+#### Claiming App Fees Across Chains
 
 App fee payees can claim accrued fees on any chain where the payment currency exists. If a payee accumulates USDC across multiple chains, these balances will be consolidated automatically when they proceed with a claim.
 
