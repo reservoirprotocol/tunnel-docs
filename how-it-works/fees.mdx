@@ -44,7 +44,7 @@ App fees behave differently depending on whether the request is cross-chain or s
 **Same-Chain**
 
 - App fees apply only to swaps—not to wraps, unwraps, or sends.
-- Fees are added in the form of the native currency. Even if the user isn’t initially spending native currency, they may still need to pay a small amount of it. For example, swapping $MOG -> $MEME may still require paying some ETH as an app fee.
+- Fees are added in the form of the native currency. Even if the user isn’t initially spending native currency, they may still need to pay a small amount of it. For example, swapping `$MOG -> $MEME` may still require paying some ETH as an app fee.
 - Important: The app fee must be paid, or the transaction will fail.
 - If the input currency is native currency, instead of adding extra funds, the fee is deducted from the original amount being sent.
 - The fee is recorded only after the same-chain transaction is indexed.
@@ -191,5 +191,6 @@ curl --request POST \
     "kind": "request",
     "requestId": "0x7f47382bd00e61fce60cdbc786e40128605f39a80dd3af6ff3df53aa8a39ffdf"
   }'
-
 ```
+
+Once done, you can check your balance again to verify the claim.
